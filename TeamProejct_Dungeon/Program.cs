@@ -37,14 +37,11 @@ namespace TeamProejct_Dungeon
             Console.WriteLine("Battle!!\n");
 
             Random random = new Random();
-            for (int i = 0; i < monsters.Count; i++)
-            {
-                int index = random.Next(0, monsters.Count - 1);
-            }
             // 몬스터 정보 받아오기
             for (int i = 0; i < monsters.Count; i++)
             {
-                Console.WriteLine($"Lv.{monsters[i].Level} {monsters[i].Name} HP {monsters[i].HP} ");
+                int index = random.Next(0, monsters.Count - i);
+                Console.WriteLine($"Lv.{monsters[index].Level} {monsters[index].Name} HP {monsters[index].HP} ");
             }
             Console.WriteLine("\n");
 
