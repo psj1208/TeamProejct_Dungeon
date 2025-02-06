@@ -11,12 +11,14 @@ namespace TeamProejct_Dungeon
     {
         List<IItem> items;//인벤이 갖고 있는 아이템.
 
+        //인벤토리 생성자. 게임매니저에 인벤토리 전달.
         public Inventory()
         {
             items = new List<IItem>();
             GameManager.inven = this;
         }
 
+        //인벤토리 화면만 출력
         public void ShowInventory()
         {
             Text.TextingLine("------------------------인벤토리-------------------------", ConsoleColor.Red, false);
@@ -27,6 +29,8 @@ namespace TeamProejct_Dungeon
             Text.TextingLine("---------------------------------------------------------\n", ConsoleColor.Red, false);
         }
 
+
+        //아이템 사용(화면에 표기된 숫자 입력하시면 됩니다.실제 인덱스는 0부터 시작하나 화면에 표기는 1부터 시작하는 걸 감안했습니다.
         public void UseItem(int num)
         {
             items[num - 1].Use();
