@@ -35,13 +35,13 @@ namespace TeamProejct_Dungeon
         }
 
         //공격시
-        public void Attack()
+        public void Attack(int damge)
         {
            
         }
 
         //데미지를 입을시
-        public void TakeDamage()
+        public void TakeDamage(int damge)
         {
 
         }
@@ -55,8 +55,13 @@ namespace TeamProejct_Dungeon
             //플레이어 스텟창
             Console.WriteLine($"Lv. {level}");
             Console.WriteLine($"{Name} ( {job} )");
-            Console.WriteLine($"공격력 : {atk}");
-            Console.WriteLine($"방어력 : {dfs}");
+
+            string str = equipAtk == 0 ? $"공격력 : {atk}" : $"공격력 : {atk + equipAtk} (+{equipAtk})";
+            Console.WriteLine(str);
+
+            str = equipAtk == 0 ? $"방어력 : {dfs}" : $"방어력 : {dfs + equipDfs} (+{equipDfs})";
+            Console.WriteLine(str);
+
             Console.WriteLine($"체력 : {hp} / {maxHp}");
             Console.WriteLine($"Gold : {gold} G");
 
@@ -64,5 +69,14 @@ namespace TeamProejct_Dungeon
             Console.WriteLine("0. 나가기");
             Console.WriteLine();
         }
+        
+        //아이템 장착별 스텟변경 메서드 (인벤토리 작업 완료후)
+        public void EquipItem()
+        {
+
+        }
+
+
+
     }
 }
