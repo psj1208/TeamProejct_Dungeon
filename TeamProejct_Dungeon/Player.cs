@@ -10,15 +10,15 @@ namespace TeamProejct_Dungeon
     
     public class Player : ICharacter
     {
-        //기본 정보
+        //기본 정보 및 초기값 설정
         public string Name { get; set; }
-        public int level { get; set; }   
-        public int exp { get; set; }
-        public int gold { get; set; }
-        public string job {  get; set; }
-        public int maxHp { get; }
-        public int atk { get; }
-        public int dfs { get; }
+        public string job { get; set; }
+        public int level { get; set; } = 1;
+        public int exp { get; set; } = 0;
+        public int gold { get; set; } = 1000;
+        public int maxHp { get; } = 100;
+        public int atk { get; } = 10;
+        public int dfs { get; } = 5;
 
         //변경 가능 정보
         public int hp { get; set; }
@@ -29,18 +29,9 @@ namespace TeamProejct_Dungeon
         //플레이어 생성자  (초기값)
         public Player(string _name, string _job)
         {
-            Name = _name;
-            level = 1;
-            maxHp = 100;
-            hp = maxHp;
-            atk = 10;
-            dfs = 5;
-            exp = 0;
-            gold = 1000;
-
-            equipAtk = 0;
-            equipDfs = 0;
+            Name = _name; 
             job = _job;
+            hp = maxHp;
         }
 
         //공격시
