@@ -16,8 +16,8 @@ namespace TeamProejct_Dungeon
     {
         public virtual string name { get; set; }
 
-        public virtual string buyPrice { get; set; }
-        public virtual string sellPrice { get; set; }
+        public virtual double buyPrice { get; set; }
+        public virtual double sellPrice { get; set; }
         public virtual ItemType type { get; set; }
 
         public virtual string Description() { return null; } 
@@ -28,4 +28,19 @@ namespace TeamProejct_Dungeon
     }
 
     //상속해가지고 3가지 클래스 만드는 거로. 생성자에서 type 변수는 열거형 맞춰서.
+
+    public class Armour : IItem
+    {
+      
+    }
+
+    public class Weapon : IItem
+    {
+      
+    }
+    
+    public class Consumable: IItem
+    {
+       
+    }
 }
