@@ -7,6 +7,9 @@
             GameStart();
         }
 
+
+        // 김태겸
+        // Battle_Init
         static void GameStart()
         {
             //여기에 게임 흐름
