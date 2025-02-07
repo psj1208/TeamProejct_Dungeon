@@ -6,6 +6,8 @@ namespace TeamProejct_Dungeon
     {
         static void Main(string[] args)
         {
+            string imagePath = AppDomain.CurrentDomain.BaseDirectory + "\\sample.jpg"; // 이미지 경로(상위 폴더/bin/Debug/net버전안에 넣어야함.)
+            AsciiArt.Draw(imagePath, 30);
             GameStart();
         }
 
