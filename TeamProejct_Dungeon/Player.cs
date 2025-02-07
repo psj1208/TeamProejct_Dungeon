@@ -57,12 +57,26 @@ namespace TeamProejct_Dungeon
                 dfs = 5;
             }
         }
-
-       
+  
         //플레이어가 공격 
         public void Attack(ICharacter monster)
         {
-            monster.TakeDamage(atk + equipAtk);
+            //크리티컬 20% 확률
+            Random random = new Random();
+
+            int cirticalChance = random.Next(0, 5);
+            bool isCrital = (cirticalChance == 0);
+
+            int damage = atk + equipAtk;
+            
+            // 크리티컬 시 20% 데미지 증가
+            if (isCrital)
+            {
+                damage *= (int)(damage * 1.5);
+                Console.WriteLine("크리티컬 !");
+            }
+
+            monster.TakeDamage(damage);
         }
 
         //플레이어가 데미지를 입을시
@@ -72,7 +86,6 @@ namespace TeamProejct_Dungeon
 
             else if (damge <= dfs + equipDfs) Console.WriteLine("Miss~!");
 
-
             //플레이어 사망
             if (hp <= 0)
             {
@@ -80,6 +93,7 @@ namespace TeamProejct_Dungeon
             }
         }
 
+        //플레이어 상태보기
         public void StatusDisplay()
         {
             Console.Clear();
@@ -87,7 +101,7 @@ namespace TeamProejct_Dungeon
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
             //플레이어 스텟창
-            Console.WriteLine($"Lv. {level} | Exp. {exp} / {maxExp}");
+            Console.WriteLine($"Lv. {level} ( Exp. {exp} / {maxExp} )");
             Console.WriteLine($"{Name} ( {job} )");
 
             string str = equipAtk == 0 ? $"공격력 : {atk}" : $"공격력 : {atk + equipAtk} (+{equipAtk})";
@@ -133,6 +147,5 @@ namespace TeamProejct_Dungeon
                 dfs += 5;
             }
         }
-
     }
 }
