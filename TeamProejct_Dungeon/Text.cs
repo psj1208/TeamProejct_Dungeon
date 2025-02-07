@@ -80,11 +80,16 @@ namespace TeamProejct_Dungeon
             {
                 (int x, int y) s;
                 (int x, int y) e;
+                int num = 0;
                 s = Console.GetCursorPosition();
                 Text.TextingLine("-------선택-------", ConsoleColor.Red, false);
                 tm[select].TurnOn();
                 foreach (TextMonster t in tm)
+                {
+                    Text.Texting($"{num + 1} . ", ConsoleColor.White, false);
                     t.Print();
+                    num++;
+                }
                 ConsoleKeyInfo keyinfo = Console.ReadKey(true);
                 switch (keyinfo.Key)
                 {
