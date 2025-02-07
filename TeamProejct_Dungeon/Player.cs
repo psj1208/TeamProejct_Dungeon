@@ -61,15 +61,13 @@ namespace TeamProejct_Dungeon
         }
 
        
-        //플레이어가 공격 (매개변수 몬스터로 변경)
-        public void Attack(ICharacter cha)
+        //플레이어가 공격 
+        public void Attack(ICharacter monster)
         {
-            
-            cha.TakeDamage(atk + equipAtk);
-
+            monster.TakeDamage(atk + equipAtk);
         }
 
-        //데미지를 입을시
+        //플레이어가 데미지를 입을시
         public void TakeDamage(int damge)
         {
             hp -= damge;
