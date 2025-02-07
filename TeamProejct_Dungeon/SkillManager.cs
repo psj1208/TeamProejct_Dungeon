@@ -10,9 +10,9 @@ namespace TeamProejct_Dungeon
     {
         public string Name { get; }
         public string description { get; }
-        public Action<Player, ICharacter> effect { get; }
+        public Action<Player, ICharacter[]> effect { get; }
 
-        public Skill(string _name, string _description, Action<Player, ICharacter> _effect)
+        public Skill(string _name, string _description, Action<Player, ICharacter[]> _effect)
         {
             Name = _name;
             description = _description;
@@ -25,25 +25,30 @@ namespace TeamProejct_Dungeon
         public static readonly Skill WarriorSkill1 = new Skill(
             "전사스킬1",
             "공격력 2배만큼 선택 몬스터 공격",
-            (player, target) =>
-            {
-                int damage = player.atk + player.equipAtk;
-                target.TakeDamage(damage);
-            });
+            SkillEffectDb.Skill1
+            );
 
         public static readonly Skill AssassinSkill1 = new Skill(
            "도적스킬1",
            "각 몬스터에게 기본공격만큼 추가 딜",
            (player, target) =>
            {
-               //GameManager -> Stage 로 바꾸기
-               foreach (Monster monster in GameManager.monsters)
-               {
-                   int damage = player.atk + player.atk + player.equipAtk;
-                   monster.TakeDamage(damage);
-               }
            });
-
     }
 
+    public static class SkillEffectDb
+    {
+        public static void Skill1(Player player, params ICharacter[] monsters)
+        {
+            //여기서 몬스터 그룹 받고. 선택하는 함수?
+            //
+            //
+            foreach(ICharacter monster in monsters)
+            {
+                int damage = player.atk * 2;
+                Text.TextingLine($"전사 1 스킬 사용! {damage} 피해를 {monster.Name} 에게 입혔습니다! ", ConsoleColor.Red);
+                monster.TakeDamage(player.atk * 2);
+            }
+        }
+    }
 }
