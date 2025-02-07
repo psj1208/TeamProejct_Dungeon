@@ -18,15 +18,19 @@ namespace TeamProejct_Dungeon
 
         public static void Draw(string imagePath, int asciiWidth = 45)
         {
-
-            using (Image<Rgba32> image = Image.Load<Rgba32>(imagePath))
+            if (File.Exists(imagePath))
             {
-                // 아스키 아트로 변환
-                string asciiArt = ConvertToAscii(image, asciiWidth);
+                using (Image<Rgba32> image = Image.Load<Rgba32>(imagePath))
+                {
+                    // 아스키 아트로 변환
+                    string asciiArt = ConvertToAscii(image, asciiWidth);
 
-                // 아스키 아트 출력
-                Console.WriteLine(asciiArt);
+                    // 아스키 아트 출력
+                    Console.WriteLine(asciiArt);
+                }
             }
+            else
+                Text.TextingLine("경로에 파일이 없습니다. (디버깅)", ConsoleColor.Red, false);
             Console.ResetColor();
         }
 

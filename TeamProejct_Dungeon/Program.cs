@@ -6,6 +6,8 @@ namespace TeamProejct_Dungeon
     {
         static void Main(string[] args)
         {
+            string imagePath = AppDomain.CurrentDomain.BaseDirectory + "\\sample.jpg"; // 이미지 경로(상위 폴더/bin/Debug/net버전안에 넣어야함.)
+            AsciiArt.Draw(imagePath, 30);
             GameStart();
         }
 
@@ -16,7 +18,8 @@ namespace TeamProejct_Dungeon
         {
             //여기에 게임 흐름
             // 플레이어와 몬스터 리스트 생성
-            ICharacter player = new Player("Chad", "전사", 1, 100, 100);
+
+            Player player = new Player("Chad", "전사");
 
             List<ICharacter> monsters = new List<ICharacter>
             {
@@ -30,13 +33,21 @@ namespace TeamProejct_Dungeon
             Battle(player, monsters);
         }
 
+        //static List<ICharacter>MonsterSpawn()
+        //{
+        //    List<ICharacter> Monsters = new List<ICharacter>();
+
+        //}
+
         // 전투 시작
-        static void Battle(ICharacter player, List<ICharacter> monsters)
+        static void Battle(Player player, List<ICharacter> monsters)
         {
             // 전투 시작
             Console.WriteLine("Battle!!\n");
 
             Random random = new Random();
+
+            int monsterCount = 0;
             // 몬스터 정보 받아오기
             for (int i = 0; i < monsters.Count; i++)
             {
@@ -47,8 +58,8 @@ namespace TeamProejct_Dungeon
 
             Console.WriteLine("[내정보]");
             // 플레이어 정보 (레벨과 이름, 직업)
-            Console.WriteLine($"Lv.{player.Level} {player.Name}");
-            Console.WriteLine($"HP {player.HP}");
+            Console.WriteLine($"Lv.{player.level} {player.Name}");
+            Console.WriteLine($"HP {player.maxHp}");
 
             Console.WriteLine();
             Console.WriteLine("1. 공격\n");
@@ -72,50 +83,33 @@ namespace TeamProejct_Dungeon
 
         }
 
-        //// ICharacter 인터페이스
-        //interface ICharacter
-        //{
-        //    string Name { get; }
-        //    int Level { get; }
-        //    int HP { get; }
-        //    int MaxHP { get; }
-        //    string Job { get; }
-        //}
+        // ICharacter 인터페이스
+        interface ICharacter
+        {
+            string Name { get; }
+            int Level { get; }
+            int HP { get; }
+            int MaxHP { get; }
+            string Job { get; }
+        }
 
-        //// 플레이어 클래스
-        //class Player : ICharacter
-        //{
-        //    public string Name { get; set; }
-        //    public string Job { get; set; }
-        //    public int Level { get; set; }
-        //    public int HP { get; private set; }
-        //    public int MaxHP { get; set; }
+        
 
-        //    public Player(string name, string job, int level, int hp, int maxHp)
-        //    {
-        //        Name = name;
-        //        Job = job;
-        //        Level = level;
-        //        HP = hp;
-        //        MaxHP = maxHp;
-        //    }
-        //}
+        // 몬스터 클래스
+        class Monster : ICharacter
+        {
+            public string Name { get; private set; }
+            public int Level { get; set; }
+            public int HP { get; private set; }
+            public int MaxHP => HP;  // 몬스터는 초기 HP를 최대 HP로 설정
+            public string Job => "없음";  // 몬스터는 직업이 없음
 
-        //// 몬스터 클래스
-        //class Monster : ICharacter
-        //{
-        //    public string Name { get; private set; }
-        //    public int Level { get; set; }
-        //    public int HP { get; private set; }
-        //    public int MaxHP => HP;  // 몬스터는 초기 HP를 최대 HP로 설정
-        //    public string Job => "없음";  // 몬스터는 직업이 없음
-
-        //    public Monster(string name, int level, int hp)
-        //    {
-        //        Name = name;
-        //        Level = level;
-        //        HP = hp;
-        //    }
-        //}
+            public Monster(string name, int level, int hp)
+            {
+                Name = name;
+                Level = level;
+                HP = hp;
+            }
+        }
     }
 }
