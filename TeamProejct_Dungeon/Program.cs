@@ -130,39 +130,50 @@ namespace TeamProejct_Dungeon
         // 전투 시작
         static void Battle(Player player, List<ICharacter> monsters)
         {
-            // 전투 시작
-            Console.WriteLine("Battle!!\n");
+            
+            Battle_Start(player, monsters);
 
-            Random random = new Random();
+        }
 
-            // 몬스터 정보 출력
-            for (int i = 0; i < monsters.Count; i++)
+        static void Battle_Start(Player player, List<ICharacter> monsters)
+        {
+            while (true)
             {
-                Console.WriteLine($"Lv.{monsters[i].level} {monsters[i].Name} HP {monsters[i].hp} ");
+                // 전투 시작
+                Console.Clear();
+                Console.WriteLine("Battle!!\n");
+
+                Random random = new Random();
+
+                // 몬스터 정보 출력
+                for (int i = 0; i < monsters.Count; i++)
+                {
+                    Console.WriteLine($"Lv.{monsters[i].level} {monsters[i].Name} HP {monsters[i].hp} ");
+                }
+                Console.WriteLine("\n");
+
+                Console.WriteLine("[내정보]");
+                // 플레이어 정보 (레벨과 이름, 직업)
+                Console.WriteLine($"Lv.{player.level} {player.Name}");
+                Console.WriteLine($"HP {player.maxHp}");
+
+                Console.WriteLine();
+                Console.WriteLine("1. 공격\n");
+                
+                GetInput(0, 1);
             }
-            Console.WriteLine("\n");
-
-            Console.WriteLine("[내정보]");
-            // 플레이어 정보 (레벨과 이름, 직업)
-            Console.WriteLine($"Lv.{player.level} {player.Name}");
-            Console.WriteLine($"HP {player.maxHp}");
-
-            Console.WriteLine();
-            Console.WriteLine("1. 공격\n");
-
-            Console.WriteLine("원하시는 행동을 입력해주세요.\n>> ");
-
         }
-        // 공격
-        static void Battle_Player(ICharacter player, ICharacter monster)
+
+        static void Victory()
         {
 
         }
-        // Enemy Pahse 
-        static void Battle_Enemy(ICharacter player, ICharacter monster)
+
+        static void Lose()
         {
 
         }
+
         // 전투 결과
         static void Battle_Result(ICharacter player, ICharacter monster)
         {
@@ -174,6 +185,19 @@ namespace TeamProejct_Dungeon
             Console.WriteLine("0. 다음\n");
             Console.WriteLine(">> ");
 
+        }
+
+
+        public static int GetInput(int min, int max)
+        {
+            while (true)
+            {
+                Console.WriteLine("원하시는 행동을 입력해주세요.\n>> ");
+                if (int.TryParse(Console.ReadLine(), out var input)
+                    && (input >= min) && (input <= max))
+                { return input; }
+                Console.WriteLine("잘못된 입력입니다. 다시 입력해주세요");
+            }
         }
 
         class Monster : ICharacter
