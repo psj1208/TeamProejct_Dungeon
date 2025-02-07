@@ -47,6 +47,29 @@ namespace TeamProejct_Dungeon
                     Text.TextingLine($"{input + 1} 아이템 사용 ! ", ConsoleColor.Magenta);
             }
         }
+
+        public void SellingInventory()
+        {
+            while (true)
+            {
+                Console.Clear();
+                ShowInventory();
+                int input = Text.GetInput("판매하시려는 아이템의 번호를 입력해주세요.\n나가시려면 0을 입력해주세요.", Number.Make(0, items.Count));
+                input--;
+                //0 입력시 탈출.
+                if (input == -1)
+                {
+                    Console.Clear();
+                    break;
+                }
+                else
+                {
+                    GameManager.player.gold += (int)items[input].sellPrice;
+                    RemoveItem(input);
+                    Text.TextingLine($"{input + 1} 아이템 판매 ! ", ConsoleColor.Magenta);
+                }
+            }
+        }
         //아이템 사용(화면에 표기된 숫자 입력하시면 됩니다.실제 인덱스는 0부터 시작하나 화면에 표기는 1부터 시작하는 걸 감안했습니다.
         public void UseItem(int num)
         {
