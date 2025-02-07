@@ -70,10 +70,13 @@ namespace TeamProejct_Dungeon
         //플레이어가 데미지를 입을시
         public void TakeDamage(int damge)
         {
-            hp -= damge;
+            if (damge > dfs + equipDfs) hp = damge - (dfs + equipDfs);
+
+            else if (damge <= dfs + equipDfs) Console.WriteLine("Miss~!");
+
 
             //플레이어 사망
-            if(hp <= 0)
+            if (hp <= 0)
             {
                 isDead = true;
             }
@@ -100,12 +103,6 @@ namespace TeamProejct_Dungeon
 
             Console.WriteLine("\n0. 나가기\n");
             Text.GetInput(null, 0);
-        }
-        
-        //아이템 장착별 스텟변경 메서드 (인벤토리 작업 완료후)
-        public void EquipItemDisplay()
-        {
-
         }
         
         //경헙치 획득 메서드
