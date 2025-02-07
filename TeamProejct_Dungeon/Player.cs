@@ -56,7 +56,7 @@ namespace TeamProejct_Dungeon
 
        
         //플레이어가 공격 (매개변수 몬스터로 변경)
-        public void Attack(Monster monster)
+        public void Attack()
         {
 
             // 몬스터 체력 감소 (몬스터 체력 구현후)
