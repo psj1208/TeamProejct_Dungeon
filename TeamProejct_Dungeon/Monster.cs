@@ -22,7 +22,8 @@ namespace TeamProejct_Dungeon
         {
             Name = name;
             this.level = level;
-            hp = maxHp;
+            this.maxHp = maxHp;
+            hp = this.maxHp;
             this.atk = atk;
             this.exp = exp;
             this.gold = gold;
@@ -96,7 +97,7 @@ namespace TeamProejct_Dungeon
         {
             Random random = new Random();
             int index = random.Next(MonsterDB.GetMonsters().Count);
-            return MonsterDB.GetMonsters()[index];
+            return MonsterDB.GetMonsters()[index].GetCopy();
         }
     }
 
