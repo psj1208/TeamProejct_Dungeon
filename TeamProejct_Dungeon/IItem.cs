@@ -19,8 +19,7 @@ namespace TeamProejct_Dungeon
 
         public virtual double buyPrice { get; set; } // 구매 가격
         public virtual double sellPrice { get; set; } // 판매 가격 85퍼센트의 가격 판매 
-        public virtual ItemType type { get; set; } 
-       
+        public virtual ItemType type { get; set; }
         public virtual string Description() { return null; } 
 
         public virtual void Use() { }//장착. 혹은 소비.
@@ -38,7 +37,7 @@ namespace TeamProejct_Dungeon
         public override ItemType type { get; set; }
 
         public int defend; // 방어력
-        public override string Description() { return null; }
+        public override string Description() { return $"방어력이 {defend}만큼 상승하였습니다."; }
 
         public override void Use() { GameManager.player.equipDfs += defend; }// 장착시 장비 방어력 증가
         public override void UnUse() { GameManager.player.equipDfs -= defend; }// 해제시 장비 방어력 감소
@@ -63,7 +62,7 @@ namespace TeamProejct_Dungeon
         public int attack;
         public override ItemType type { get; set; }
 
-        public override string Description() { return null; }
+        public override string Description() { return $"공격력이 {attack}만큼 상승하였습니다"; }
 
         public override void Use(){ GameManager.player.equipAtk += attack; } // 장착시 공격력 상승
         public override void UnUse() { GameManager.player.equipAtk -= attack; } // 장착시 공격력 감소
@@ -91,7 +90,7 @@ namespace TeamProejct_Dungeon
         public int pHeatlh; // 체력포션의 체력 올려주는 값
 
         public int pStrength; // 힘포션의 공격력양
-        public override string Description() { return null; }
+        public override string Description() {return null;}
 
         public override void Use() 
         {
@@ -143,21 +142,22 @@ namespace TeamProejct_Dungeon
         static public List<Armour> armourList = new List<Armour>
         {
             new Armour("천 갑옷",100,3),
-            new Armour("불사의 갑옷",150,10),
-            new Armour("스파르타의 갑옷",200,15)
+            new Armour("불사의 갑옷",200,5),
+            new Armour("스파르타의 갑옷",300,10)
         };
 
         static public List<Weapon> weaponList = new List<Weapon>
         {
             new Weapon("나무 칼",50,3),
             new Weapon("여포의 창",100, 7),
-            new Weapon("스파르타의 칼", 200 ,20)
+            new Weapon("스파르타의 칼", 200 ,10)
         };
 
         static public List<Consumable> consumableList = new List<Consumable>
         {
             new Consumable("힐링 포션",50,30,0),
-            new Consumable("힘 포션",100,0,7)
+            new Consumable("힘 포션",100,0,7),
+            new Consumable("만병통치약",200,10,10)
         };
     }
 
