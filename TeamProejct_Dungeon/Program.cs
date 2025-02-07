@@ -30,7 +30,6 @@ namespace TeamProejct_Dungeon
             // 플레이어와 몬스터 리스트 생성
             Player player = new Player();
 
-            
             while (true)
             {
                 //로비
@@ -115,12 +114,12 @@ namespace TeamProejct_Dungeon
         static void Battle(Player player)
         {
             List<Monster> monsters = MonsterSpawn();
+            bool IsPlayerTurn = true;
             while (true)
             {
                 // 전투 시작
                 Console.Clear();
                 Console.WriteLine("Battle!!\n");
-
                 Random random = new Random();
 
                 // 몬스터 정보 출력
@@ -141,8 +140,9 @@ namespace TeamProejct_Dungeon
                 Console.WriteLine($"HP {player.hp} / {player.maxHp}");
 
                 Console.WriteLine();
-                Console.WriteLine("1. 공격");
-                Console.WriteLine("0. 전투 종료\n");
+                Console.WriteLine("1. 싸운다.\n");
+                Console.WriteLine("0. 도망가기");
+
 
                 int input = Text.GetInput(null, 0, 1);
 
@@ -157,8 +157,51 @@ namespace TeamProejct_Dungeon
                 }
                 else if (input == 1)
                 {
-                    while (true) // 올바른 입력을 받을 때까지 반복
+                    if (IsPlayerTurn == true)
                     {
+                        Console.WriteLine("\n공격할 몬스터를 선택하세요.");
+                        int targetIndex = GetInput(1, monsters.Count) - 1;
+
+                        // 잘못된 선택 방지
+                        if (targetIndex < 0 || targetIndex >= monsters.Count)
+                        {
+                            Console.WriteLine("잘못된 선택입니다.");
+                            Console.ReadKey();
+                            continue;
+                        }
+
+                        // 선택한 몬스터 가져오기
+                        Monster monster = monsters[targetIndex];
+
+                        player.Attack(monster);
+                        Console.WriteLine($"{monster.Name}을(를) 공격! [데미지: {player.atk}]");
+                        Console.ReadKey();
+
+                        // 몬스터 사망 처리
+                        if (monster.isDead)
+                        {
+                            Console.WriteLine($"{monster.Name}이(가) 쓰러졌습니다.");
+                            //player.GetExp(monster.exp); // 경험치 획득
+                            //player.gold += monster.gold;  // 골드 획득
+                            Console.WriteLine($"{monster.exp} Exp를 얻었다!");
+                            Console.WriteLine($"{monster.gold} G를 얻었다!");
+                            Console.ReadKey();
+                        }
+                        IsPlayerTurn = !IsPlayerTurn;
+                    }
+                    else
+                    {
+                        // 적 턴 진행
+                        EnemyPhase(player, monsters);
+                        IsPlayerTurn = !IsPlayerTurn;
+                    }
+
+                    // 모든 몬스터가 죽었다면 전투 종료
+                    if (monsters.All(m => m.isDead))
+                    {
+                        Console.WriteLine("모든 몬스터를 처치했습니다!");
+                        Thread.Sleep(500);
+                        sceneType = SceneType.Home;
                         Console.Clear();
                         Console.WriteLine("Battle!!\n");
 
@@ -242,11 +285,9 @@ namespace TeamProejct_Dungeon
             if (aliveMonsters.Count > 0)
             {
                 Monster attackingMonster = aliveMonsters[random.Next(aliveMonsters.Count)];
-                int dmg = attackingMonster.atk;
-                Console.WriteLine($"{attackingMonster.Name}이(가) 공격했다. [데미지 : {dmg}]");
-                player.TakeDamage(dmg);
-                Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {dmg}]");
-                Console.WriteLine("---------^------------------------^----------");
+                attackingMonster.Attack(player);
+
+                Console.WriteLine($"{attackingMonster.Name}이(가) 공격했다. [데미지 : {attackingMonster.atk}]");
             }
             Console.ReadKey();
         }

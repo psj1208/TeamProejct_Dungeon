@@ -1,17 +1,119 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO.Pipes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace TeamProejct_Dungeon
 {
+    public struct TextMonster
+    {
+        (int x, int y) StartPos_;
+        (int x, int y) EndPos_;
+        public Monster monster;
+        bool IsSelected;
+        bool IsTexting;
+        ConsoleColor color = ConsoleColor.White;
+
+        public TextMonster(Monster mon)
+        {
+            monster = mon;
+            IsSelected = false;
+            IsTexting = false;
+        }
+
+        public void Print()
+        {
+            if (IsTexting == true)
+            {
+                Clear();
+            }
+            SaveStart();
+            Text.Texting($"{monster.level} level , {monster.Name}", color, false);
+            SaveEnd();
+            IsTexting = true;
+            Console.WriteLine();
+        }
+
+        public void TurnOn()
+        {
+            this.color = ConsoleColor.Magenta;
+        }
+
+        public void TurnOff()
+        {
+            this.color = ConsoleColor.White;
+        }
+        public void SaveStart()
+        {
+            StartPos_ = Console.GetCursorPosition();
+        }
+
+        public void SaveEnd()
+        {
+            EndPos_ = Console.GetCursorPosition();
+        }
+        public void Clear()
+        {
+            Console.SetCursorPosition(StartPos_.x, StartPos_.y);
+            for (int i = 0; i < EndPos_.x - StartPos_.x; i++)
+                Console.Write(" ");
+        }
+    }
     static class Text
     {
         //커서 위치 저장을 위한 변수
         static (int x, int y) Startpos;
         static (int x, int y) Endpos;
 
+        public static List<Monster> GetInputMulti(int trynum, List<Monster> monster)
+        {
+            (int x, int y) startPos_;
+            (int x, int y) endPos_;
+            int select = 0;
+            startPos_ = Console.GetCursorPosition();
+            List<Monster> mons = new List<Monster>();
+            Console.WriteLine(mons.Count);
+            List<TextMonster> tm = new List<TextMonster>();
+            foreach(Monster mon in monster)
+            {
+                tm.Add(new TextMonster(mon));
+            }
+            while(mons.Count != trynum)
+            {
+                (int x, int y) s;
+                (int x, int y) e;
+                s = Console.GetCursorPosition();
+                tm[select].TurnOn();
+                foreach (TextMonster mon in tm)
+                    mon.Print();
+                ConsoleKeyInfo keyinfo = Console.ReadKey(true);
+                switch (keyinfo.Key)
+                {
+                    case ConsoleKey.DownArrow:
+                        if (select < tm.Count) 
+                            tm[select].TurnOff();
+                            select++;
+                        break;
+                    case ConsoleKey.UpArrow:
+                        if (select > 0)
+                            tm[select].TurnOff();
+                            select--;
+                        break;
+                    case ConsoleKey.Enter:
+                        mons.Add(tm[select].monster);
+                        break;
+                }
+                e = Console.GetCursorPosition();
+                ClearTextBetween(s, e);
+            }
+            endPos_ = Console.GetCursorPosition();
+            ClearTextBetween(startPos_, endPos_);
+            return mons;
+        }
         //텍스트 효과(다음 줄로 넘어감, 텍스트 색깔 지정과 텍스트 바로 나오게 하기)
         public static void TextingLine(string text, ConsoleColor color = ConsoleColor.White, bool InterTime = true)
         {
@@ -121,6 +223,18 @@ namespace TeamProejct_Dungeon
                 Console.WriteLine(" ");
             }
             Console.SetCursorPosition(Startpos.x, Startpos.y);
+        }
+
+        //위치 두개 받아서 청소
+        public static void ClearTextBetween((int x, int y) start, (int x, int y) end)
+        {
+            Console.SetCursorPosition(start.x, start.y);
+            for (int i = start.y; i <= end.y; i++)
+            {
+                Console.Write("                                               ");
+                Console.WriteLine(" ");
+            }
+            Console.SetCursorPosition(start.x, start.y);
         }
     }
 }

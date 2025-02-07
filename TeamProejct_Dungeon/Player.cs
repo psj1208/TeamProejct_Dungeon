@@ -52,14 +52,14 @@ namespace TeamProejct_Dungeon
             if (_job == Job.Warrior)
             {
                 atk = 5;
-                dfs = 10;
+                dfs = 3;
                 new List<Skill> {SkillDb.WarriorSkill1};
 
             }
             else if (_job == Job.Assassin)
             {
-                atk = 10;
-                dfs = 5;
+                atk = 7;
+                dfs = 1;
                 new List<Skill> { SkillDb.AssassinSkill1 };
             }
         }
@@ -88,9 +88,16 @@ namespace TeamProejct_Dungeon
         //플레이어가 데미지를 입을시
         public void TakeDamage(int damge)
         {
-            if (damge > dfs + equipDfs) hp -= damge - (dfs + equipDfs);
+            if (damge > dfs)
+            {
+                hp -= damge - dfs;
+                Text.TextingLine($"{this.Name} 이 {damge - dfs} 피해를 받았습니다.", ConsoleColor.Red);
+            }
 
-            else if (damge <= dfs + equipDfs) Console.WriteLine("Miss~!");
+            else if (damge <= dfs)
+            {
+                Text.TextingLine("Miss~!", ConsoleColor.Blue);
+            }
 
             //플레이어 사망
             if (hp <= 0)
