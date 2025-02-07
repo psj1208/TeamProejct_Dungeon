@@ -33,7 +33,7 @@ namespace TeamProejct_Dungeon
             Battle(player, monsters);
         }
 
-        //static List<ICharacter>MonsterSpawn()
+        //static List<ICharacter> MonsterSpawn()
         //{
         //    List<ICharacter> Monsters = new List<ICharacter>();
 
@@ -52,7 +52,7 @@ namespace TeamProejct_Dungeon
             for (int i = 0; i < monsters.Count; i++)
             {
                 int index = random.Next(0, monsters.Count - i);
-                Console.WriteLine($"Lv.{monsters[index].Level} {monsters[index].Name} HP {monsters[index].HP} ");
+                Console.WriteLine($"Lv.{monsters[index].level} {monsters[index].Name} HP {monsters[index].hp} ");
             }
             Console.WriteLine("\n");
 
@@ -83,32 +83,21 @@ namespace TeamProejct_Dungeon
 
         }
 
-        // ICharacter 인터페이스
-        interface ICharacter
-        {
-            string Name { get; }
-            int Level { get; }
-            int HP { get; }
-            int MaxHP { get; }
-            string Job { get; }
-        }
-
-        
 
         // 몬스터 클래스
         class Monster : ICharacter
         {
             public string Name { get; private set; }
-            public int Level { get; set; }
-            public int HP { get; private set; }
-            public int MaxHP => HP;  // 몬스터는 초기 HP를 최대 HP로 설정
+            public int level { get; set; }
+            public int hp { get; set; }
+            
             public string Job => "없음";  // 몬스터는 직업이 없음
 
             public Monster(string name, int level, int hp)
             {
                 Name = name;
-                Level = level;
-                HP = hp;
+                this.level = level;
+                this.hp = hp;
             }
         }
     }
