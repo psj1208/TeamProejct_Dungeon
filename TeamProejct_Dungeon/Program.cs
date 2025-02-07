@@ -21,23 +21,45 @@ namespace TeamProejct_Dungeon
 
             Player player = new Player("Chad", Job.Warrior);
 
-            List<ICharacter> monsters = new List<ICharacter>
-            {
-                new Monster("미니언", 2, 15),
-                new Monster("대포미니언", 5, 25),
-                new Monster("공허충", 3, 10)
-            };
+            List<ICharacter> monsters = MonsterSpawn();
 
 
             // 전투 시작
             Battle(player, monsters);
         }
 
-        //static List<ICharacter> MonsterSpawn()
-        //{
-        //    List<ICharacter> Monsters = new List<ICharacter>();
+        static List<ICharacter> MonsterSpawn()
+        {
+            Random random = new Random();
+            List<ICharacter> monsterList = new List<ICharacter>();
 
-        //}
+            // 1~4마리의 몬스터가 랜덤하게 등장
+            int monsterCount = random.Next(1, 5);
+
+            for (int i = 0; i < monsterCount; i++)
+            {
+                int monsterType = random.Next(0, 3); // 0~2 중 랜덤 선택
+
+                switch (monsterType)
+                {
+                    case 0:
+                        monsterList.Add(new Monster("미니언", 2, 15));
+                        break;
+                    case 1:
+                        monsterList.Add(new Monster("대포미니언", 5, 25));
+                        break;
+                    case 2:
+                        monsterList.Add(new Monster("공허충", 3, 10));
+                        break;
+                }
+            }
+
+            // 등장 순서를 랜덤하게 섞음
+            monsterList = monsterList.OrderBy(m => random.Next()).ToList();
+
+            return monsterList;
+        }
+
 
         // 전투 시작
         static void Battle(Player player, List<ICharacter> monsters)
@@ -47,12 +69,19 @@ namespace TeamProejct_Dungeon
 
             Random random = new Random();
 
-            int monsterCount = 0;
-            // 몬스터 정보 받아오기
-            for (int i = 0; i < monsters.Count; i++)
+            // 몬스터 랜덤
+            List<ICharacter> Shuffle_Monsters = new List<ICharacter>(monsters);
+            //Shuffle_Monsters.Sort((a, b) => random.Next(1, monsters.Count));
+
+            for (int i = Shuffle_Monsters.Count - 1; i > 0; i--)
             {
-                int index = random.Next(0, monsters.Count - i);
-                Console.WriteLine($"Lv.{monsters[index].level} {monsters[index].Name} HP {monsters[index].hp} ");
+                int swapIndex = random.Next(i + 1);
+                (Shuffle_Monsters[i], Shuffle_Monsters[swapIndex]) = (Shuffle_Monsters[swapIndex], Shuffle_Monsters[i]);
+            }
+            // 몬스터 정보 출력
+            for (int i = 0; i < Shuffle_Monsters.Count; i++)
+            {
+                Console.WriteLine($"Lv.{Shuffle_Monsters[i].level} {Shuffle_Monsters[i].Name} HP {Shuffle_Monsters[i].hp} ");
             }
             Console.WriteLine("\n");
 
