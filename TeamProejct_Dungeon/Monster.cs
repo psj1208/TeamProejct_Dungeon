@@ -60,7 +60,7 @@ namespace TeamProejct_Dungeon
             int attackDamage = atk;
 
             Console.WriteLine($"Lv.{level} {Name}의 공격!");
-            //Console.WriteLine($"{cha.Name}을(를) 맞췄습니다. [데미지 : {attackDamage}]");
+            //(Console.WriteLine($"{cha.Name}을(를) 맞췄습니다. [데미지 : {attackDamage}]");
 
             cha.TakeDamage(attackDamage);
             Console.WriteLine();
