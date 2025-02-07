@@ -185,56 +185,40 @@ namespace TeamProejct_Dungeon
                         Console.WriteLine($"HP {player.hp} / {player.maxHp}");
                         if (isPlayerTurn == true)
                         {
-                            Console.WriteLine("\n0. 취소\n");
+                            Console.WriteLine("\n취소 : ESC\n");
 
                             Console.WriteLine("대상을 선택해주세요.");
-                            int targetIndex = GetInput(0, monsters.Count) - 1;
-                            
-                            if (targetIndex == -1) // 0 입력 시 취소
+                            List<Monster> selectMonster = Text.GetInputMulti(1, monsters);
+
+                            Monster monster = selectMonster[0];
+
+                            if (monster.isDead)
                             {
-                                Console.WriteLine("\n0. 취소\n");
-
-                                Console.WriteLine("대상을 선택해주세요.");
-                                int targetIndex = GetInput(0, monsters.Count) - 1;
-                                
-                                if (targetIndex == -1) // 0 입력 시 취소
-                                {
-                                    Console.WriteLine("\n취소 : ESC\n");
-
-                                    Console.WriteLine("대상을 선택해주세요.");
-                                    List<Monster> selectMonster = Text.GetInputMulti(1, monsters);
-
-                                    Monster monster = selectMonster[0];
-
-                                    if (monster.isDead)
-                                    {
-                                        Console.WriteLine("이미 쓰러진 몬스터 입니다.");
-                                        Console.ReadKey();
-                                        continue;
-                                    }
-
-                                    // 공격 처리
-                                    int dmg = player.atk + player.equipAtk;
-                                    Console.WriteLine($"{monster.Name}을(를) 공격! [데미지: {dmg}]");
-                                    monster.TakeDamage(dmg);
-                                    Console.WriteLine("---------------------------------------------");
-                                    Console.ReadKey();
-
-                                    if (monster.isDead)
-                                    {
-                                        monster.GrantReward(player);
-                                        //Text.TextingLine(원하는 문자열, 색깔, true or false 이거는 텍스트가 순차적으로 생길지 말지)
-                                        //줄 안 띄우는건 Text.Texting
-                                        Console.WriteLine($"{monster.Name}이(가) 쓰러졌습니다.\n");
-                                        Console.WriteLine($"{monster.exp} Exp를 얻었다!\n");
-                                        Console.WriteLine($"{monster.gold} G를 얻었다!\n");
-                                        Console.WriteLine("---------------------------------------------");
-
-                                        Console.ReadKey();
-                                    }
-                                    isPlayerTurn = !isPlayerTurn;
-                                }
+                                Console.WriteLine("이미 쓰러진 몬스터 입니다.");
+                                Console.ReadKey();
+                                continue;
                             }
+
+                            // 공격 처리
+                            int dmg = player.atk + player.equipAtk;
+                            Console.WriteLine($"{monster.Name}을(를) 공격! [데미지: {dmg}]");
+                            monster.TakeDamage(dmg);
+                            Console.WriteLine("---------------------------------------------");
+                            Console.ReadKey();
+
+                            if (monster.isDead)
+                            {
+                                monster.GrantReward(player);
+                                //Text.TextingLine(원하는 문자열, 색깔, true or false 이거는 텍스트가 순차적으로 생길지 말지)
+                                //줄 안 띄우는건 Text.Texting
+                                Console.WriteLine($"{monster.Name}이(가) 쓰러졌습니다.\n");
+                                Console.WriteLine($"{monster.exp} Exp를 얻었다!\n");
+                                Console.WriteLine($"{monster.gold} G를 얻었다!\n");
+                                Console.WriteLine("---------------------------------------------");
+
+                                Console.ReadKey();
+                            }
+                            isPlayerTurn = !isPlayerTurn;
                         }
                         else
                         {
