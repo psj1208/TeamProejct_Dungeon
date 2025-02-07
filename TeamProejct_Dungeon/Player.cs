@@ -33,7 +33,7 @@ namespace TeamProejct_Dungeon
         public int equipAtk { get; set; }
         public int equipDfs { get; set; }
 
-
+        public Player() { }
         //플레이어 생성자  (초기값)
         public Player(string _name, Job _job)
         {
@@ -92,10 +92,8 @@ namespace TeamProejct_Dungeon
             Console.WriteLine($"체력 : {hp} / {maxHp}");
             Console.WriteLine($"Gold : {gold} G");
 
-            Console.WriteLine();
-            Console.WriteLine("0. 나가기");
-            Console.WriteLine();
-            Text.GetInput();
+            Console.WriteLine("\n0. 나가기\n");
+            Text.GetInput(null, 0);
         }
         
         //아이템 장착별 스텟변경 메서드 (인벤토리 작업 완료후)
