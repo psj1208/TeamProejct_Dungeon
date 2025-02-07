@@ -54,9 +54,6 @@ namespace TeamProejct_Dungeon
                 }
             }
 
-            // 등장 순서를 랜덤하게 섞음
-            monsterList = monsterList.OrderBy(m => random.Next()).ToList();
-
             return monsterList;
         }
 
@@ -69,19 +66,11 @@ namespace TeamProejct_Dungeon
 
             Random random = new Random();
 
-            // 몬스터 랜덤
-            List<ICharacter> Shuffle_Monsters = new List<ICharacter>(monsters);
-            //Shuffle_Monsters.Sort((a, b) => random.Next(1, monsters.Count));
-
-            for (int i = Shuffle_Monsters.Count - 1; i > 0; i--)
-            {
-                int swapIndex = random.Next(i + 1);
-                (Shuffle_Monsters[i], Shuffle_Monsters[swapIndex]) = (Shuffle_Monsters[swapIndex], Shuffle_Monsters[i]);
-            }
+           
             // 몬스터 정보 출력
-            for (int i = 0; i < Shuffle_Monsters.Count; i++)
+            for (int i = 0; i < monsters.Count; i++)
             {
-                Console.WriteLine($"Lv.{Shuffle_Monsters[i].level} {Shuffle_Monsters[i].Name} HP {Shuffle_Monsters[i].hp} ");
+                Console.WriteLine($"Lv.{monsters[i].level} {monsters[i].Name} HP {monsters[i].hp} ");
             }
             Console.WriteLine("\n");
 
