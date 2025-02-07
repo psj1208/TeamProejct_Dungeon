@@ -200,9 +200,7 @@ namespace TeamProejct_Dungeon
                             }
 
                             // 공격 처리
-                            int dmg = player.atk + player.equipAtk;
-                            Console.WriteLine($"{monster.Name}을(를) 공격! [데미지: {dmg}]");
-                            monster.TakeDamage(dmg);
+                            player.Attack(monster);
                             Console.WriteLine("---------------------------------------------");
                             Console.ReadKey();
 
@@ -248,8 +246,7 @@ namespace TeamProejct_Dungeon
                 int dmg = attackingMonster.atk;
                 Console.WriteLine("\n\n-------------------적의 차례------------------\n");
                 //여기에 foreach
-                Console.WriteLine($"{attackingMonster.Name}이(가) 공격했다. [데미지 : {dmg}]");
-                player.TakeDamage(dmg);
+                //나중에 foreach문해서 monster.attack()메서드 써주세요.
                 Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {dmg}]\n");
                 Console.WriteLine("\n---------^------------------------^----------");
             }
