@@ -43,7 +43,7 @@ namespace TeamProejct_Dungeon
         public override void Use() { GameManager.player.equipDfs += defend; }// 장착시 장비 방어력 증가
         public override void UnUse() { GameManager.player.equipDfs -= defend; }// 해제시 장비 방어력 감소
 
-        public Armour(string name, double buyPrice, int defend)
+        public Armour(string name, double buyPrice, int defend= 0)
         {
             this.name = name;
             this.buyPrice = buyPrice;
@@ -68,7 +68,7 @@ namespace TeamProejct_Dungeon
         public override void Use(){ GameManager.player.equipAtk += attack; } // 장착시 공격력 상승
         public override void UnUse() { GameManager.player.equipAtk -= attack; } // 장착시 공격력 감소
 
-        public Weapon(string name, double buyPrice, int attack)
+        public Weapon(string name, double buyPrice, int attack = 0)
         {
             this.name = name;
             this.buyPrice = buyPrice;
@@ -87,6 +87,10 @@ namespace TeamProejct_Dungeon
         public override ItemType type { get; set; }
 
         public static int amt = 0; // 포션 수량
+
+        public int pHeatlh; // 체력포션의 체력 올려주는 값
+
+        public int pStrength; // 힘포션의 공격력양
         public override string Description() { return null; }
 
         public override void Use() 
@@ -97,7 +101,8 @@ namespace TeamProejct_Dungeon
                 return;
             }
 
-            GameManager.player.hp += 20; // 체력 상승
+            GameManager.player.hp += pHeatlh; // 체력 상승
+            GameManager.player.atk += pStrength; // 공격력 상승
 
             if (GameManager.player.hp > GameManager.player.maxHp) // 체력 회복 후, 최대 체력보다 높으면
             {
@@ -107,13 +112,19 @@ namespace TeamProejct_Dungeon
             amt--; // 포션 수량 감소
         }
      
-        public Consumable(string name, double buyPrice)
+        public Consumable(string name, double buyPrice, int health, int strength)
         {
             this.name = name;
             this.buyPrice = buyPrice;
-            this.sellPrice = Math.Round(buyPrice * 0.85);
-            type = ItemType.Consumable; // 소비
-            amt++;
+            sellPrice = Math.Round(buyPrice * 0.85);
+            pHeatlh = health; // 체력 포션 상승값
+            pStrength = strength; // 힘 포션 상승값
+           
+
         }
+      
     }
+
+
+   
 }
