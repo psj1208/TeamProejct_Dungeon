@@ -54,10 +54,10 @@ namespace TeamProejct_Dungeon
 
                     // 아스키 문자와 색상 정보 추가
                     asciiArt.Append($"\x1b[38;2;{pixelColor.R};{pixelColor.G};{pixelColor.B}m\u001b[48;2;{pixelColor.R};{pixelColor.G};{pixelColor.B}m{asciiTable[asciiIndex]}");
-                    asciiArt.Append("\x1b[49m");
                 }
                 asciiArt.Append("\n");
             }
+            Console.ResetColor();
             return asciiArt.ToString();
         }
     }
