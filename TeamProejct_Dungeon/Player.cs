@@ -14,7 +14,7 @@ namespace TeamProejct_Dungeon
         Assassin,
         Monster
     }
-    
+
     public class Player : ICharacter
     {
         //기본 정보 및 초기값 설정
@@ -36,6 +36,9 @@ namespace TeamProejct_Dungeon
 
         public Inventory inven;
         public Player() { }
+
+        public List<Skill> skills { get;}
+            
         //플레이어 생성자  (초기값)
         public Player(string _name, Job _job)
         {
@@ -50,19 +53,36 @@ namespace TeamProejct_Dungeon
             {
                 atk = 5;
                 dfs = 10;
+                new List<Skill> {SkillDb.WarriorSkill1};
+
             }
             else if (_job == Job.Assassin)
             {
                 atk = 10;
                 dfs = 5;
+                new List<Skill> { SkillDb.AssassinSkill1 };
             }
         }
-
-       
+  
         //플레이어가 공격 
         public void Attack(ICharacter monster)
         {
-            monster.TakeDamage(atk + equipAtk);
+            //크리티컬 20% 확률
+            Random random = new Random();
+
+            int cirticalChance = random.Next(0, 5);
+            bool isCrital = (cirticalChance == 0);
+
+            int damage = atk + equipAtk;
+            
+            // 크리티컬 시 20% 데미지 증가
+            if (isCrital)
+            {
+                damage *= (int)(damage * 1.5);
+                Console.WriteLine("크리티컬 !");
+            }
+
+            monster.TakeDamage(damage);
         }
 
         //플레이어가 데미지를 입을시
@@ -72,7 +92,6 @@ namespace TeamProejct_Dungeon
 
             else if (damge <= dfs + equipDfs) Console.WriteLine("Miss~!");
 
-
             //플레이어 사망
             if (hp <= 0)
             {
@@ -80,6 +99,7 @@ namespace TeamProejct_Dungeon
             }
         }
 
+        //플레이어 상태보기
         public void StatusDisplay()
         {
             Console.Clear();
@@ -87,7 +107,7 @@ namespace TeamProejct_Dungeon
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
             //플레이어 스텟창
-            Console.WriteLine($"Lv. {level} | Exp. {exp} / {maxExp}");
+            Console.WriteLine($"Lv. {level} ( Exp. {exp} / {maxExp} )");
             Console.WriteLine($"{Name} ( {job} )");
 
             string str = equipAtk == 0 ? $"공격력 : {atk}" : $"공격력 : {atk + equipAtk} (+{equipAtk})";
@@ -104,13 +124,18 @@ namespace TeamProejct_Dungeon
         }
         
         //경헙치 획득 메서드
-        public void GetExp(int _exp)
+        public void AddExp(int _exp)
         {
             exp += _exp;
             if (exp >= maxExp)
             {
                 LevelUp();
             }
+        }
+
+        public void AddGold(int _gold)
+        {
+            gold += _gold;
         }
 
         //레벨 업 메서드
@@ -133,6 +158,5 @@ namespace TeamProejct_Dungeon
                 dfs += 5;
             }
         }
-
     }
 }

@@ -22,7 +22,8 @@ namespace TeamProejct_Dungeon
         {
             Name = name;
             this.level = level;
-            hp = maxHp;
+            this.maxHp = maxHp;
+            hp = this.maxHp;
             this.atk = atk;
             this.exp = exp;
             this.gold = gold;
@@ -60,7 +61,7 @@ namespace TeamProejct_Dungeon
             int attackDamage = atk;
 
             Console.WriteLine($"Lv.{level} {Name}의 공격!");
-            //Console.WriteLine($"{cha.Name}을(를) 맞췄습니다. [데미지 : {attackDamage}]");
+            //(Console.WriteLine($"{cha.Name}을(를) 맞췄습니다. [데미지 : {attackDamage}]");
 
             cha.TakeDamage(attackDamage);
             Console.WriteLine();
@@ -78,8 +79,12 @@ namespace TeamProejct_Dungeon
         {
             if (isDead)
             {
-                player.gold += gold;
-                Console.WriteLine($"{gold} 골드를 획득했습니다!");
+                player.AddGold(gold);
+                player.AddExp(exp);
+                
+                // 이건 어디로가야하나~
+                // Console.WriteLine($"{gold} 골드를 획득했습니다!");
+                // Console.WriteLine($"{exp} 경험치를 획득했습니다!");
             }
         }
 
@@ -96,7 +101,7 @@ namespace TeamProejct_Dungeon
         {
             Random random = new Random();
             int index = random.Next(MonsterDB.GetMonsters().Count);
-            return MonsterDB.GetMonsters()[index];
+            return MonsterDB.GetMonsters()[index].GetCopy();
         }
     }
 
