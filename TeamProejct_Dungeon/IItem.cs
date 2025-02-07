@@ -101,8 +101,16 @@ namespace TeamProejct_Dungeon
                 return;
             }
 
-            GameManager.player.hp += pHeatlh; // 체력 상승
-            GameManager.player.atk += pStrength; // 공격력 상승
+            if (pHeatlh > 0)
+            {
+                GameManager.player.hp += pHeatlh; // 체력 상승
+                Text.TextingLine($"{this.pHeatlh} 를 회복했습니다.", ConsoleColor.Green);
+            }
+            if (pStrength > 0)
+            {
+                GameManager.player.atk += pStrength; // 공격력 상승
+                Text.TextingLine($"{this.pStrength} 만큼 공격력이 상승했습니다.", ConsoleColor.Green);
+            }
 
             if (GameManager.player.hp > GameManager.player.maxHp) // 체력 회복 후, 최대 체력보다 높으면
             {
@@ -119,8 +127,7 @@ namespace TeamProejct_Dungeon
             sellPrice = Math.Round(buyPrice * 0.85);
             pHeatlh = health; // 체력 포션 상승값
             pStrength = strength; // 힘 포션 상승값
-           type = ItemType.Consumable;
-
+            type = ItemType.Consumable;
         }
       
     }
@@ -132,9 +139,10 @@ namespace TeamProejct_Dungeon
 
         static public List<Armour> armourList;
 
-        static public List<Consumable> consumableList;
-
-
+        static public List<Consumable> consumableList = new List<Consumable>
+        {
+            new Consumable("힐링포션",50,30,0),
+        };
     }
 
 }
