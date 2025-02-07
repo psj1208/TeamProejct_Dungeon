@@ -153,11 +153,12 @@ namespace TeamProejct_Dungeon
                 // 플레이어 정보 (레벨과 이름, 직업)
                 Console.WriteLine($"Lv.{player.level} {player.Name}");
                 Console.WriteLine($"HP {player.hp} / {player.maxHp}\n");
-
+     
                 Console.WriteLine("1. 공격");
+                Console.WriteLine("2. 스킬\n");
                 Console.WriteLine("0. 전투 종료\n");
 
-                int input = Text.GetInput(null, 0, 1);
+                int input = Text.GetInput(null, 0, 1, 2);
 
                 if (input == 0)
                 {
@@ -168,6 +169,7 @@ namespace TeamProejct_Dungeon
                     //break;
                     return;
                 }
+
                 else if (input == 1)
                 {
                     while (true) // 올바른 입력을 받을 때까지 반복
@@ -230,6 +232,24 @@ namespace TeamProejct_Dungeon
                             return;
                         }
                     }
+
+                }
+                else if (input == 2)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Battle!!\n");
+
+                    // 몬스터 정보 다시 출력
+                    ShowMonsterInfo(monsters);
+
+                    Console.ResetColor();
+
+                    Console.WriteLine("\n[내정보]");
+                    Console.WriteLine($"Lv.{player.level} {player.Name}");
+                    Console.WriteLine($"HP {player.hp} / {player.maxHp}");
+
+                    player.skill.Use(player, monsters);
+                  
                 }
             }
         }

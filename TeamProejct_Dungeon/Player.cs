@@ -54,13 +54,13 @@ namespace TeamProejct_Dungeon
                 atk = 5;
                 dfs = 3;
                 skill = new WarriorSkill();
-
+                
             }
             else if (_job == Job.Assassin)
             {
                 atk = 7;
                 dfs = 1;
-                //skills.Add(new AssassinSkill());
+                skill = new AssassinSkill();
             }
         }
   
