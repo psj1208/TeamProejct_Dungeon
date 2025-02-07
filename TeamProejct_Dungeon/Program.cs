@@ -187,7 +187,7 @@ namespace TeamProejct_Dungeon
                         {
                             Console.WriteLine("\n취소 : ESC\n");
 
-                            Console.WriteLine("대상을 선택해주세요.");
+                            Console.WriteLine("대상을 선택해주세요.\n");
                             List<Monster> selectMonster = Text.GetInputMulti(1, monsters);
 
                             Monster monster = selectMonster[0];
