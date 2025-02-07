@@ -18,36 +18,29 @@ namespace TeamProejct_Dungeon
             description = _description;
             effect = _effect;
         }
+
+        public void Use(Player player, ICharacter[] target)
+        {
+            Console.WriteLine($"{player.Name} 이 {Name}을(를) 사용했습니다.");
+            effect(player, target);
+        }
     }
 
     public static class SkillDb
     {
-        public static readonly Skill WarriorSkill1 = new Skill(
-            "전사스킬1",
-            "공격력 2배만큼 선택 몬스터 공격",
-            SkillEffectDb.Skill1
-            );
+        public static readonly Skill WarriorSkill1 = new Skill("전사스킬1", "공격력 2배만큼 공격", SkillEffectDb.WarriorSkill1);
 
-        public static readonly Skill AssassinSkill1 = new Skill(
-           "도적스킬1",
-           "각 몬스터에게 기본공격만큼 추가 딜",
-           (player, target) =>
-           {
-           });
     }
 
     public static class SkillEffectDb
     {
-        public static void Skill1(Player player, params ICharacter[] monsters)
+        public static void WarriorSkill1(Player player, ICharacter[] targets)
         {
-            //여기서 몬스터 그룹 받고. 선택하는 함수?
-            //
-            //
-            foreach(ICharacter monster in monsters)
+            foreach(ICharacter target in targets)
             {
                 int damage = player.atk * 2;
-                Text.TextingLine($"전사 1 스킬 사용! {damage} 피해를 {monster.Name} 에게 입혔습니다! ", ConsoleColor.Red);
-                monster.TakeDamage(player.atk * 2);
+                Text.TextingLine($"전사 1 스킬 사용! {damage} 피해를 {target.Name} 에게 입혔습니다! ", ConsoleColor.Red);
+                target.TakeDamage(player.atk * 2);
             }
         }
     }
