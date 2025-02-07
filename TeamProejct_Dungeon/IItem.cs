@@ -40,8 +40,8 @@ namespace TeamProejct_Dungeon
         public int defend; // 방어력
         public override string Description() { return null; }
 
-        public override void Use() { }//장착. 혹은 소비.
-        public override void UnUse() { }//장착 해제(포션은 제외)
+        public override void Use() { GameManager.player.equipDfs += defend; }// 사용시 장비 방어력 증가
+        public override void UnUse() { GameManager.player.equipDfs -= defend; }// 해제시 장비 방어려 감소
 
         public Armour(string name, double buyPrice, int defend)
         {
@@ -65,8 +65,11 @@ namespace TeamProejct_Dungeon
 
         public override string Description() { return null; }
 
-        public override void Use() { }//장착. 혹은 소비.
-        public override void UnUse() { }//장착 해제(포션은 제외)
+        public override void Use() 
+        { 
+          
+        }
+        public override void UnUse() {  }//장착 해제(포션은 제외)
 
         public Weapon(string name, double buyPrice, int attack)
         {
@@ -89,7 +92,8 @@ namespace TeamProejct_Dungeon
         public static int amt = 0; // 포션 수량
         public override string Description() { return null; }
 
-        public override void Use() { }
+        public override void Use() {
+        }
         public override void UnUse() { }
 
         public Consumable(string name, double buyPrice)
@@ -97,7 +101,7 @@ namespace TeamProejct_Dungeon
             this.name = name;
             this.buyPrice = buyPrice;
             this.sellPrice = Math.Round(buyPrice * 0.85);
-            type = ItemType.Consumable;
+            type = ItemType.Consumable; // 소비
             amt++;
         }
     }
