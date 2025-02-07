@@ -40,8 +40,8 @@ namespace TeamProejct_Dungeon
         public int defend; // 방어력
         public override string Description() { return null; }
 
-        public override void Use() { }//장착. 혹은 소비.
-        public override void UnUse() { }//장착 해제(포션은 제외)
+        public override void Use() { } // 장착
+        public override void UnUse() { }
 
         public Armour(string name, double buyPrice, int defend)
         {
@@ -66,7 +66,7 @@ namespace TeamProejct_Dungeon
         public override string Description() { return null; }
 
         public override void Use() { }//장착. 혹은 소비.
-        public override void UnUse() { }//장착 해제(포션은 제외)
+        public override void UnUse() { } 
 
         public Weapon(string name, double buyPrice, int attack)
         {
@@ -86,11 +86,10 @@ namespace TeamProejct_Dungeon
 
         public override ItemType type { get; set; }
 
-        public static int amt = 0;
+        public static int amt = 0; // 소모품 수량 체크
         public override string Description() { return null; }
 
         public override void Use() { }
-        public override void UnUse() { }
 
         public Consumable(string name, double buyPrice)
         {
