@@ -40,8 +40,8 @@ namespace TeamProejct_Dungeon
         public int defend; // 방어력
         public override string Description() { return null; }
 
-        public override void Use() { GameManager.player.equipDfs += defend; }// 사용시 장비 방어력 증가
-        public override void UnUse() { GameManager.player.equipDfs -= defend; }// 해제시 장비 방어려 감소
+        public override void Use() { GameManager.player.equipDfs += defend; }// 장착시 장비 방어력 증가
+        public override void UnUse() { GameManager.player.equipDfs -= defend; }// 해제시 장비 방어력 감소
 
         public Armour(string name, double buyPrice, int defend)
         {
@@ -65,11 +65,8 @@ namespace TeamProejct_Dungeon
 
         public override string Description() { return null; }
 
-        public override void Use() 
-        { 
-          
-        }
-        public override void UnUse() {  }//장착 해제(포션은 제외)
+        public override void Use(){ GameManager.player.equipAtk += attack; } // 장착시 공격력 상승
+        public override void UnUse() { GameManager.player.equipAtk -= attack; } // 장착시 공격력 감소
 
         public Weapon(string name, double buyPrice, int attack)
         {
