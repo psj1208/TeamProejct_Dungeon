@@ -55,7 +55,7 @@ namespace TeamProejct_Dungeon
         }
 
         // 몬스터 공격 메서드 
-        public void AttackEnemy(Player cha)
+        public void Attack(Player cha)
         {
             int attackDamage = atk;
 
