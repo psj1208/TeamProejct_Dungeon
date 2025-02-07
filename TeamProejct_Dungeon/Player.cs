@@ -7,18 +7,26 @@ using System.Threading.Tasks;
 
 namespace TeamProejct_Dungeon
 {
+    //직업 열거 ( 몬스터 포함)
+    public enum Job
+    {
+        Warrior,
+        Assassin,
+        Monster
+    }
     
     public class Player : ICharacter
     {
         //기본 정보 및 초기값 설정
         public string Name { get; set; }
-        public string job { get; set; }
+        public Job job { get; set; }
         public int level { get; set; } = 1;
         public int exp { get; set; } = 0;
         public int gold { get; set; } = 1000;
         public int maxHp { get; } = 100;
-        public int atk { get; } = 10;
-        public int dfs { get; } = 5;
+        public int atk { get; }
+        public int dfs { get; }
+        public bool isDead = false;
 
         //변경 가능 정보
         public int hp { get; set; }
@@ -27,23 +35,42 @@ namespace TeamProejct_Dungeon
 
 
         //플레이어 생성자  (초기값)
-        public Player(string _name, string _job)
+        public Player(string _name, Job _job)
         {
             Name = _name; 
             job = _job;
             hp = maxHp;
+
+            //직업별 기본스텟 변경
+            if (_job == Job.Warrior)
+            {
+                atk = 5;
+                dfs = 10;
+            }
+            else if (_job == Job.Assassin)
+            {
+                atk = 10;
+                dfs = 5;
+            }
         }
 
-        //공격시
-        public void Attack(int damge)
+       
+        //플레이어가 공격 (매개변수 몬스터로 변경)
+        public void Attack()
         {
-           
+
+            // 몬스터 체력 감소 (몬스터 체력 구현후)
+            //monster.hp - atk - equipAtk;
+              // 몬스터 체력 0 이하면 몬스터 isDead
+            
+            //씬 콘솔창 태겸님과 조율 진행
         }
 
+        // 유림님과 진행할지 확인 작업
         //데미지를 입을시
         public void TakeDamage(int damge)
         {
-
+            
         }
 
         public void StatusDisplay()
@@ -68,6 +95,7 @@ namespace TeamProejct_Dungeon
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
             Console.WriteLine();
+            Text.GetInput();
         }
         
         //아이템 장착별 스텟변경 메서드 (인벤토리 작업 완료후)
