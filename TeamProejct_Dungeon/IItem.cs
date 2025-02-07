@@ -119,7 +119,7 @@ namespace TeamProejct_Dungeon
             sellPrice = Math.Round(buyPrice * 0.85);
             pHeatlh = health; // 체력 포션 상승값
             pStrength = strength; // 힘 포션 상승값
-           
+           type = ItemType.Consumable;
 
         }
       
