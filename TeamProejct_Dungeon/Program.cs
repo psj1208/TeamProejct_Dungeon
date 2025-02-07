@@ -83,14 +83,15 @@ namespace TeamProejct_Dungeon
 
         }
 
-
-        // 몬스터 클래스
         class Monster : ICharacter
         {
-            public string Name { get; private set; }
+            public string Name { get; set; }
             public int level { get; set; }
             public int hp { get; set; }
-            
+
+            public int exp { get; set; } = 0;  // 몬스터는 경험치를 가지지 않음
+            public int gold { get; set; } = 0; // 몬스터는 골드를 가지지 않음
+
             public string Job => "없음";  // 몬스터는 직업이 없음
 
             public Monster(string name, int level, int hp)
@@ -98,6 +99,16 @@ namespace TeamProejct_Dungeon
                 Name = name;
                 this.level = level;
                 this.hp = hp;
+            }
+
+            public void Attack()
+            {
+                Console.WriteLine("구현 중");
+            }
+
+            public void TakeDamage(int damage)
+            {
+                Console.WriteLine("구현 중");
             }
         }
     }
