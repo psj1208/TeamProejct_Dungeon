@@ -14,29 +14,7 @@ namespace TeamProejct_Dungeon
         Assassin,
         Monster
     }
-    
-    public static class SkillDb
-    {
-        public static void abc()//워리어 예시 스킬1
-        {
 
-        }
-
-        public static void abcd()//워리어 예시 스킬2
-        {
-
-        }
-
-        public static void dasd()//도적 1스킬
-        {
-
-        }
-
-        public static void dasaf()//도적 2스킬
-        {
-
-        }
-    }
     public class Player : ICharacter
     {
         //기본 정보 및 초기값 설정
@@ -59,7 +37,7 @@ namespace TeamProejct_Dungeon
         public Inventory inven;
         public Player() { }
 
-        public List<Action> skill;
+        public List<Skill> skills { get;}
             
         //플레이어 생성자  (초기값)
         public Player(string _name, Job _job)
@@ -75,16 +53,14 @@ namespace TeamProejct_Dungeon
             {
                 atk = 5;
                 dfs = 10;
-                skill = new List<Action>
-                {
-                    SkillDb.abc,
-                    SkillDb.abcd
-                };
+                new List<Skill> {SkillDb.WarriorSkill1};
+
             }
             else if (_job == Job.Assassin)
             {
                 atk = 10;
                 dfs = 5;
+                new List<Skill> { SkillDb.AssassinSkill1 };
             }
         }
   
@@ -148,13 +124,18 @@ namespace TeamProejct_Dungeon
         }
         
         //경헙치 획득 메서드
-        public void GetExp(int _exp)
+        public void AddExp(int _exp)
         {
             exp += _exp;
             if (exp >= maxExp)
             {
                 LevelUp();
             }
+        }
+
+        public void Add(int _gold)
+        {
+            gold += _gold;
         }
 
         //레벨 업 메서드
