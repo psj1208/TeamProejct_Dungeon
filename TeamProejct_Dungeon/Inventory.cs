@@ -39,7 +39,10 @@ namespace TeamProejct_Dungeon
                 input--;
                 //0 입력시 탈출.
                 if (input == -1)
+                {
+                    Console.Clear();
                     break;
+                }
                 else
                     Text.TextingLine($"{input + 1} 아이템 사용 ! ", ConsoleColor.Magenta);
             }

@@ -65,6 +65,7 @@ namespace TeamProejct_Dungeon
                             break;
                         case 2:
                             //플레이어 인벤토리(장착하는 기능)
+                            player.inven.UsingInventory();
                             break;
                         case 3:
                             //상점 이동
