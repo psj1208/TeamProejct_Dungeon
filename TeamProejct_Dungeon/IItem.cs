@@ -89,10 +89,24 @@ namespace TeamProejct_Dungeon
         public static int amt = 0; // 포션 수량
         public override string Description() { return null; }
 
-        public override void Use() {
-        }
-        public override void UnUse() { }
+        public override void Use() 
+        {
+            if (amt <= 0) // 포션이 없을 때 
+            {
+                Console.WriteLine("포션이 없습니다. 포션을 구매해주세요."); // 포션 구매 요청
+                return;
+            }
 
+            GameManager.player.hp += 20; // 체력 상승
+
+            if (GameManager.player.hp > GameManager.player.maxHp) // 체력 회복 후, 최대 체력보다 높으면
+            {
+                GameManager.player.hp = GameManager.player.maxHp; // 최대 체력으로 보정
+
+            }
+            amt--; // 포션 수량 감소
+        }
+     
         public Consumable(string name, double buyPrice)
         {
             this.name = name;
