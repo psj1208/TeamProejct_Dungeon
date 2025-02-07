@@ -19,7 +19,7 @@ namespace TeamProejct_Dungeon
             //여기에 게임 흐름
             // 플레이어와 몬스터 리스트 생성
 
-            Player player = new Player("Chad", "전사");
+            Player player = new Player("Chad", Job.Warrior);
 
             List<ICharacter> monsters = new List<ICharacter>
             {
