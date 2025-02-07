@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace TeamProejct_Dungeon
 {
@@ -12,6 +14,43 @@ namespace TeamProejct_Dungeon
         static (int x, int y) Startpos;
         static (int x, int y) Endpos;
 
+        struct TextMonster
+        {
+            (int x, int y) StartPos;
+            (int x, int y) EndPos;
+            Monster monster;
+            ConsoleColor color = ConsoleColor.Red;
+
+            TextMonster(Monster mon)
+            {
+                monster = mon;
+            }
+
+            void Print()
+            {
+                SaveStart();
+                Text.Texting("", color, false);
+                SaveEnd();
+                Console.WriteLine();
+            }
+            void SaveStart()
+            {
+                StartPos = Console.GetCursorPosition();
+            }
+
+            void SaveEnd()
+            {
+                EndPos = Console.GetCursorPosition();
+            }
+        }
+
+        public static void GetInputMulti(int trynum, ICharacter[] monster)
+        {
+            for (int i = 0; i < trynum; i++)
+            {
+                
+            }
+        }
         //텍스트 효과(다음 줄로 넘어감, 텍스트 색깔 지정과 텍스트 바로 나오게 하기)
         public static void TextingLine(string text, ConsoleColor color = ConsoleColor.White, bool InterTime = true)
         {
