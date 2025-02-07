@@ -139,13 +139,25 @@ namespace TeamProejct_Dungeon
     // 데이터베이스 
     public static class ItemDatabase
     {
-        static public List<Weapon> weaponList;
 
-        static public List<Armour> armourList;
+        static public List<Armour> armourList = new List<Armour>
+        {
+            new Armour("천 갑옷",100,3),
+            new Armour("불사의 갑옷",150,10),
+            new Armour("스파르타의 갑옷",200,15)
+        };
+
+        static public List<Weapon> weaponList = new List<Weapon>
+        {
+            new Weapon("나무 칼",50,3),
+            new Weapon("여포의 창",100, 7),
+            new Weapon("스파르타의 칼", 200 ,20)
+        };
 
         static public List<Consumable> consumableList = new List<Consumable>
         {
-            new Consumable("힐링포션",50,30,0),
+            new Consumable("힐링 포션",50,30,0),
+            new Consumable("힘 포션",100,0,7)
         };
     }
 
