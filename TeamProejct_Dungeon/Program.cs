@@ -128,7 +128,7 @@ namespace TeamProejct_Dungeon
                     Monster monster = monsters[i];
                     string status = monster.isDead ? "Dead" : $"HP {monster.hp}/{monster.maxHp}";
                     Console.ForegroundColor = monster.isDead ? ConsoleColor.DarkGray : ConsoleColor.White;
-                    Console.WriteLine($"{i + 1}. Lv.{monsters[i].level} {monsters[i].Name} HP {monsters[i].hp} ");
+                    Console.WriteLine($"Lv.{monsters[i].level} {monsters[i].Name} HP {monsters[i].hp} ");
                 }
                 Console.ResetColor();
                 Console.WriteLine("\n");
@@ -140,9 +140,8 @@ namespace TeamProejct_Dungeon
                 Console.WriteLine($"HP {player.hp} / {player.maxHp}");
 
                 Console.WriteLine();
-                Console.WriteLine("1. 공격\n");
-                Console.WriteLine("0. 다음 (전투 종료)");
-
+                Console.WriteLine("1. 공격");
+                Console.WriteLine("0. 전투 종료\n");
 
                 int input = Text.GetInput(null, 0, 1);
 
@@ -157,48 +156,77 @@ namespace TeamProejct_Dungeon
                 }
                 else if (input == 1)
                 {
-
-                    Console.WriteLine("\n공격할 몬스터를 선택하세요.");
-                    int targetIndex = GetInput(1, monsters.Count) - 1;
-
-                    // 잘못된 선택 방지
-                    if (targetIndex < 0 || targetIndex >= monsters.Count)
+                    while (true) // 올바른 입력을 받을 때까지 반복
                     {
-                        Console.WriteLine("잘못된 선택입니다.");
-                        Console.ReadKey();
-                        continue;
-                    }
-
-                    // 선택한 몬스터 가져오기
-                    Monster monster = monsters[targetIndex];
-
-                    int dmg = player.atk + player.equipAtk; // 총 공격력
-                    monster.TakeDamage(dmg);
-                    Console.WriteLine($"{monster.Name}을(를) 공격! [데미지: {dmg}]");
-                    Console.ReadKey();
-
-                    // 몬스터 사망 처리
-                    if (monster.isDead)
-                    {
-                        Console.WriteLine($"{monster.Name}이(가) 쓰러졌습니다.");
-                        //player.GetExp(monster.exp); // 경험치 획득
-                        //player.gold += monster.gold;  // 골드 획득
-                        Console.WriteLine($"{monster.exp} Exp를 얻었다!");
-                        Console.WriteLine($"{monster.gold} G를 얻었다!");
-                        Console.ReadKey();
-                    }
-
-                    // 적 턴 진행
-                    EnemyPhase(player, monsters);
-
-                    // 모든 몬스터가 죽었다면 전투 종료
-                    if (monsters.All(m => m.isDead))
-                    {
-                        Console.WriteLine("모든 몬스터를 처치했습니다!");
-                        Thread.Sleep(500);
-                        sceneType = SceneType.Home;
                         Console.Clear();
-                        break;
+                        Console.WriteLine("Battle!!\n");
+
+                        // 몬스터 정보 다시 출력
+                        for (int i = 0; i < monsters.Count; i++)
+                        {
+                            Monster monsterNumber = monsters[i];
+                            string status = monsterNumber.isDead ? "Dead" : $"HP {monsterNumber.hp}/{monsterNumber.maxHp}";
+                            Console.ForegroundColor = monsterNumber.isDead ? ConsoleColor.DarkGray : ConsoleColor.White;
+                            Console.WriteLine($"{i + 1}. Lv.{monsterNumber.level} {monsterNumber.Name} {status}");
+                        }
+                        Console.ResetColor();
+
+                        Console.WriteLine("\n[내정보]");
+                        Console.WriteLine($"Lv.{player.level} {player.Name}");
+                        Console.WriteLine($"HP {player.hp} / {player.maxHp}");
+                        Console.WriteLine("\n0. 취소\n");
+
+                        Console.WriteLine("대상을 선택해주세요.");
+                        int targetIndex = GetInput(0, monsters.Count) - 1;
+
+                        if (targetIndex == -1) // 0 입력 시 취소
+                        {
+                            Console.WriteLine("공격을 취소했습니다.");
+                            Console.ReadKey();
+                            break;
+                        }
+
+                        if (targetIndex < 0 || targetIndex >= monsters.Count)
+                        {
+                            Console.WriteLine("잘못된 선택입니다.");
+                            Console.ReadKey();
+                            continue;
+                        }
+
+                        Monster monster = monsters[targetIndex];
+
+                        if (monster.isDead)
+                        {
+                            Console.WriteLine("이미 쓰러진 몬스터 입니다.");
+                            Console.ReadKey();
+                            continue;
+                        }
+
+                        // 공격 처리
+                        int dmg = player.atk + player.equipAtk;
+                        Console.WriteLine($"{monster.Name}을(를) 공격! [데미지: {dmg}]");
+                        monster.TakeDamage(dmg);
+                        Console.WriteLine("---------------------------------------------");
+                        Console.ReadKey();
+
+                        if (monster.isDead)
+                        {
+                            Console.WriteLine($"{monster.Name}이(가) 쓰러졌습니다.");
+                            Console.WriteLine($"{monster.exp} Exp를 얻었다!");
+                            Console.WriteLine($"{monster.gold} G를 얻었다!");
+                            Console.WriteLine("---------------------------------------------");
+
+                            Console.ReadKey();
+                        }
+
+                        EnemyPhase(player, monsters);
+
+                        if (monsters.All(m => m.isDead))
+                        {
+                            Battle_Result(player, monsters);
+                            Thread.Sleep(500);
+                            break;
+                        }
                     }
                 }
             }
@@ -207,7 +235,6 @@ namespace TeamProejct_Dungeon
         static void EnemyPhase(Player player, List<Monster> monsters)
         {
             // 전투 시작
-
             Random random = new Random();
             List<Monster> aliveMonsters = monsters.Where(x => !x.isDead).ToList();
 
@@ -215,14 +242,10 @@ namespace TeamProejct_Dungeon
             {
                 Monster attackingMonster = aliveMonsters[random.Next(aliveMonsters.Count)];
                 int dmg = attackingMonster.atk;
-                player.TakeDamage(dmg);
-
                 Console.WriteLine($"{attackingMonster.Name}이(가) 공격했다. [데미지 : {dmg}]");
+                player.TakeDamage(dmg);
+                Console.WriteLine("---------^------------------------^----------");
             }
-            //else
-            //{
-            //    Console.WriteLine("모든 몬스터가 쓰러졌습니다! 전투 승리!\"");
-            //}
             Console.ReadKey();
         }
 
@@ -235,14 +258,31 @@ namespace TeamProejct_Dungeon
             Console.WriteLine("Battle!! - Result\n");
 
             // 이겼을 경우 - Victory, You Lose
-            if (!player.isDead == false && monsters.All(m => m.isDead))
-                Console.WriteLine("Victory");
+            if (!player.isDead && monsters.All(m => m.isDead))
+            {
+                Console.WriteLine("Victory\n");
+                int monsterCount = monsters.Count;
+                int damageTaken = player.maxHp - player.hp;
+
+                Console.WriteLine($"던전에서 몬스터 {monsterCount}마리를 잡았습니다!\n");
+                Console.WriteLine($"Lv. {player.level} {player.Name}");
+                Console.WriteLine($"HP {player.maxHp} -> {player.hp}");
+            }
             else if (player.isDead)
             {
-                Console.WriteLine("You Lose");
+                Console.WriteLine("You Lose\n");
+
+                Console.WriteLine("\n던전에서 패배했습니다. 다시 도전하세요!\n");
+
+                Console.WriteLine($"Lv. {player.level} {player.Name}");
+                Console.WriteLine($"HP {player.maxHp} -> {player.hp}");
             }
-            Console.WriteLine("0. 다음\n>> ");
+            Console.WriteLine("\n0. 다음 ");
             GetInput(0, 0);
+
+            sceneType = SceneType.Home;
+            Console.Clear();
+
         }
 
         public static int GetInput(int min, int max)
