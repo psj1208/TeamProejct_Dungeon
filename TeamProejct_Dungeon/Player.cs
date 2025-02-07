@@ -37,7 +37,7 @@ namespace TeamProejct_Dungeon
         public Inventory inven;
         public Player() { }
 
-        public List<Skill> skills { get;}
+        public Skill skill { get;}
             
         //플레이어 생성자  (초기값)
         public Player(string _name, Job _job)
@@ -53,14 +53,14 @@ namespace TeamProejct_Dungeon
             {
                 atk = 5;
                 dfs = 3;
-                new List<Skill> {SkillDb.WarriorSkill1};
+                skill = new WarriorSkill();
 
             }
             else if (_job == Job.Assassin)
             {
                 atk = 7;
                 dfs = 1;
-                new List<Skill> { SkillDb.AssassinSkill1 };
+                //skills.Add(new AssassinSkill());
             }
         }
   
