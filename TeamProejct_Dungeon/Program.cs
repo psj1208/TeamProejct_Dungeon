@@ -28,6 +28,7 @@ namespace TeamProejct_Dungeon
             Battle(player, monsters);
         }
 
+        // 몬스터 랜덤 스폰
         static List<ICharacter> MonsterSpawn()
         {
             Random random = new Random();
@@ -53,7 +54,6 @@ namespace TeamProejct_Dungeon
                         break;
                 }
             }
-
             return monsterList;
         }
 
@@ -66,7 +66,6 @@ namespace TeamProejct_Dungeon
 
             Random random = new Random();
 
-           
             // 몬스터 정보 출력
             for (int i = 0; i < monsters.Count; i++)
             {
@@ -96,8 +95,15 @@ namespace TeamProejct_Dungeon
 
         }
         // 전투 결과
-        static void Battle_End(ICharacter player, ICharacter monster)
+        static void Battle_Result(ICharacter player, ICharacter monster)
         {
+            // 전투 시작
+            Console.WriteLine("Battle!! - Result\n");
+
+            // 이겼을 경우 - Victory, You Lose
+
+            Console.WriteLine("0. 다음\n");
+            Console.WriteLine(">> ");
 
         }
 
