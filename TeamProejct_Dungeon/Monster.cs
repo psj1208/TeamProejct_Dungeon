@@ -5,7 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace TeamProejct_Dungeon
-{
+{    
+    // 몬스터 타입 열거
+    public enum MonsterType
+    {
+        Low,   // 하급 몬스터
+        Mid,   // 중급 몬스터
+        High   // 상급 몬스터
+    }
     public class Monster : ICharacter
     {
         public string Name { get; set; }
@@ -16,9 +23,10 @@ namespace TeamProejct_Dungeon
         public int exp { get; set; }
         public int gold { get; set; }
         public bool isDead { get; set; }
+        public MonsterType type { get; set; }
 
         // 초기 생성자 (몬스터 기본 정보)
-        public Monster(string name, int level, int maxHp, int atk, int exp, int gold)
+        public Monster(string name, int level, int maxHp, int atk, int exp, int gold, MonsterType type)
         {
             Name = name;
             this.level = level;
@@ -28,6 +36,7 @@ namespace TeamProejct_Dungeon
             this.exp = exp;
             this.gold = gold;
             isDead = false;
+            this.type = type;
         }
 
         public void MonsterStatus()
@@ -61,17 +70,15 @@ namespace TeamProejct_Dungeon
             int attackDamage = atk;
 
             Console.WriteLine($"Lv.{level} {Name}의 공격!");
-            //(Console.WriteLine($"{cha.Name}을(를) 맞췄습니다. [데미지 : {attackDamage}]");
 
             cha.TakeDamage(attackDamage);
             Console.WriteLine();
         }
-
-        // 모르겠어서 성준님 블로그 복붙했습니다..
+        
         // 클래스는 주소값을 전달하기에 복사하여 새로운 객체를 추가하려면 따로 짜야된다.(ex.상점에서 구입하여 인벤에 들어가는 경우)
         public Monster GetCopy()
         {
-            return new Monster(Name, this.level, this.maxHp, this.atk, this.exp, this.gold);
+            return new Monster(Name, this.level, this.maxHp, this.atk, this.exp, this.gold, this.type);
         }
 
         // 보상 지급 메서드
@@ -82,7 +89,7 @@ namespace TeamProejct_Dungeon
                 player.AddGold(gold);
                 player.AddExp(exp);
                 
-                // 이건 어디로가야하나~
+                // 여기서는 실행만 시켜주는 게 좋을듯? 아래 주석은 나중에 지울게요
                 // Console.WriteLine($"{gold} 골드를 획득했습니다!");
                 // Console.WriteLine($"{exp} 경험치를 획득했습니다!");
             }
@@ -104,23 +111,38 @@ namespace TeamProejct_Dungeon
             return MonsterDB.GetMonsters()[index].GetCopy();
         }
     }
-
+    
     public static class MonsterDB
     {
         // 몬스터 리스트
-        // Lv.2 미니언 HP 15
-        // Lv.5 대포미니언 HP 25
-        // LV.3 공허충 HP 10
         private static List<Monster> monsters = new List<Monster>()
         {
-             new Monster("미니언", 2, 15, 3, 10, 200),
-             new Monster("대포미니언", 5, 25, 6, 20, 500),
-             new Monster("공허충", 3, 10, 4, 15, 300)
+             // 하급 몬스터(name, level, maxHp, atk, exp, gold, MonsterType)
+             new Monster("미니언", 2, 15, 3, 10, 200, MonsterType.Low),
+             new Monster("공허충", 3, 10, 4, 15, 300, MonsterType.Low),
+             new Monster("대포미니언", 5, 25, 6, 20, 500, MonsterType.Low),
+             
+             // 중급 몬스터(name, level, maxHp, atk, exp, gold, MonsterType)
+             new Monster("고스트", 8, 40, 9, 40, 800, MonsterType.Mid),
+             new Monster("고블린", 10, 50, 10, 50, 1000, MonsterType.Mid),
+             new Monster("늑대", 12, 60, 14, 70, 1200, MonsterType.Mid),
+             
+             // 상급 몬스터(name, level, maxHp, atk, exp, gold, MonsterType)
+             new Monster("리치", 18, 120, 25, 250, 3000, MonsterType.High),
+             new Monster("드래곤", 20, 150, 30, 300, 5000, MonsterType.High),
+             new Monster("마왕", 25, 200, 50, 500, 10000, MonsterType.High)
         };
 
+        // 모든 몬스터를 반환
         public static List<Monster> GetMonsters()
         {
             return monsters;
+        }
+        
+        // 특정 등급 몬스터만 반환
+        public static List<Monster> GetMonsterByType(MonsterType type)
+        {
+            return monsters.Where(monster => monster.type == type).ToList();
         }
     }
 }
