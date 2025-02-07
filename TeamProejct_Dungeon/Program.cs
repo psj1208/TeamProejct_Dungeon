@@ -29,9 +29,6 @@ namespace TeamProejct_Dungeon
             //여기에 게임 흐름
             // 플레이어와 몬스터 리스트 생성
             Player player = new Player();
-            //실험용 코드. List<Monster or ICharacter> 변수명 = Text.GetInputMulti(가져가야할 선택지 수, 몬스터 리스트);
-            List<Monster> monsters = MonsterSpawn();
-            List<Monster> ex = Text.GetInputMulti(2, monsters);
 
 
             while (true)
@@ -288,9 +285,7 @@ namespace TeamProejct_Dungeon
 
             sceneType = SceneType.Home;
             Console.Clear();
-
             return;
-
         }
 
         public static int GetInput(int min, int max)
