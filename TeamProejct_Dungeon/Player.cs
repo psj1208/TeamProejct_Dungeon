@@ -133,7 +133,7 @@ namespace TeamProejct_Dungeon
             }
         }
 
-        public void Add(int _gold)
+        public void AddGold(int _gold)
         {
             gold += _gold;
         }
