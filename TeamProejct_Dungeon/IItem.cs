@@ -17,9 +17,9 @@ namespace TeamProejct_Dungeon
     {
         public virtual string name { get; set; }
 
-        public virtual double buyPrice { get; set; }
-        public virtual double sellPrice { get; set; }
-        public virtual ItemType type { get; set; }
+        public virtual double buyPrice { get; set; } // 구매 가격
+        public virtual double sellPrice { get; set; } // 판매 가격 85퍼센트의 가격 판매 
+        public virtual ItemType type { get; set; } 
        
         public virtual string Description() { return null; } 
 
@@ -86,7 +86,7 @@ namespace TeamProejct_Dungeon
 
         public override ItemType type { get; set; }
 
-        public static int amt = 0;
+        public static int amt = 0; // 포션 수량
         public override string Description() { return null; }
 
         public override void Use() { }
