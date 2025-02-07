@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TeamProejct_Dungeon
 {
-    public class Monster
+    public class Monster : ICharacter
     {
-        public string name { get; set; }
+        public string Name { get; set; }
         public int level { get; set; }
         public int hp { get; set; }
         public int maxHp { get; set; }
@@ -20,7 +20,7 @@ namespace TeamProejct_Dungeon
         // 초기 생성자 (몬스터 기본 정보)
         public Monster(string name, int level, int maxHp, int atk, int exp, int gold)
         {
-            this.name = name;
+            Name = name;
             this.level = level;
             hp = maxHp;
             this.atk = atk;
@@ -31,7 +31,7 @@ namespace TeamProejct_Dungeon
 
         public void MonsterStatus()
         {
-            Console.WriteLine($"Lv {level.ToString("00")} {name} HP {hp}");
+            Console.WriteLine($"Lv {level.ToString("00")} {Name} HP {hp}");
         }
 
         // 몬스터 피해 메서드
@@ -42,10 +42,10 @@ namespace TeamProejct_Dungeon
             if (Dead())
             {
                 isDead = true;
-                Console.WriteLine($"{name}을(를) 처치했습니다!");
+                Console.WriteLine($"{Name}을(를) 처치했습니다!");
             }
             else
-                Console.WriteLine($"{name}을(를) 맞췄습니다. [데미지 : {damage}]");
+                Console.WriteLine($"{Name}을(를) 맞췄습니다. [데미지 : {damage}]");
         }
 
         // 몬스터 죽음 메서드
@@ -55,11 +55,11 @@ namespace TeamProejct_Dungeon
         }
 
         // 몬스터 공격 메서드 
-        public void Attack(Player cha)
+        public void Attack(ICharacter cha)
         {
             int attackDamage = atk;
 
-            Console.WriteLine($"Lv.{level} {name}의 공격!");
+            Console.WriteLine($"Lv.{level} {Name}의 공격!");
             //Console.WriteLine($"{cha.Name}을(를) 맞췄습니다. [데미지 : {attackDamage}]");
 
             cha.TakeDamage(attackDamage);
@@ -70,7 +70,7 @@ namespace TeamProejct_Dungeon
         // 클래스는 주소값을 전달하기에 복사하여 새로운 객체를 추가하려면 따로 짜야된다.(ex.상점에서 구입하여 인벤에 들어가는 경우)
         public Monster GetCopy()
         {
-            return new Monster(this.name, this.level, this.maxHp, this.atk, this.exp, this.gold);
+            return new Monster(Name, this.level, this.maxHp, this.atk, this.exp, this.gold);
         }
 
         // 보상 지급 메서드
