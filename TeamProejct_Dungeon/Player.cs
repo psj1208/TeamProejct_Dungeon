@@ -23,7 +23,7 @@ namespace TeamProejct_Dungeon
         public int level { get; set; } = 1;
         public int exp { get; set; } = 0;
         public int gold { get; set; } = 1000;
-        public int maxHp { get; } = 100;
+        public int maxHp { get; set; } = 100;
         public int atk { get; }
         public int dfs { get; }
         public bool isDead = false;
@@ -61,16 +61,23 @@ namespace TeamProejct_Dungeon
 
        
         //플레이어가 공격 (매개변수 몬스터로 변경)
-        public void Attack()
+        public void Attack(ICharacter cha)
         {
+            
+            cha.TakeDamage(atk + equipAtk);
 
         }
 
-        // 유림님과 진행할지 확인 작업
         //데미지를 입을시
         public void TakeDamage(int damge)
         {
-            
+            hp -= damge;
+
+            //플레이어 사망
+            if(hp <= 0)
+            {
+                isDead = true;
+            }
         }
 
         public void StatusDisplay()
@@ -102,7 +109,17 @@ namespace TeamProejct_Dungeon
 
         }
         
-        public void GetExp(Monster monster)
+        public void GetExp(int _exp)
+        {
+            exp += exp;
+            if (exp >= 100 * level)
+            {
+                level++;
+                maxHp += 20 ;
+            }
+        }
+
+        public void LevelUp()
         {
 
         }
