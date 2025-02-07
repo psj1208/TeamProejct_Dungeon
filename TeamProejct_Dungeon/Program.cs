@@ -16,6 +16,7 @@ namespace TeamProejct_Dungeon
         {
             //여기에 게임 흐름
             // 플레이어와 몬스터 리스트 생성
+
             ICharacter player = new Player("Chad", "전사", 1, 100, 100);
 
             List<ICharacter> monsters = new List<ICharacter>
@@ -72,50 +73,50 @@ namespace TeamProejct_Dungeon
 
         }
 
-        //// ICharacter 인터페이스
-        //interface ICharacter
-        //{
-        //    string Name { get; }
-        //    int Level { get; }
-        //    int HP { get; }
-        //    int MaxHP { get; }
-        //    string Job { get; }
-        //}
+        // ICharacter 인터페이스
+        interface ICharacter
+        {
+            string Name { get; }
+            int Level { get; }
+            int HP { get; }
+            int MaxHP { get; }
+            string Job { get; }
+        }
 
-        //// 플레이어 클래스
-        //class Player : ICharacter
-        //{
-        //    public string Name { get; set; }
-        //    public string Job { get; set; }
-        //    public int Level { get; set; }
-        //    public int HP { get; private set; }
-        //    public int MaxHP { get; set; }
+        // 플레이어 클래스
+        class Player : ICharacter
+        {
+            public string Name { get; set; }
+            public string Job { get; set; }
+            public int Level { get; set; }
+            public int HP { get; private set; }
+            public int MaxHP { get; set; }
 
-        //    public Player(string name, string job, int level, int hp, int maxHp)
-        //    {
-        //        Name = name;
-        //        Job = job;
-        //        Level = level;
-        //        HP = hp;
-        //        MaxHP = maxHp;
-        //    }
-        //}
+            public Player(string name, string job, int level, int hp, int maxHp)
+            {
+                Name = name;
+                Job = job;
+                Level = level;
+                HP = hp;
+                MaxHP = maxHp;
+            }
+        }
 
-        //// 몬스터 클래스
-        //class Monster : ICharacter
-        //{
-        //    public string Name { get; private set; }
-        //    public int Level { get; set; }
-        //    public int HP { get; private set; }
-        //    public int MaxHP => HP;  // 몬스터는 초기 HP를 최대 HP로 설정
-        //    public string Job => "없음";  // 몬스터는 직업이 없음
+        // 몬스터 클래스
+        class Monster : ICharacter
+        {
+            public string Name { get; private set; }
+            public int Level { get; set; }
+            public int HP { get; private set; }
+            public int MaxHP => HP;  // 몬스터는 초기 HP를 최대 HP로 설정
+            public string Job => "없음";  // 몬스터는 직업이 없음
 
-        //    public Monster(string name, int level, int hp)
-        //    {
-        //        Name = name;
-        //        Level = level;
-        //        HP = hp;
-        //    }
-        //}
+            public Monster(string name, int level, int hp)
+            {
+                Name = name;
+                Level = level;
+                HP = hp;
+            }
+        }
     }
 }
