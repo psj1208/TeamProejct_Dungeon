@@ -13,7 +13,7 @@ namespace TeamProejct_Dungeon
         int hp { get; set; }
         int exp {  get; set; }
         int gold {  get; set; }
-        void Attack();
-        void TakeDamage();
+        void Attack(int damge);
+        void TakeDamage(int damge);
     }
 }
