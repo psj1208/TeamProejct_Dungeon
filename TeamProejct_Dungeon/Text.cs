@@ -86,7 +86,7 @@ namespace TeamProejct_Dungeon
                 tm[select].TurnOn();
                 foreach (TextMonster t in tm)
                 {
-                    Text.Texting($"{num} . ", ConsoleColor.Green, false);
+                    Text.Texting($"{num + 1} . ", ConsoleColor.White, false);
                     t.Print();
                     num++;
                 }
