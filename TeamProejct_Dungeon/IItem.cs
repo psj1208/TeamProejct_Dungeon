@@ -112,7 +112,7 @@ namespace TeamProejct_Dungeon
             amt--; // 포션 수량 감소
         }
      
-        public Consumable(string name, double buyPrice, int health, int strength)
+        public Consumable(string name, double buyPrice, int health, int strength, int amount =1)
         {
             this.name = name;
             this.buyPrice = buyPrice;
@@ -120,7 +120,7 @@ namespace TeamProejct_Dungeon
             pHeatlh = health; // 체력 포션 상승값
             pStrength = strength; // 힘 포션 상승값
            type = ItemType.Consumable;
-
+            amt += amount;
         }
       
     }
