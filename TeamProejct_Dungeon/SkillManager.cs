@@ -28,18 +28,25 @@ namespace TeamProejct_Dungeon
 
         public override void Use(Player player, List<Monster> monsters)
         {
-            Console.WriteLine("사용할 스킬을 선택하세요.");
-            Console.WriteLine("1. 워리어 스킬");
-            Console.WriteLine("2. 워리어 스킬");
-
-            int skillChoice = Text.GetInput(null, 1);
+            Console.WriteLine("사용할 스킬을 선택하세요.\n");
+            Console.WriteLine("1. 확정 2배");
+            Console.WriteLine("2. 1~3배 랜덤");
 
             Console.WriteLine("\n공격할 몬스터를 선택하세요.");
-            List<Monster> selcetMonsters = Text.GetInputMulti(2, monsters);
+
+            int skillChoice = Text.GetInput(null, 1);
+            
+            List<Monster> selcetMonsters = Text.GetInputMulti(1, monsters);
 
             if (skillChoice == 1)
             {
+                
                 Warriorskill1(player, selcetMonsters);
+            }
+
+            else if (skillChoice == 2)
+            {
+                Console.WriteLine("\n공격할 몬스터를 선택하세요.");
             }
         }
 
@@ -51,6 +58,11 @@ namespace TeamProejct_Dungeon
                 Console.WriteLine($"전사 스킬1 사용! {monster.Name}에게 {damage}의 피해를 입혔습니다.");
                 monster.TakeDamage(damage);
             }
+        }
+
+        public void Warriorskill2(Player player, List<Monster> monsters)
+        {
+            
         }
     }
 
