@@ -17,9 +17,9 @@ namespace TeamProejct_Dungeon
     {
         public virtual string name { get; set; }
 
-        public virtual double buyPrice { get; set; }
-        public virtual double sellPrice { get; set; }
-        public virtual ItemType type { get; set; }
+        public virtual double buyPrice { get; set; } // 구매 가격
+        public virtual double sellPrice { get; set; } // 판매 가격 85퍼센트의 가격 판매 
+        public virtual ItemType type { get; set; } 
        
         public virtual string Description() { return null; } 
 
@@ -40,8 +40,8 @@ namespace TeamProejct_Dungeon
         public int defend; // 방어력
         public override string Description() { return null; }
 
-        public override void Use() { } // 장착
-        public override void UnUse() { }
+        public override void Use() { }//장착. 혹은 소비.
+        public override void UnUse() { }//장착 해제(포션은 제외)
 
         public Armour(string name, double buyPrice, int defend)
         {
@@ -66,7 +66,7 @@ namespace TeamProejct_Dungeon
         public override string Description() { return null; }
 
         public override void Use() { }//장착. 혹은 소비.
-        public override void UnUse() { } 
+        public override void UnUse() { }//장착 해제(포션은 제외)
 
         public Weapon(string name, double buyPrice, int attack)
         {
@@ -86,10 +86,11 @@ namespace TeamProejct_Dungeon
 
         public override ItemType type { get; set; }
 
-        public static int amt = 0; // 소모품 수량 체크
+        public static int amt = 0; // 포션 수량
         public override string Description() { return null; }
 
         public override void Use() { }
+        public override void UnUse() { }
 
         public Consumable(string name, double buyPrice)
         {
