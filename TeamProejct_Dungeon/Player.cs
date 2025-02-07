@@ -15,6 +15,28 @@ namespace TeamProejct_Dungeon
         Monster
     }
     
+    public static class SkillDb
+    {
+        public static void abc()//워리어 예시 스킬1
+        {
+
+        }
+
+        public static void abcd()//워리어 예시 스킬2
+        {
+
+        }
+
+        public static void dasd()//도적 1스킬
+        {
+
+        }
+
+        public static void dasaf()//도적 2스킬
+        {
+
+        }
+    }
     public class Player : ICharacter
     {
         //기본 정보 및 초기값 설정
@@ -36,6 +58,9 @@ namespace TeamProejct_Dungeon
 
         public Inventory inven;
         public Player() { }
+
+        public List<Action> skill;
+            
         //플레이어 생성자  (초기값)
         public Player(string _name, Job _job)
         {
@@ -50,6 +75,11 @@ namespace TeamProejct_Dungeon
             {
                 atk = 5;
                 dfs = 10;
+                skill = new List<Action>
+                {
+                    SkillDb.abc,
+                    SkillDb.abcd
+                };
             }
             else if (_job == Job.Assassin)
             {
