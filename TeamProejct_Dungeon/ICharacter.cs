@@ -8,7 +8,7 @@ namespace TeamProejct_Dungeon
 {
     public interface ICharacter
     {
-        string Name { get; set; }
+        string Name { get; set; } 
         int level { get; set; }
         int hp { get; set; }
         int exp {  get; set; }
