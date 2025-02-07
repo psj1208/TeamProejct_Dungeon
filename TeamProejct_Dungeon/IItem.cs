@@ -125,6 +125,16 @@ namespace TeamProejct_Dungeon
       
     }
 
+    // 데이터베이스 
+    public static class ItemDatabase
+    {
+        static public List<Weapon> weaponList;
 
-   
+        static public List<Armour> armourList;
+
+        static public List<Consumable> consumableList;
+
+
+    }
+
 }
