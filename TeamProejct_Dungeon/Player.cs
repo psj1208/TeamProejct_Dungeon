@@ -22,10 +22,11 @@ namespace TeamProejct_Dungeon
         public Job job { get; set; }
         public int level { get; set; } = 1;
         public int exp { get; set; } = 0;
+        public int maxExp { get; set; } = 100;
         public int gold { get; set; } = 1000;
-        public int maxHp { get; } = 100;
-        public int atk { get; }
-        public int dfs { get; }
+        public int maxHp { get; set; } = 100;
+        public int atk { get; set; }
+        public int dfs { get; set; }
         public bool isDead = false;
 
         //변경 가능 정보
@@ -33,14 +34,7 @@ namespace TeamProejct_Dungeon
         public int equipAtk { get; set; }
         public int equipDfs { get; set; }
 
-<<<<<<< Updated upstream
-        public Inventory inven { get; set; }
-
-
-
-=======
         public Inventory inven;
->>>>>>> Stashed changes
         public Player() { }
         //플레이어 생성자  (초기값)
         public Player(string _name, Job _job)
@@ -48,10 +42,7 @@ namespace TeamProejct_Dungeon
             Name = _name; 
             job = _job;
             hp = maxHp;
-<<<<<<< Updated upstream
-=======
             GameManager.player = this;
->>>>>>> Stashed changes
             inven = new Inventory();
 
             //직업별 기본스텟 변경
@@ -68,17 +59,25 @@ namespace TeamProejct_Dungeon
         }
 
        
-        //플레이어가 공격 (매개변수 몬스터로 변경)
-        public void Attack()
+        //플레이어가 공격 
+        public void Attack(ICharacter monster)
         {
-
+            monster.TakeDamage(atk + equipAtk);
         }
 
-        // 유림님과 진행할지 확인 작업
-        //데미지를 입을시
+        //플레이어가 데미지를 입을시
         public void TakeDamage(int damge)
         {
-            
+            if (damge > dfs + equipDfs) hp = damge - (dfs + equipDfs);
+
+            else if (damge <= dfs + equipDfs) Console.WriteLine("Miss~!");
+
+
+            //플레이어 사망
+            if (hp <= 0)
+            {
+                isDead = true;
+            }
         }
 
         public void StatusDisplay()
@@ -88,7 +87,7 @@ namespace TeamProejct_Dungeon
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
             //플레이어 스텟창
-            Console.WriteLine($"Lv. {level}");
+            Console.WriteLine($"Lv. {level} | Exp. {exp} / {maxExp}");
             Console.WriteLine($"{Name} ( {job} )");
 
             string str = equipAtk == 0 ? $"공격력 : {atk}" : $"공격력 : {atk + equipAtk} (+{equipAtk})";
@@ -104,15 +103,35 @@ namespace TeamProejct_Dungeon
             Text.GetInput(null, 0);
         }
         
-        //아이템 장착별 스텟변경 메서드 (인벤토리 작업 완료후)
-        public void EquipItem()
+        //경헙치 획득 메서드
+        public void GetExp(int _exp)
         {
-
+            exp += _exp;
+            if (exp >= maxExp)
+            {
+                LevelUp();
+            }
         }
-        
-        public void GetExp(Monster monster)
-        {
 
+        //레벨 업 메서드
+        public void LevelUp()
+        {
+            exp = exp - maxExp; // exp 초기화 (초과 시 추가값 받아오도록) 
+            maxExp += (level - 1) * 20; // 레벨당 (maxExp 20 증가)
+            maxHp += level * 20; // 레벨당 (maxHp 20 증가)
+            hp = maxHp; // hp 100%
+
+            //직업별 스텟 증가치 변경
+            if (job == Job.Warrior)
+            {
+                atk += 5;
+                dfs += 10;
+            }
+            else if (job == Job.Assassin)
+            {
+                atk += 10;
+                dfs += 5;
+            }
         }
 
     }
