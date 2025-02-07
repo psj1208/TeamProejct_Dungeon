@@ -34,6 +34,7 @@ namespace TeamProejct_Dungeon
         public int equipAtk { get; set; }
         public int equipDfs { get; set; }
 
+        public Inventory inven;
         public Player() { }
         //플레이어 생성자  (초기값)
         public Player(string _name, Job _job)
@@ -41,6 +42,8 @@ namespace TeamProejct_Dungeon
             Name = _name; 
             job = _job;
             hp = maxHp;
+            GameManager.player = this;
+            inven = new Inventory();
 
             //직업별 기본스텟 변경
             if (_job == Job.Warrior)
