@@ -2,46 +2,68 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TeamProejct_Dungeon
 {
-    public class Skill
+    public abstract class Skill
     {
         public string Name { get; }
         public string description { get; }
-        public Action<Player, ICharacter[]> effect { get; }
 
-        public Skill(string _name, string _description, Action<Player, ICharacter[]> _effect)
+        public Skill(string _name, string _description)
         {
             Name = _name;
             description = _description;
-            effect = _effect;
         }
 
-        public void Use(Player player, ICharacter[] target)
+        public abstract void Use(Player player, List<Monster> monsters);
+    }
+
+
+    public class WarriorSkill : Skill
+    {
+        public WarriorSkill() : base("전사 스킬", "전사 스킬 설명 ") { }
+
+        public void Warriorskill1(Player player, Monster monster)
         {
-            Console.WriteLine($"{player.Name} 이 {Name}을(를) 사용했습니다.");
-            effect(player, target);
+            int damage = player.atk * 2;
+            monster.TakeDamage(damage);
+            Console.WriteLine($"{player.Name}이(가) {monster.Name}에게 '강력한 일격' 사용! {damage} 피해를 입혔다!");
+            Console.ReadLine();
         }
-    }
 
-    public static class SkillDb
-    {
-        public static readonly Skill WarriorSkill1 = new Skill("전사스킬1", "공격력 2배만큼 공격", SkillEffectDb.WarriorSkill1);
 
-    }
-
-    public static class SkillEffectDb
-    {
-        public static void WarriorSkill1(Player player, ICharacter[] targets)
+        public override void Use(Player player, List<Monster> monsters)
         {
-            foreach(ICharacter target in targets)
+            Console.WriteLine("\n1. 강력한 일격 (단일 대상 공격)");
+
+            int skillChoice = Text.GetInput(null, 1);
+
+            if (skillChoice == 1)
             {
-                int damage = player.atk * 2;
-                Text.TextingLine($"전사 1 스킬 사용! {damage} 피해를 {target.Name} 에게 입혔습니다! ", ConsoleColor.Red);
-                target.TakeDamage(player.atk * 2);
+                Console.WriteLine("\n공격할 몬스터를 선택하세요.");
+                int monsterChoice = Text.GetInput(null, monsters.Count);
+                Warriorskill1(player, monsters[monsterChoice-1]);
             }
         }
+
     }
+
+    //public class AssassinSkill : Skill
+    //{
+    //    public AssassinSkill() : base("도적 스킬", "기본 공격에 추가 피해를 입힘") { }
+
+    //    public void UseAssassinSkil1(Player player, List<Monster> monsters)
+    //    {
+    //        foreach (Monster monster in monsters)
+    //        {
+    //            int damage = player.atk;
+    //            Text.TextingLine($"전사 1 스킬 사용! {damage} 피해를 {monster.Name} 에게 입혔습니다! ", ConsoleColor.Red);
+    //            monster.TakeDamage(player.atk * 2);
+    //            Console.WriteLine($"{monster.Name}에게 {damage}의 피해를 입혔습니다.");
+    //        }
+    //    }
+    //}
 }
