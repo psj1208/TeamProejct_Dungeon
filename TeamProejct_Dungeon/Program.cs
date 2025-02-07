@@ -38,6 +38,8 @@ namespace TeamProejct_Dungeon
             Console.WriteLine("Battle!!\n");
 
             Random random = new Random();
+
+            int monsterCount = 0;
             // 몬스터 정보 받아오기
             for (int i = 0; i < monsters.Count; i++)
             {
