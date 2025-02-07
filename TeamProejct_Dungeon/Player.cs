@@ -33,10 +33,6 @@ namespace TeamProejct_Dungeon
         public int equipAtk { get; set; }
         public int equipDfs { get; set; }
 
-        public Inventory inven { get; set; }
-
-
-
         public Player() { }
         //플레이어 생성자  (초기값)
         public Player(string _name, Job _job)
@@ -44,7 +40,6 @@ namespace TeamProejct_Dungeon
             Name = _name; 
             job = _job;
             hp = maxHp;
-            inven = new Inventory();
 
             //직업별 기본스텟 변경
             if (_job == Job.Warrior)
@@ -64,6 +59,11 @@ namespace TeamProejct_Dungeon
         public void Attack()
         {
 
+            // 몬스터 체력 감소 (몬스터 체력 구현후)
+            //monster.hp - atk - equipAtk;
+              // 몬스터 체력 0 이하면 몬스터 isDead
+            
+            //씬 콘솔창 태겸님과 조율 진행
         }
 
         // 유림님과 진행할지 확인 작업
@@ -101,11 +101,8 @@ namespace TeamProejct_Dungeon
         {
 
         }
-        
-        public void GetExp(Monster monster)
-        {
 
-        }
+
 
     }
 }

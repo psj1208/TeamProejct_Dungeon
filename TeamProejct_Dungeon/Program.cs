@@ -26,6 +26,7 @@ namespace TeamProejct_Dungeon
             //여기에 게임 흐름
             // 플레이어와 몬스터 리스트 생성
             Player player = new Player();
+            
             SceneType sceneType = SceneType.Lobby;
             while (true)
             {
@@ -84,66 +85,33 @@ namespace TeamProejct_Dungeon
                 //던전
                 else if(sceneType == SceneType.Dungeon)
                 {
-                    List<ICharacter> monsters = new List<ICharacter>
-                    {
-                        new Monster("미니언", 2, 15),
-                        new Monster("대포미니언", 5, 25),
-                        new Monster("공허충", 3, 10)
-                    };
-
-
                     // 전투 시작
-                    Battle(player, monsters);
+                    Battle(player);
                 }
             }
         }
 
         // 몬스터 랜덤 스폰
-        static List<ICharacter> MonsterSpawn()
+        static List<Monster> MonsterSpawn()
         {
             Random random = new Random();
-            List<ICharacter> monsterList = new List<ICharacter>();
+            List<Monster> monsterList = new List<Monster>();
 
             // 1~4마리의 몬스터가 랜덤하게 등장
             int monsterCount = random.Next(1, 5);
 
             for (int i = 0; i < monsterCount; i++)
             {
-                int monsterType = random.Next(0, 3); // 0~2 중 랜덤 선택
-
-                switch (monsterType)
-                {
-                    case 0:
-                        monsterList.Add(new Monster("미니언", 2, 15));
-                        break;
-                    case 1:
-                        monsterList.Add(new Monster("대포미니언", 5, 25));
-                        break;
-                    case 2:
-                        monsterList.Add(new Monster("공허충", 3, 10));
-                        break;
-                }
+                monsterList.Add(Monster.GetRandomMonster());
             }
             return monsterList;
         }
 
 
         // 전투 시작
-        static void Battle(Player player, List<ICharacter> monsters)
+        static void Battle(Player player)
         {
-            while (true)
-            {
-                Battle_Start(player, monsters);
-                int input = GetInput(0, 1);
-                if (input == 1)
-                {
-                    // 플레이어 공격
-                }
-            }
-        }
-
-        static void Battle_Start(Player player, List<ICharacter> monsters)
-        {
+            List<Monster> monsters = MonsterSpawn();
             while (true)
             {
                 // 전투 시작
@@ -166,6 +134,9 @@ namespace TeamProejct_Dungeon
 
                 Console.WriteLine();
                 Console.WriteLine("1. 공격\n");
+                int input = GetInput(0, 1);
+                if (input == 1) { }
+                    // 플레이어 공격
             }
         }
 
@@ -192,7 +163,6 @@ namespace TeamProejct_Dungeon
 
         }
 
-
         public static int GetInput(int min, int max)
         {
             while (true)
@@ -202,35 +172,6 @@ namespace TeamProejct_Dungeon
                     && (input >= min) && (input <= max))
                 { return input; }
                 Console.WriteLine("잘못된 입력입니다. 다시 입력해주세요");
-            }
-        }
-
-        class Monster : ICharacter
-        {
-            public string Name { get; set; }
-            public int level { get; set; }
-            public int hp { get; set; }
-
-            public int exp { get; set; } = 0;  // 몬스터는 경험치를 가지지 않음
-            public int gold { get; set; } = 0; // 몬스터는 골드를 가지지 않음
-
-            public string Job => "없음";  // 몬스터는 직업이 없음
-
-            public Monster(string name, int level, int hp)
-            {
-                Name = name;
-                this.level = level;
-                this.hp = hp;
-            }
-
-            public void Attack()
-            {
-                Console.WriteLine("구현 중");
-            }
-
-            public void TakeDamage(int damage)
-            {
-                Console.WriteLine("구현 중");
             }
         }
     }

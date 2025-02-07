@@ -108,9 +108,9 @@ namespace TeamProejct_Dungeon
         // LV.3 공허충 HP 10
         private static List<Monster> monsters = new List<Monster>()
         {
-            // new Monster("미니언", 2, 15, 3, 10, 200),
-            // new Monster("대포미니언", 5, 25, 6, 20, 500),
-            // new Monster("공허충", 3, 10, 4, 15, 300)
+             new Monster("미니언", 2, 15, 3, 10, 200),
+             new Monster("대포미니언", 5, 25, 6, 20, 500),
+             new Monster("공허충", 3, 10, 4, 15, 300)
         };
 
         public static List<Monster> GetMonsters()
