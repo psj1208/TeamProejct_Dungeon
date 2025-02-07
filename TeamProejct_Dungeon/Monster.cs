@@ -78,8 +78,12 @@ namespace TeamProejct_Dungeon
         {
             if (isDead)
             {
-                player.gold += gold;
-                Console.WriteLine($"{gold} 골드를 획득했습니다!");
+                player.AddGold(gold);
+                player.AddExp(exp);
+                
+                // 이건 어디로가야하나~
+                // Console.WriteLine($"{gold} 골드를 획득했습니다!");
+                // Console.WriteLine($"{exp} 경험치를 획득했습니다!");
             }
         }
 
