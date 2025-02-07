@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Xml.Linq;
 
 namespace TeamProejct_Dungeon
 {
@@ -244,6 +245,7 @@ namespace TeamProejct_Dungeon
                 int dmg = attackingMonster.atk;
                 Console.WriteLine($"{attackingMonster.Name}이(가) 공격했다. [데미지 : {dmg}]");
                 player.TakeDamage(dmg);
+                Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {dmg}]");
                 Console.WriteLine("---------^------------------------^----------");
             }
             Console.ReadKey();

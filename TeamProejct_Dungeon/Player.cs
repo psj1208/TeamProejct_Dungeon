@@ -88,7 +88,7 @@ namespace TeamProejct_Dungeon
         //플레이어가 데미지를 입을시
         public void TakeDamage(int damge)
         {
-            if (damge > dfs + equipDfs) hp = damge - (dfs + equipDfs);
+            if (damge > dfs + equipDfs) hp -= damge - (dfs + equipDfs);
 
             else if (damge <= dfs + equipDfs) Console.WriteLine("Miss~!");
 
