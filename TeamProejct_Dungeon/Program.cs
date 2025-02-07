@@ -131,9 +131,15 @@ namespace TeamProejct_Dungeon
         // 전투 시작
         static void Battle(Player player, List<ICharacter> monsters)
         {
-            
-            Battle_Start(player, monsters);
-
+            while (true)
+            {
+                Battle_Start(player, monsters);
+                int input = GetInput(0, 1);
+                if (input == 1)
+                {
+                    // 플레이어 공격
+                }
+            }
         }
 
         static void Battle_Start(Player player, List<ICharacter> monsters)
@@ -160,8 +166,6 @@ namespace TeamProejct_Dungeon
 
                 Console.WriteLine();
                 Console.WriteLine("1. 공격\n");
-                
-                GetInput(0, 1);
             }
         }
 
