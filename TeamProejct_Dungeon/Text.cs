@@ -3,37 +3,35 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO.Pipes;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace TeamProejct_Dungeon
 {
-    public struct TextMonster
+    public class TextMonster
     {
         (int x, int y) StartPos_;
         (int x, int y) EndPos_;
         public Monster monster;
-        bool IsSelected;
+        public bool IsSelected;
         bool IsTexting;
-        ConsoleColor color = ConsoleColor.White;
+        ConsoleColor color;
 
         public TextMonster(Monster mon)
         {
             monster = mon;
             IsSelected = false;
             IsTexting = false;
+            color = ConsoleColor.White;
         }
 
         public void Print()
         {
-            if (IsTexting == true)
-            {
-                Clear();
-            }
-            SaveStart();
+            if (IsSelected == true)
+                color = ConsoleColor.Blue;
             Text.Texting($"{monster.level} level , {monster.Name}", color, false);
-            SaveEnd();
             IsTexting = true;
             Console.WriteLine();
         }
@@ -45,7 +43,8 @@ namespace TeamProejct_Dungeon
 
         public void TurnOff()
         {
-            this.color = ConsoleColor.White;
+            if(IsSelected == false)
+                this.color = ConsoleColor.White;
         }
         public void SaveStart()
         {
@@ -55,12 +54,6 @@ namespace TeamProejct_Dungeon
         public void SaveEnd()
         {
             EndPos_ = Console.GetCursorPosition();
-        }
-        public void Clear()
-        {
-            Console.SetCursorPosition(StartPos_.x, StartPos_.y);
-            for (int i = 0; i < EndPos_.x - StartPos_.x; i++)
-                Console.Write(" ");
         }
     }
     static class Text
@@ -76,8 +69,9 @@ namespace TeamProejct_Dungeon
             int select = 0;
             startPos_ = Console.GetCursorPosition();
             List<Monster> mons = new List<Monster>();
-            Console.WriteLine(mons.Count);
             List<TextMonster> tm = new List<TextMonster>();
+            if (monster.Count < trynum)
+                trynum = 1;
             foreach(Monster mon in monster)
             {
                 tm.Add(new TextMonster(mon));
@@ -87,27 +81,38 @@ namespace TeamProejct_Dungeon
                 (int x, int y) s;
                 (int x, int y) e;
                 s = Console.GetCursorPosition();
+                Text.TextingLine("-------선택-------", ConsoleColor.Red, false);
                 tm[select].TurnOn();
-                foreach (TextMonster mon in tm)
-                    mon.Print();
+                foreach (TextMonster t in tm)
+                    t.Print();
                 ConsoleKeyInfo keyinfo = Console.ReadKey(true);
                 switch (keyinfo.Key)
                 {
                     case ConsoleKey.DownArrow:
-                        if (select < tm.Count) 
+                        if (select < tm.Count - 1)
+                        {
                             tm[select].TurnOff();
                             select++;
+                        }
                         break;
                     case ConsoleKey.UpArrow:
                         if (select > 0)
+                        {
                             tm[select].TurnOff();
                             select--;
+                        }
                         break;
                     case ConsoleKey.Enter:
-                        mons.Add(tm[select].monster);
+                        if (tm[select].IsSelected == false)
+                        {
+                            mons.Add(tm[select].monster);
+                            tm[select].IsSelected = true;
+                        }
                         break;
                 }
                 e = Console.GetCursorPosition();
+                if (mons.Count == trynum)
+                    Thread.Sleep(500);
                 ClearTextBetween(s, e);
             }
             endPos_ = Console.GetCursorPosition();
@@ -231,8 +236,8 @@ namespace TeamProejct_Dungeon
             Console.SetCursorPosition(start.x, start.y);
             for (int i = start.y; i <= end.y; i++)
             {
-                Console.Write("                                               ");
-                Console.WriteLine(" ");
+                Console.Write("                                                ");
+                Console.WriteLine();
             }
             Console.SetCursorPosition(start.x, start.y);
         }
