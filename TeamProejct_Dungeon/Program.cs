@@ -181,8 +181,8 @@ namespace TeamProejct_Dungeon
                     if (monster.isDead)
                     {
                         Console.WriteLine($"{monster.Name}이(가) 쓰러졌습니다.");
-                        player.GetExp(monster.exp); // 경험치 획득
-                        player.gold += monster.gold;  // 골드 획득
+                        //player.GetExp(monster.exp); // 경험치 획득
+                        //player.gold += monster.gold;  // 골드 획득
                         Console.WriteLine($"{monster.exp} Exp를 얻었다!");
                         Console.WriteLine($"{monster.gold} G를 얻었다!");
                         Console.ReadKey();
