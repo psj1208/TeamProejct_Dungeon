@@ -62,7 +62,22 @@ namespace TeamProejct_Dungeon
         //플레이어가 공격 
         public void Attack(ICharacter monster)
         {
-            monster.TakeDamage(atk + equipAtk);
+            //크리티컬 20% 확률
+            Random random = new Random();
+
+            int cirticalChance = random.Next(0, 5);
+            bool isCrital = (cirticalChance == 0);
+
+            int damage = atk + equipAtk;
+            
+            // 크리티컬 시 20% 데미지 증가
+            if (isCrital)
+            {
+                damage *= (int)(damage * 1.5);
+                Console.WriteLine("크리티컬 !");
+            }
+
+            monster.TakeDamage(damage);
         }
 
         //플레이어가 데미지를 입을시
