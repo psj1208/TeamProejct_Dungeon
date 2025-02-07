@@ -87,7 +87,7 @@ namespace TeamProejct_Dungeon
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
             //플레이어 스텟창
-            Console.WriteLine($"Lv. {level} | Exp. {exp} / {maxExp}");
+            Console.WriteLine($"Lv. {level} ( Exp. {exp} / {maxExp} )");
             Console.WriteLine($"{Name} ( {job} )");
 
             string str = equipAtk == 0 ? $"공격력 : {atk}" : $"공격력 : {atk + equipAtk} (+{equipAtk})";
