@@ -57,8 +57,7 @@ namespace TeamProejct_Dungeon
                 dfs = 5;
             }
         }
-
-       
+  
         //플레이어가 공격 
         public void Attack(ICharacter monster)
         {
@@ -87,7 +86,6 @@ namespace TeamProejct_Dungeon
 
             else if (damge <= dfs + equipDfs) Console.WriteLine("Miss~!");
 
-
             //플레이어 사망
             if (hp <= 0)
             {
@@ -95,6 +93,7 @@ namespace TeamProejct_Dungeon
             }
         }
 
+        //플레이어 상태보기
         public void StatusDisplay()
         {
             Console.Clear();
@@ -148,6 +147,5 @@ namespace TeamProejct_Dungeon
                 dfs += 5;
             }
         }
-
     }
 }
