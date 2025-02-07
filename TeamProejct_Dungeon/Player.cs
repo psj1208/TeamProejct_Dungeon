@@ -54,18 +54,19 @@ namespace TeamProejct_Dungeon
             }
         }
 
-        //플레이어 / 몬스터 같이 구현
+       
         //플레이어가 공격 (매개변수 몬스터로 변경)
-        public void Attack(int damge)
+        public void Attack(Monster monster)
         {
-            //몬스터 체력 감소 
-              //몬스터 체력이 0이하면 몬스터 isDead
-              
-            Console.WriteLine($"Lv.//몬스터레벨 //몬스터이름 을(를) 맞췄습니다. [데미지 : {atk + equipAtk}]");
 
-           
+            // 몬스터 체력 감소 (몬스터 체력 구현후)
+            //monster.hp - atk - equipAtk;
+              // 몬스터 체력 0 이하면 몬스터 isDead
+            
+            //씬 콘솔창 태겸님과 조율 진행
         }
 
+        // 유림님과 진행할지 확인 작업
         //데미지를 입을시
         public void TakeDamage(int damge)
         {
