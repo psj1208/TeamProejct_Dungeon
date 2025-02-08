@@ -247,8 +247,12 @@ namespace TeamProejct_Dungeon
                 Console.WriteLine("\n\n-------------------적의 차례------------------\n");
                 //여기에 foreach
                 //나중에 foreach문해서 monster.attack()메서드 써주세요.
-                Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {dmg}]\n");
-                Console.WriteLine("\n---------^------------------------^----------");
+                foreach (Monster monster in aliveMonsters)
+                {
+                    monster.Attack(player);
+                    Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {dmg}]\n");
+                    Console.WriteLine("\n---------^------------------------^----------");
+                }
             }
             Console.ReadKey();
         }
