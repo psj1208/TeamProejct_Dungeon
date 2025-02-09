@@ -156,13 +156,13 @@ namespace TeamProejct_Dungeon
             //직업별 스텟 증가치 변경
             if (job == Job.Warrior)
             {
-                atk += 5;
-                dfs += 10;
+                atk += 2;
+                dfs += 4;
             }
             else if (job == Job.Assassin)
             {
-                atk += 10;
-                dfs += 5;
+                atk += 4;
+                dfs += 2;
             }
         }
     }
