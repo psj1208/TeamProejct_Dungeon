@@ -142,7 +142,7 @@ namespace TeamProejct_Dungeon
             {
                 // 전투 시작
                 Console.Clear();
-                Console.WriteLine("Battle!!\n");
+                Text.TextingLine("Battle!!\n", ConsoleColor.Yellow, false);
 
                 bool isPlayerTurn = true;
                 Random random = new Random();
@@ -153,15 +153,17 @@ namespace TeamProejct_Dungeon
                 Console.ResetColor();
                 Console.WriteLine("\n");
 
-                Console.WriteLine("[내정보]");
+                Text.TextingLine("[내정보]", ConsoleColor.Yellow, false);
+                Console.WriteLine("---------------------------------------------");
 
                 // 플레이어 정보 (레벨과 이름, 직업)
-                Console.WriteLine($"Lv.{player.level} {player.Name}");
-                Console.WriteLine($"HP {player.hp} / {player.maxHp}\n");
-     
-                Console.WriteLine("1. 공격");
-                Console.WriteLine("2. 스킬\n");
-                Console.WriteLine("0. 전투 종료\n");
+                Text.TextingLine($"Lv.{player.level} {player.Name}", ConsoleColor.Green, false);
+                Text.TextingLine($"HP {player.hp} / {player.maxHp}\n", ConsoleColor.White, false);
+
+                Text.TextingLine("1. 공격", ConsoleColor.Cyan, false);
+                Text.TextingLine("2. 스킬\n", ConsoleColor.Cyan, false);
+
+                Text.TextingLine("0. 전투 종료\n", ConsoleColor.Red, false);
 
                 int input = Text.GetInput(null, 0, 1, 2);
 
@@ -180,7 +182,7 @@ namespace TeamProejct_Dungeon
                     while (true) // 올바른 입력을 받을 때까지 반복
                     {
                         Console.Clear();
-                        Console.WriteLine("Battle!!\n");
+                        Text.TextingLine("Battle!!\n", ConsoleColor.Yellow, false);
 
                         // 몬스터 정보 다시 출력
                         ShowMonsterInfo(monsters);
@@ -190,6 +192,7 @@ namespace TeamProejct_Dungeon
                         Console.WriteLine("\n[내정보]");
                         Console.WriteLine($"Lv.{player.level} {player.Name}");
                         Console.WriteLine($"HP {player.hp} / {player.maxHp}");
+
                         if (isPlayerTurn == true)
                         {
                             Console.WriteLine("\n취소 : ESC\n");
@@ -198,6 +201,14 @@ namespace TeamProejct_Dungeon
                             List<Monster> selectMonster = Text.GetInputMulti(1, monsters);
 
                             Monster monster = selectMonster[0];
+
+                            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                            if (keyInfo.Key == ConsoleKey.Escape)
+                            {
+                                Console.WriteLine("공격 선택 화면으로 돌아갑니다...");
+                                Thread.Sleep(500);
+                                return; // 공격 선택 화면으로 돌아감
+                            }
 
                             if (monster.isDead)
                             {
@@ -214,8 +225,7 @@ namespace TeamProejct_Dungeon
                             if (monster.isDead)
                             {
                                 monster.GrantReward(player);
-                                //Text.TextingLine(원하는 문자열, 색깔, true or false 이거는 텍스트가 순차적으로 생길지 말지)
-                                //줄 안 띄우는건 Text.Texting
+
                                 Text.TextingLine($"\n{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, false);
                                 Text.TextingLine($"{monster.exp} Exp를 얻었다!\n", ConsoleColor.White, false);
                                 Text.Texting($"{monster.gold}", ConsoleColor.White, false);
@@ -242,10 +252,11 @@ namespace TeamProejct_Dungeon
                     }
 
                 }
+                // 스킬
                 else if (input == 2)
                 {
                     Console.Clear();
-                    Console.WriteLine("Battle!!\n");
+                    Text.TextingLine("Battle!!\n", ConsoleColor.Yellow, false);
 
                     // 몬스터 정보 다시 출력
                     ShowMonsterInfo(monsters);
@@ -289,7 +300,7 @@ namespace TeamProejct_Dungeon
         {
             Console.Clear();
             // 전투 시작
-            Console.WriteLine("Battle!! - Result\n");
+            Text.TextingLine("Battle!! - Result\n", ConsoleColor.Yellow, false);
 
             // 이겼을 경우 - Victory, You Lose
             if (!player.isDead && monsters.All(m => m.isDead))
