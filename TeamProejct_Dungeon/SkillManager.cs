@@ -18,7 +18,7 @@ namespace TeamProejct_Dungeon
             description = _description;
         }
 
-        public abstract void Use(Player player, List<Monster> monsters);
+        public abstract bool Use(Player player, List<Monster> monsters);
 
         //데미지 적용 메서드
         protected void DealDamage(Player player, List<Monster> monsters, int damage)
@@ -42,7 +42,7 @@ namespace TeamProejct_Dungeon
     {
         public WarriorSkill() : base("전사 스킬", "전사 스킬 설명 ") { }
 
-        public override void Use(Player player, List<Monster> monsters)
+        public override bool Use(Player player, List<Monster> monsters)
         {
             Console.WriteLine("사용할 스킬을 선택하세요.\n");
             Console.WriteLine("1. 파워 어택!! - MP 10\n   2배의 데미지로 공격 합니다.");
@@ -53,7 +53,12 @@ namespace TeamProejct_Dungeon
             int skillChoice = Text.GetInput(null,1, 2);
             List<Monster> selectedMonsters = SelectTarget("스킬을 사용할 몬스터를 선택하세요.", 1, monsters);
 
-            if (skillChoice == 1)
+            if (skillChoice == null)
+            {
+                return false;
+            }
+
+            else if (skillChoice == 1)
             {
                 int damage = player.atk * 2;
                 DealDamage(player, selectedMonsters, damage);
@@ -67,6 +72,7 @@ namespace TeamProejct_Dungeon
                 DealDamage(player, selectedMonsters, damage);
                 player.mp -= 15;
             }
+            return true;
         }
     }
 
@@ -75,7 +81,7 @@ namespace TeamProejct_Dungeon
     {
         public AssassinSkill() : base("도적 스킬", "기본 공격에 추가 피해를 입힘") { }
 
-        public override void Use(Player player, List<Monster> monsters)
+        public override bool Use(Player player, List<Monster> monsters)
         {
             Console.WriteLine("사용할 스킬을 선택하세요.\n");
             Console.WriteLine("1. 슈슉// - MP 10\n   2명 기본공격");
@@ -90,7 +96,11 @@ namespace TeamProejct_Dungeon
 
             List<Monster> selectedMonsters = SelectTarget("스킬을 사용할 몬스터를 선택하세요.", targetCount, monsters);
 
-            if (skillChoice == 1)
+            if (skillChoice == null)
+            {
+                return false;
+            }
+            else if (skillChoice == 1)
             {
                 int damage = player.atk;
                 player.mp -= 10;
@@ -102,6 +112,7 @@ namespace TeamProejct_Dungeon
                 player.mp -= 15; // 
                 DealDamage(player, selectedMonsters, damage);
             }
+            return true;
         }
     }
 }
