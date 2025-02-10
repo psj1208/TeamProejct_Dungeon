@@ -128,7 +128,7 @@ namespace TeamProejct_Dungeon
             Console.WriteLine(str);
 
             Console.WriteLine($"체 력 : {hp} / {maxHp}");
-            Console.WriteLine($"마 나 : {hp} / {maxHp}");
+            Console.WriteLine($"마 나 : {mp} / {maxMp}");
             Console.WriteLine($"Gold : {gold} G");
 
             Console.WriteLine("\n0. 나가기\n");
