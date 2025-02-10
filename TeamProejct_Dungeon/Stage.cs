@@ -66,7 +66,6 @@ namespace TeamProejct_Dungeon
             Randomize.RandomGain(player, ItemDatabase.consumableList[0], 70);
             Randomize.RandomGain(player, ItemDatabase.consumableList[1], 20);
             Randomize.RandomGain(player, ItemDatabase.consumableList[2], 20);
-            
         }
     }
 
@@ -80,6 +79,16 @@ namespace TeamProejct_Dungeon
             new Stage(MonsterDB.GetMonstersByLevel(8, 16), StageClear.Clear2),  // 중급 몬스터
             new Stage(MonsterDB.GetMonstersByLevel(17, 31), StageClear.Clear3)  // 상급 몬스터
         };
+
+        public static int ShowStageList()
+        {
+            foreach (var stage in StageList)
+            {
+                stage.StageInfo();
+            }
+            int input = Text.GetInput(null, 1, 2, 3);
+            return input;
+        }
     }
 
     // 개별 스테이지 클래스
@@ -87,11 +96,12 @@ namespace TeamProejct_Dungeon
     {
         List<Monster> monsters;     // 스테이지에 등장하는 몬스터 목록(랜덤 3마리)
         Action<Player> ClearStage;  // 스테이지 클리어 시 보상 지급 메서드
-
+        public List<Monster> original;
         // 스테이지 생성자
         public Stage(List<Monster> monsterList, Action<Player> clearAction)
         {
-            monsters = GetRandomMonsters(monsterList, 3);   // 몬스터 리스트에서 3마리를 랜덤하게 선택
+            original = monsterList;
+            monsters = GetRandomMonsters(original, 3);   // 몬스터 리스트에서 3마리를 랜덤하게 선택
             ClearStage = clearAction;       // 보상 지급 메서드
         }
         
@@ -105,6 +115,12 @@ namespace TeamProejct_Dungeon
         public void StageC(Player player)
         {
             ClearStage(player);
+        }
+
+        //
+        public void StageInfo()
+        {
+            //n 스테이지 : level. 이름 ~~~~~~~~~~(출현 몬스터 보여주기)
         }
     }
 }

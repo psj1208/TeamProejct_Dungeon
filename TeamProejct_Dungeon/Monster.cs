@@ -166,7 +166,7 @@ namespace TeamProejct_Dungeon
             {
                 if (monster.level >= minLevel && monster.level <= maxLevel)
                 {
-                    stageMonsters.Add(monster);
+                    stageMonsters.Add(monster.GetCopy());
                 }
             }
             return stageMonsters;

@@ -16,6 +16,8 @@ namespace TeamProejct_Dungeon
         static SceneType sceneType = SceneType.Lobby;
         static void Main(string[] args)
         {
+            int input = 1;
+            Stage stage = StageDB.StageList[input - 1];
             string imagePath = AppDomain.CurrentDomain.BaseDirectory + "\\sample.jpg"; // 이미지 경로(상위 폴더/bin/Debug/net버전안에 넣어야함.)
             AsciiArt.Draw(imagePath, 20);
             GameStart();
@@ -76,6 +78,11 @@ namespace TeamProejct_Dungeon
                             break;
                         case 4:
                             //던전 이동
+                            //테스트 코드 시작
+                            int input_ = StageDB.ShowStageList();
+                            Console.WriteLine(input_);
+                            Thread.Sleep(500);
+                            //테스트 코드 끝
                             sceneType = SceneType.Dungeon;
                             break;
                         case 5:
