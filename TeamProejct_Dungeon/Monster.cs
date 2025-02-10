@@ -67,7 +67,17 @@ namespace TeamProejct_Dungeon
         // 몬스터 공격 메서드 
         public void Attack(ICharacter cha)
         {
+            Random random = new Random();
+
+            //몬스터 데미지
             int attackDamage = atk;
+
+            //데미지 오차범위 (-20% ~ +20%)
+            double damageRatio = attackDamage * 0.1d;
+            int damageChance = random.Next(-2, 3);
+            int extraDamage = (int)Math.Round(damageChance * damageRatio);
+
+            attackDamage += extraDamage;
 
             Console.WriteLine($"Lv.{level} {Name}의 공격!");
 

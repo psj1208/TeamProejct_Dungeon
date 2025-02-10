@@ -19,6 +19,23 @@ namespace TeamProejct_Dungeon
         }
 
         public abstract void Use(Player player, List<Monster> monsters);
+
+        //데미지 적용 메서드
+        protected void DealDamage(Player player, List<Monster> monsters, int damage)
+        {
+            foreach (Monster monster in monsters)
+            {
+                monster.TakeDamage(damage);
+            }
+            Console.ReadLine();
+        }
+
+        protected List<Monster> SelectTarget(string skillDes, int max, List<Monster> monsters)
+        {
+            Console.WriteLine(skillDes);
+            Console.WriteLine("\n공격할 몬스터를 선택하세요.");
+            return Text.GetInputMulti(max, monsters);
+        }
     }
 
     public class WarriorSkill : Skill
@@ -34,44 +51,20 @@ namespace TeamProejct_Dungeon
             Console.WriteLine("\n스킬을 선택하세요.");
 
             int skillChoice = Text.GetInput(null,1, 2);
-            
+            List<Monster> selectedMonsters = SelectTarget("스킬을 사용할 몬스터를 선택하세요.", 1, monsters);
+
             if (skillChoice == 1)
             {
-                Console.WriteLine("공격할 몬스터를 선택하세요.\n");
-                List<Monster> selcetMonsters = Text.GetInputMulti(1, monsters);
-                Warriorskill1(player, selcetMonsters);
+                int damage = player.atk * 2;
+                DealDamage(player, selectedMonsters, damage);
+                player.mp -= 10;
             }
             else if (skillChoice == 2)
             {
-                Console.WriteLine("공격할 몬스터를 선택하세요.\n");
-                List<Monster> selcetMonsters = Text.GetInputMulti(1, monsters);
-                Warriorskill2(player, selcetMonsters);
-            }
-        }
-
-        public void Warriorskill1(Player player, List<Monster> monsters)
-        {
-            foreach (Monster monster in monsters)
-            {
-                int damage = player.atk * 2;
-                Console.WriteLine($"파워 어택!!\n\n{monster.Name}에게 {damage}의 피해를 입혔습니다.");
-                monster.TakeDamage(damage);
-                Console.ReadLine();
-                player.mp -= 10;
-            }
-        }
-
-        public void Warriorskill2(Player player, List<Monster> monsters)
-        {
-            foreach (Monster monster in monsters)
-            {
                 Random random = new Random();
-                int randomDamage = random.Next(1, 4);
-
-                int damage = player.atk * randomDamage;
-                Console.WriteLine($"운수 좋은 날~\n\n{monster.Name}에게 {player.atk} X {randomDamage}의 피해를 입혔습니다.");
-                monster.TakeDamage(damage);
-                Console.ReadLine();
+                int multiplier = random.Next(1, 4);
+                int damage = player.atk * multiplier;
+                DealDamage(player, selectedMonsters, damage);
                 player.mp -= 15;
             }
         }
@@ -92,43 +85,23 @@ namespace TeamProejct_Dungeon
 
             int skillChoice = Text.GetInput(null, 1, 2);
 
+            int maxCount = (skillChoice == 1) ? 2 : 4;
+            int targetCount = Math.Min(maxCount, monsters.Count);
+
+            List<Monster> selectedMonsters = SelectTarget("스킬을 사용할 몬스터를 선택하세요.", targetCount, monsters);
+
             if (skillChoice == 1)
             {
-                Console.WriteLine("공격할 몬스터를 선택하세요.\n");
-                List<Monster> selcetMonsters = Text.GetInputMulti(2, monsters);
-                AssassinSkil1(player, selcetMonsters);
+                int damage = player.atk;
+                player.mp -= 10;
+                DealDamage(player, selectedMonsters, damage);
             }
-
             else if (skillChoice == 2)
             {
-                Console.WriteLine("공격할 몬스터를 선택하세요.\n");
-                List<Monster> selcetMonsters = Text.GetInputMulti(4, monsters);
-                AssassinSkil2(player, selcetMonsters);
+                int damage = (int)(player.atk * 0.5f);
+                player.mp -= 15; // 
+                DealDamage(player, selectedMonsters, damage);
             }
-        }
-
-        public void AssassinSkil1(Player player, List<Monster> monsters)
-        {
-            Console.WriteLine($"슈슉// 스킬 사용!\n");
-            foreach (Monster monster in monsters)
-            {
-                int damage = player.atk;
-                monster.TakeDamage(player.atk);
-                player.mp -= 10;
-            }
-            Console.ReadLine();
-        }
-
-        public void AssassinSkil2(Player player, List<Monster> monsters)
-        {
-            Console.WriteLine($"슈룩슈룩//// 스킬 사용!\n");
-            foreach (Monster monster in monsters)
-            {
-                int damage = player.atk;
-                monster.TakeDamage((int)(player.atk * 0.5f));
-                player.mp -= 15;
-            }
-            Console.ReadLine();
         }
     }
 }
