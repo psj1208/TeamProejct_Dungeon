@@ -22,7 +22,7 @@ namespace TeamProejct_Dungeon
         {
             Random rand = new Random();
             if (rand.Next(0, 101) <= per)
-                player.AddItem(item);   // 아이템 지급 메서드
+               GameManager.inven.AddItem(item);  // 아이템 지급 메서드
         }
     }
     
@@ -100,6 +100,11 @@ namespace TeamProejct_Dungeon
         {
             Random random = new Random();  
             return monsterList.OrderBy(m => random.Next()).Take(count).Select(m => m.GetCopy()).ToList();
+        }
+
+        public void StageC(Player player)
+        {
+            ClearStage(player);
         }
     }
 }
