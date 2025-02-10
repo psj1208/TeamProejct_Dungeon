@@ -98,10 +98,6 @@ namespace TeamProejct_Dungeon
             {
                 player.AddGold(gold);
                 player.AddExp(exp);
-                
-                // 여기서는 실행만 시켜주는 게 좋을듯? 아래 주석은 나중에 지울게요
-                // Console.WriteLine($"{gold} 골드를 획득했습니다!");
-                // Console.WriteLine($"{exp} 경험치를 획득했습니다!");
             }
         }
 
@@ -128,19 +124,25 @@ namespace TeamProejct_Dungeon
         private static List<Monster> monsters = new List<Monster>()
         {
              // 하급 몬스터(name, level, maxHp, atk, exp, gold, MonsterType)
+             new Monster("슬라임", 1, 10, 2, 8, 100, MonsterType.Low),
              new Monster("미니언", 2, 15, 3, 10, 200, MonsterType.Low),
              new Monster("공허충", 3, 10, 4, 15, 300, MonsterType.Low),
              new Monster("대포미니언", 5, 25, 6, 20, 500, MonsterType.Low),
+             new Monster("미믹", 7, 20, 8, 22, 700, MonsterType.Low),
              
              // 중급 몬스터(name, level, maxHp, atk, exp, gold, MonsterType)
              new Monster("고스트", 8, 40, 9, 40, 800, MonsterType.Mid),
-             new Monster("고블린", 10, 50, 10, 50, 1000, MonsterType.Mid),
+             new Monster("스켈레톤", 9, 45, 11, 45, 900, MonsterType.Mid),
+             new Monster("고블린", 10, 50, 12, 50, 1000, MonsterType.Mid),
              new Monster("늑대", 12, 60, 14, 70, 1200, MonsterType.Mid),
+             new Monster("가고일", 15, 80, 18, 100, 1800, MonsterType.Mid),
              
              // 상급 몬스터(name, level, maxHp, atk, exp, gold, MonsterType)
-             new Monster("리치", 18, 120, 25, 250, 3000, MonsterType.High),
-             new Monster("드래곤", 20, 150, 30, 300, 5000, MonsterType.High),
-             new Monster("마왕", 25, 200, 50, 500, 10000, MonsterType.High)
+             new Monster("리치", 17, 100, 22, 200, 2500, MonsterType.High),
+             new Monster("바실리스크", 18, 120, 25, 250, 3000, MonsterType.High),
+             new Monster("키메라", 20, 150, 30, 300, 4500, MonsterType.High),
+             new Monster("드래곤", 25, 180, 40, 400, 7000, MonsterType.High),
+             new Monster("마왕", 30, 200, 50, 500, 10000, MonsterType.High)
         };
 
         // 모든 몬스터를 반환
@@ -154,5 +156,21 @@ namespace TeamProejct_Dungeon
         {
             return monsters.Where(monster => monster.type == type).ToList();
         }
+        
+        // 특정 등급의 몬스터만 반환(스테이지)
+        public static List<Monster> GetMonstersByLevel(int minLevel, int maxLevel)
+        {
+            List<Monster> stageMonsters = new List<Monster>();
+
+            foreach (Monster monster in monsters)
+            {
+                if (monster.level >= minLevel && monster.level <= maxLevel)
+                {
+                    stageMonsters.Add(monster);
+                }
+            }
+            return stageMonsters;
+        }
+
     }
 }
