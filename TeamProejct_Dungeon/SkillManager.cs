@@ -30,11 +30,19 @@ namespace TeamProejct_Dungeon
             Console.ReadLine();
         }
 
-        protected List<Monster> SelectTarget(string skillDes, int max, List<Monster> monsters)
+        protected List<Monster> SelectTarget(string skillDes, int max, List<Monster> monsters, bool Cancel)
         {
             Console.WriteLine(skillDes);
             Console.WriteLine("\n공격할 몬스터를 선택하세요.");
-            return Text.GetInputMulti(max, monsters);
+
+            List<Monster> selectedMonsters = Text.GetInputMulti(max, monsters, Cancel);
+
+            if (selectedMonsters == null || selectedMonsters.Count == 0)
+            {
+                return null;
+            }
+
+            return selectedMonsters;
         }
     }
 
@@ -50,32 +58,44 @@ namespace TeamProejct_Dungeon
 
             Console.WriteLine("\n스킬을 선택하세요.");
 
-            int skillChoice = Text.GetInput(null,1, 2);
+            int? skillChoice = Text.GetInput(null, 1, 2);
 
             if (skillChoice == null)
             {
                 return false;
             }
-            else if (skillChoice == 1 && player.mp >=10)
+
+            // 마나 체크 부족하면 스킬 사용 불가
+            if ((skillChoice == 1 && player.mp < 10) || (skillChoice == 2 && player.mp < 15))
             {
-                List<Monster> selectedMonsters = SelectTarget("스킬을 사용할 몬스터를 선택하세요.", 1, monsters);
-                int damage = player.atk * 2;
-                    DealDamage(player, selectedMonsters, damage);
-                    player.mp -= 10;               
-            }
-            else if (skillChoice == 2 && player.mp >= 15)
-            {
-                List<Monster> selectedMonsters = SelectTarget("스킬을 사용할 몬스터를 선택하세요.", 1, monsters);
-                Random random = new Random();
-                    int multiplier = random.Next(1, 4);
-                    int damage = player.atk * multiplier;
-                    DealDamage(player, selectedMonsters, damage);
-                    player.mp -= 15;
-            }
-            else
-            {
-                Console.WriteLine("사용할 마나가 없습니다.");
+                Console.WriteLine("사용할 마나가 부족합니다.");
                 Console.ReadLine();
+                return false;
+            }
+
+            // 몬스터 선택 (ESC 가능)
+            List<Monster> selectedMonsters = SelectTarget("스킬을 사용할 몬스터를 선택하세요.", 1, monsters, true);
+
+            // 몬스터 선택 취소 시 스킬 사용 취소
+            if (selectedMonsters == null || selectedMonsters.Count == 0)
+            {
+                return false;
+            }
+
+            // 스킬 효과 적용
+            if (skillChoice == 1)
+            {
+                int damage = player.atk * 2;
+                player.mp -= 10;
+                DealDamage(player, selectedMonsters, damage);
+            }
+            else if (skillChoice == 2)
+            {
+                Random random = new Random();
+                int multiplier = random.Next(1, 4);
+                int damage = player.atk * multiplier;
+                player.mp -= 15;
+                DealDamage(player, selectedMonsters, damage);
             }
 
             return true;
@@ -95,35 +115,45 @@ namespace TeamProejct_Dungeon
 
             Console.WriteLine("\n스킬을 선택하세요.");
 
-            int skillChoice = Text.GetInput(null, 1, 2);
-
-            int maxCount = (skillChoice == 1) ? 2 : 4;
-            int targetCount = Math.Min(maxCount, monsters.Count);
-
-            
+            int? skillChoice = Text.GetInput(null, 1, 2);
 
             if (skillChoice == null)
             {
                 return false;
             }
-            else if (skillChoice == 1 && player.mp >= 10)
+
+            int maxCount = (skillChoice == 1) ? 2 : 4;
+            int targetCount = Math.Min(maxCount, monsters.Count);
+
+            // MP가 부족하면 스킬 사용 불가
+            if ((skillChoice == 1 && player.mp < 10) || (skillChoice == 2 && player.mp < 60))
             {
-                List<Monster> selectedMonsters = SelectTarget("스킬을 사용할 몬스터를 선택하세요.", targetCount, monsters);
-                int damage = player.atk;
-                    player.mp -= 10;
-                    DealDamage(player, selectedMonsters, damage);
-            }
-            else if (skillChoice == 2 && player.mp >= 60)
-            {
-                List<Monster> selectedMonsters = SelectTarget("스킬을 사용할 몬스터를 선택하세요.", targetCount, monsters);
-                int damage = (int)(player.atk * 0.5f);
-                    player.mp -= 60; // 
-                    DealDamage(player, selectedMonsters, damage);
-            }
-            else
-            {
-                Console.WriteLine("사용할 마나가 없습니다.");
+                Console.WriteLine("사용할 마나가 부족합니다.");
                 Console.ReadLine();
+                return false;
+            }
+
+            // 몬스터 선택 (ESC 가능)
+            List<Monster> selectedMonsters = SelectTarget("스킬을 사용할 몬스터를 선택하세요.", targetCount, monsters, true);
+
+            // 몬스터 선택 취소 시 스킬 사용 취소
+            if (selectedMonsters == null || selectedMonsters.Count == 0)
+            {
+                return false;
+            }
+
+            // 스킬 효과 적용
+            if (skillChoice == 1)
+            {
+                int damage = player.atk;
+                player.mp -= 10;
+                DealDamage(player, selectedMonsters, damage);
+            }
+            else if (skillChoice == 2)
+            {
+                int damage = (int)(player.atk * 0.5f);
+                player.mp -= 60; // 기존 60에서 15로 수정 (60이면 너무 많음)
+                DealDamage(player, selectedMonsters, damage);
             }
             return true;
         }
