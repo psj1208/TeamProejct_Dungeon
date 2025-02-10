@@ -210,6 +210,7 @@ namespace TeamProejct_Dungeon
                                 //Text.TextingLine(원하는 문자열, 색깔, true or false 이거는 텍스트가 순차적으로 생길지 말지)
                                 //줄 안 띄우는건 Text.Texting
                                 Console.WriteLine($"{monster.Name}이(가) 쓰러졌습니다.\n");
+                                Text.TextingLine($"{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, true);
                                 Console.WriteLine($"{monster.exp} Exp를 얻었다!\n");
                                 Console.WriteLine($"{monster.gold} G를 얻었다!\n");
                                 Console.WriteLine("---------------------------------------------");
@@ -245,13 +246,11 @@ namespace TeamProejct_Dungeon
                 Monster attackingMonster = aliveMonsters[random.Next(aliveMonsters.Count)];
                 int dmg = attackingMonster.atk;
                 Console.WriteLine("\n\n-------------------적의 차례------------------\n");
-                //여기에 foreach
-                //나중에 foreach문해서 monster.attack()메서드 써주세요.
+
                 foreach (Monster monster in aliveMonsters)
                 {
                     monster.Attack(player);
-                    Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {dmg}]\n");
-                    Console.WriteLine("\n---------^------------------------^----------");
+                    Console.WriteLine("---------^------------------------^----------");
                 }
             }
             Console.ReadKey();
