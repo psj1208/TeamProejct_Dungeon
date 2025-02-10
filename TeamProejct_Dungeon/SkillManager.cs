@@ -72,6 +72,11 @@ namespace TeamProejct_Dungeon
                     DealDamage(player, selectedMonsters, damage);
                     player.mp -= 15;
             }
+            else
+            {
+                Console.WriteLine("사용할 마나가 없습니다.");
+                Console.ReadLine();
+            }
 
             return true;
         }
