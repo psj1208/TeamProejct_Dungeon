@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,7 +63,7 @@ namespace TeamProejct_Dungeon
             }
             else if (_job == Job.Assassin)
             {
-                atk = 7;
+                atk = 10;
                 dfs = 1;
                 skill = new AssassinSkill();
             }
@@ -71,18 +72,27 @@ namespace TeamProejct_Dungeon
         //플레이어가 공격 
         public void Attack(ICharacter monster)
         {
-            //크리티컬 20% 확률
             Random random = new Random();
 
+            //플레이어 데미지
+            int playerDamage = atk + equipAtk;
+
+            //데미지 오차범위 (-20% ~ +20%)
+            double damageRatio = playerDamage * 0.1d;
+            int damageChance = random.Next(-2,3);
+            int extraDamage = (int)Math.Round(damageChance * damageRatio);
+            
+            int damage = playerDamage + extraDamage;
+
+            //크리티컬 20% 확률
             int cirticalChance = random.Next(0, 5);
             bool isCrital = (cirticalChance == 0);
 
-            int damage = atk + equipAtk;
             
             // 크리티컬 시 20% 데미지 증가
             if (isCrital)
             {
-                damage *= (int)(damage * 1.5);
+                damage = (int)(damage * 1.5);
                 Console.WriteLine("크리티컬 !");
             }
 
