@@ -167,7 +167,8 @@ namespace TeamProejct_Dungeon
             maxExp += (level - 1) * 20; // 레벨당 (maxExp 20 증가)
             maxHp += level * 20; // 레벨당 (maxHp 20 증가)
             hp = maxHp; // hp 100%
-
+            level++;
+            
             //직업별 스텟 증가치 변경
             if (job == Job.Warrior)
             {

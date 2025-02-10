@@ -135,126 +135,134 @@ namespace TeamProejct_Dungeon
             return monsterList;
         }
 
+        static void ShowBattleScreen(Player player, List<Monster> monsters)
+        {
+            Text.TextingLine("Battle!!\n", ConsoleColor.Yellow, false);
+            // 몬스터 정보 출력
+            ShowMonsterInfo(monsters, false);
+            Battle_Profile(player);
+        }
 
-        // 전투 시작
+        static void Battle_Profile(Player player)
+        {
+            Text.TextingLine("\n[내정보]", ConsoleColor.Yellow, false);
+            Console.WriteLine("---------------------------------------------");
+
+            // 플레이어 정보 (레벨과 이름, 직업)
+            Text.TextingLine($"Lv.{player.level} {player.Name}", ConsoleColor.Green, false);
+            Text.TextingLine($"HP {player.hp} / {player.maxHp}", ConsoleColor.Red, false);
+            Text.TextingLine($"HP {player.mp} / {player.maxMp}\n", ConsoleColor.Blue, false);
+
+
+            Text.TextingLine("1. 공격", ConsoleColor.Cyan, false);
+            Text.TextingLine("2. 스킬\n", ConsoleColor.Cyan, false);
+
+            Text.TextingLine("0. 전투 종료\n", ConsoleColor.Red, false);
+            
+        }
+
+        static void Battle_Dead(Player player, Monster monster)
+        {
+            monster.GrantReward(player);
+
+            Text.TextingLine($"\n{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, false);
+            Text.TextingLine($"{monster.exp} Exp를 얻었다!\n", ConsoleColor.White, false);
+            Text.Texting($"{monster.gold}", ConsoleColor.White, false);
+            Text.Texting($" G", ConsoleColor.Yellow, false);
+            Text.TextingLine($"를 얻었다!\n", ConsoleColor.White, false);
+
+            Console.WriteLine("---------------------------------------------");
+
+            Console.ReadKey();
+        }
+
+
         static void Battle(Player player)
         {
             List<Monster> monsters = MonsterSpawn();
+            bool isPlayerTurn = true;
+
             while (true)
             {
-                // 전투 시작
                 Console.Clear();
-                Console.WriteLine("Battle!!\n");
+                ShowBattleScreen(player, monsters);
 
-                bool isPlayerTurn = true;
-                Random random = new Random();
+                // ESC 처리: 도망가기
+                Text.TextingLine("ESC : 도망가기");
+                int? input = Text.GetInputMulti(true, "1. 공격", "2. 스킬");
 
-                // 몬스터 정보 출력
-                ShowMonsterInfo(monsters, false);
-
-                Console.ResetColor();
-                Console.WriteLine("\n");
-
-                Console.WriteLine("[내정보]");
-
-                // 플레이어 정보 (레벨과 이름, 직업)
-                Console.WriteLine($"Lv.{player.level} {player.Name}");
-                Console.WriteLine($"HP {player.hp} / {player.maxHp}\n");
-
-                /*//태겸씨 코드
-                Console.WriteLine("1. 공격");
-                Console.WriteLine("2. 스킬\n");
-                Console.WriteLine("0. 전투 종료\n");
-                */
-
-                //수정판
-                Text.TextingLine("ESC : 전투 종료");
-                int? input = Text.GetInputMulti(true,"1. 공격","2. 스킬");
-
-                //태겸씨 코드
-                //int input = Text.GetInput(null, 0, 1, 2);
-                
-                if (input == null)
+                if (input == null) // ESC 입력 시 마을로 복귀
                 {
-                    Console.WriteLine("전투를 종료합니다...");
+                    Console.WriteLine("무사히 전투에서 도망쳤다...");
                     Thread.Sleep(500);
                     sceneType = SceneType.Home;
                     Console.Clear();
-                    //break;
                     return;
                 }
 
-                else if (input == 1)
+                // 플레이어 턴 진행
+                bool playerActionSuccess = ExecutePlayerTurn(player, monsters, input.Value);
+                if (!playerActionSuccess) continue; // 플레이어 행동 실패 시 다시 입력받음
+
+                //// 몬스터가 모두 쓰러지면 전투 종료
+                //if (monsters.All(m => m.isDead))
+                //{
+                //    Battle_Result(player, monsters);
+                //    return;
+                //}
+
+                // 적의 턴 진행
+                EnemyPhase(player, monsters);
+
+                // 플레이어가 사망하면 전투 종료
+                if (player.isDead || monsters.All(m => m.isDead))
                 {
-                    while (true) // 올바른 입력을 받을 때까지 반복
+                    Battle_Result(player, monsters);
+                    Thread.Sleep(500);
+                    return;
+                }
+            }
+        }
+
+        static bool ExecutePlayerTurn(Player player, List<Monster> monsters, int action)
+        {
+            while (true) // 올바른 입력을 받을 때까지 반복
+            {
+                Console.Clear();
+                ShowBattleScreen(player, monsters);
+
+                if (action == 1) // 공격
+                {
+                    Console.WriteLine("취소 : ESC\n");
+                    Console.WriteLine("대상을 선택해주세요.\n");
+                    List<Monster> selectedMonster = Text.GetInputMulti(1, monsters);
+
+                    if (selectedMonster == null) return false; // ESC 입력 시 턴 유지
+                    Monster monster = selectedMonster[0];
+
+                    if (monster.isDead)
                     {
-                        Console.Clear();
-                        Console.WriteLine("Battle!!\n");
-
-                        // 몬스터 정보 다시 출력
-                        ShowMonsterInfo(monsters);
-
-                        Console.ResetColor();
-
-                        Console.WriteLine("\n[내정보]");
-                        Console.WriteLine($"Lv.{player.level} {player.Name}");
-                        Console.WriteLine($"HP {player.hp} / {player.maxHp}");
-                        if (isPlayerTurn == true)
-                        {
-                            Console.WriteLine("\n취소 : ESC\n");
-
-                            Console.WriteLine("대상을 선택해주세요.\n");
-                            List<Monster> selectMonster = Text.GetInputMulti(1, monsters);
-                            if (selectMonster != null)
-                            {
-                                Monster monster = selectMonster[0];
-
-                                if (monster.isDead)
-                                {
-                                    Console.WriteLine("이미 쓰러진 몬스터 입니다.");
-                                    Console.ReadKey();
-                                    continue;
-                                }
-
-                                // 공격 처리
-                                player.Attack(monster);
-                                Console.WriteLine("---------------------------------------------");
-                                Console.ReadKey();
-
-                                if (monster.isDead)
-                                {
-                                    monster.GrantReward(player);
-                                    //Text.TextingLine(원하는 문자열, 색깔, true or false 이거는 텍스트가 순차적으로 생길지 말지)
-                                    //줄 안 띄우는건 Text.Texting
-                                    Console.WriteLine($"{monster.Name}이(가) 쓰러졌습니다.\n");
-                                    Text.TextingLine($"{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, true);
-                                    Console.WriteLine($"{monster.exp} Exp를 얻었다!\n");
-                                    Console.WriteLine($"{monster.gold} G를 얻었다!\n");
-                                    Console.WriteLine("---------------------------------------------");
-
-                                    Console.ReadKey();
-                                }
-                                isPlayerTurn = !isPlayerTurn;
-                            }
-                            else
-                                break;
-                        }
-                        else if(isPlayerTurn != true)
-                        {
-                            EnemyPhase(player, monsters);
-                            isPlayerTurn = !isPlayerTurn;
-                        }
-                        if (player.isDead || monsters.All(m => m.isDead))
-                        {
-                            Battle_Result(player, monsters);
-                            Thread.Sleep(500);
-                            return;
-                        }
+                        Console.WriteLine("이미 쓰러진 몬스터 입니다.");
+                        Console.ReadKey();
+                        continue;
                     }
 
+                    // 공격 실행
+                    player.Attack(monster);
+                    Console.WriteLine("---------------------------------------------");
+                    Console.ReadKey();
+
+                    if (monster.isDead)
+                    {
+                        monster.GrantReward(player);
+                        Battle_Dead(player, monster);
+                    }
+
+                    return true; // 플레이어 턴 종료
                 }
-                else if (input == 2)
+                else if (action == 2) // 스킬
                 {
+
                     Console.Clear();
                     Console.WriteLine("Battle!!\n");
 
@@ -267,11 +275,15 @@ namespace TeamProejct_Dungeon
                     Console.WriteLine($"Lv.{player.level} {player.Name}");
                     Console.WriteLine($"HP {player.hp} / {player.maxHp}");
                     //bool형식으로 선언해서 esc 누르면 null값받아오는게 멀티 메소드인데. null값을 if문으로 구분해서. false를 돌려받고.
-                    player.skill.Use(player, monsters);
-                    
+
+                    bool skillUsed = player.skill.Use(player, monsters);
+                    if (!skillUsed) return false; // 스킬 사용 취소 시 다시 선택하도록 처리
+
+                    return true; // 스킬 사용 성공 시 턴 종료
                 }
             }
         }
+
 
         static void EnemyPhase(Player player, List<Monster> monsters)
         {
