@@ -252,7 +252,7 @@ namespace TeamProejct_Dungeon
                     Console.WriteLine("\n[내정보]");
                     Console.WriteLine($"Lv.{player.level} {player.Name}");
                     Console.WriteLine($"HP {player.hp} / {player.maxHp}");
-
+                    //bool형식으로 선언해서 esc 누르면 null값받아오는게 멀티 메소드인데. null값을 if문으로 구분해서. false를 돌려받고.
                     player.skill.Use(player, monsters);
                     
                 }
