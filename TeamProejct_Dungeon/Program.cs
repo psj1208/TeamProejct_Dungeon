@@ -99,18 +99,23 @@ namespace TeamProejct_Dungeon
             for (int i = 0; i < monsters.Count; i++)
             {
                 Monster monster = monsters[i];
-                string status = monster.isDead ? "Dead" : $"HP {monster.hp}/{monster.maxHp}";
-                Console.ForegroundColor = monster.isDead ? ConsoleColor.DarkGray : ConsoleColor.White;
-                if (Shownumber == true)
+                bool isDead = monster.isDead;
+                Console.ForegroundColor = isDead ? ConsoleColor.DarkGray : ConsoleColor.White;
+
+                string status = isDead ? "Dead" : $"HP {monster.hp}/{monster.maxHp}";
+
+                if (Shownumber)
                 {
-                    Console.WriteLine($"{i + 1}.Lv.{monsters[i].level} {monsters[i].Name} HP {monsters[i].hp} ");
+                    Console.WriteLine($"{i + 1}. Lv.{monster.level} {monster.Name} {status}");
                 }
                 else
                 {
-                    Console.WriteLine($"Lv.{monsters[i].level} {monsters[i].Name} HP {monsters[i].hp} ");
+                    Console.WriteLine($"Lv.{monster.level} {monster.Name} {status}");
                 }
             }
+            Console.ResetColor(); // 색상 초기화
         }
+
 
         // 몬스터 랜덤 스폰
         static List<Monster> MonsterSpawn()
@@ -211,10 +216,12 @@ namespace TeamProejct_Dungeon
                                 monster.GrantReward(player);
                                 //Text.TextingLine(원하는 문자열, 색깔, true or false 이거는 텍스트가 순차적으로 생길지 말지)
                                 //줄 안 띄우는건 Text.Texting
-                                Console.WriteLine($"{monster.Name}이(가) 쓰러졌습니다.\n");
-                                Text.TextingLine($"{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, true);
-                                Console.WriteLine($"{monster.exp} Exp를 얻었다!\n");
-                                Console.WriteLine($"{monster.gold} G를 얻었다!\n");
+                                Text.TextingLine($"\n{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, false);
+                                Text.TextingLine($"{monster.exp} Exp를 얻었다!\n", ConsoleColor.White, false);
+                                Text.Texting($"{monster.gold}", ConsoleColor.White, false);
+                                Text.Texting($" G", ConsoleColor.Yellow, false);
+                                Text.TextingLine($"를 얻었다!\n", ConsoleColor.White, false);
+
                                 Console.WriteLine("---------------------------------------------");
 
                                 Console.ReadKey();
@@ -287,7 +294,7 @@ namespace TeamProejct_Dungeon
             // 이겼을 경우 - Victory, You Lose
             if (!player.isDead && monsters.All(m => m.isDead))
             {
-                Console.WriteLine("Victory\n");
+                Text.TextingLine("Victory\n", ConsoleColor.Green, false);
                 int monsterCount = monsters.Count;
                 int damageTaken = player.maxHp - player.hp;
 
@@ -297,7 +304,7 @@ namespace TeamProejct_Dungeon
             }
             else if (player.isDead)
             {
-                Console.WriteLine("You Lose\n");
+                Text.TextingLine("You Lose\n", ConsoleColor.Red, false);
 
                 Console.WriteLine("\n던전에서 패배했습니다. 다시 도전하세요!\n");
 
