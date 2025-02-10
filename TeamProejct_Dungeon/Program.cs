@@ -191,37 +191,41 @@ namespace TeamProejct_Dungeon
 
                             Console.WriteLine("대상을 선택해주세요.\n");
                             List<Monster> selectMonster = Text.GetInputMulti(1, monsters);
-
-                            Monster monster = selectMonster[0];
-
-                            if (monster.isDead)
+                            if (selectMonster != null)
                             {
-                                Console.WriteLine("이미 쓰러진 몬스터 입니다.");
-                                Console.ReadKey();
-                                continue;
-                            }
+                                Monster monster = selectMonster[0];
 
-                            // 공격 처리
-                            player.Attack(monster);
-                            Console.WriteLine("---------------------------------------------");
-                            Console.ReadKey();
+                                if (monster.isDead)
+                                {
+                                    Console.WriteLine("이미 쓰러진 몬스터 입니다.");
+                                    Console.ReadKey();
+                                    continue;
+                                }
 
-                            if (monster.isDead)
-                            {
-                                monster.GrantReward(player);
-                                //Text.TextingLine(원하는 문자열, 색깔, true or false 이거는 텍스트가 순차적으로 생길지 말지)
-                                //줄 안 띄우는건 Text.Texting
-                                Console.WriteLine($"{monster.Name}이(가) 쓰러졌습니다.\n");
-                                Text.TextingLine($"{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, true);
-                                Console.WriteLine($"{monster.exp} Exp를 얻었다!\n");
-                                Console.WriteLine($"{monster.gold} G를 얻었다!\n");
+                                // 공격 처리
+                                player.Attack(monster);
                                 Console.WriteLine("---------------------------------------------");
-
                                 Console.ReadKey();
+
+                                if (monster.isDead)
+                                {
+                                    monster.GrantReward(player);
+                                    //Text.TextingLine(원하는 문자열, 색깔, true or false 이거는 텍스트가 순차적으로 생길지 말지)
+                                    //줄 안 띄우는건 Text.Texting
+                                    Console.WriteLine($"{monster.Name}이(가) 쓰러졌습니다.\n");
+                                    Text.TextingLine($"{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, true);
+                                    Console.WriteLine($"{monster.exp} Exp를 얻었다!\n");
+                                    Console.WriteLine($"{monster.gold} G를 얻었다!\n");
+                                    Console.WriteLine("---------------------------------------------");
+
+                                    Console.ReadKey();
+                                }
+                                isPlayerTurn = !isPlayerTurn;
                             }
-                            isPlayerTurn = !isPlayerTurn;
+                            else
+                                break;
                         }
-                        else
+                        else if(isPlayerTurn != true)
                         {
                             EnemyPhase(player, monsters);
                             isPlayerTurn = !isPlayerTurn;
@@ -248,9 +252,9 @@ namespace TeamProejct_Dungeon
                     Console.WriteLine("\n[내정보]");
                     Console.WriteLine($"Lv.{player.level} {player.Name}");
                     Console.WriteLine($"HP {player.hp} / {player.maxHp}");
-
+                    //bool형식으로 선언해서 esc 누르면 null값받아오는게 멀티 메소드인데. null값을 if문으로 구분해서. false를 돌려받고.
                     player.skill.Use(player, monsters);
-                  
+                    
                 }
             }
         }
