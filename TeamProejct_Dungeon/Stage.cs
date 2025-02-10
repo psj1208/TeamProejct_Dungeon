@@ -10,7 +10,7 @@ namespace TeamProejct_Dungeon
     {
         public static void ClearOne()
         {
-            //플레이어한테 보상 주는 ~~
+            //플레이어한테 보상 주는 ~~ 게임매니저 접근해도되는 것.
         }
     }
 
