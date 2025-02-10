@@ -24,7 +24,7 @@ namespace TeamProejct_Dungeon
             Text.TextingLine("------------------------인벤토리-------------------------", ConsoleColor.Red, false);
             for (int i = 0; i < items.Count; i++)
             {
-                Text.TextingLine($"{i + 1} . {items[i].name} : {items[i].Description()}");
+                Text.TextingLine($"{i + 1} . {items[i].name} , 판매 가격: {items[i].sellPrice} : {items[i].Description()}");
             }
             Text.TextingLine("---------------------------------------------------------\n", ConsoleColor.Red, false);
         }

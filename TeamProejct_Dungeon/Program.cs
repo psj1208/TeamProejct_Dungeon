@@ -303,6 +303,7 @@ namespace TeamProejct_Dungeon
 
                 Console.WriteLine($"Lv. {player.level} {player.Name}");
                 Console.WriteLine($"HP {player.maxHp} -> {player.hp}");
+                player.hp += 10;
             }
             Console.WriteLine("\n0. 마을로 ");
             GetInput(0, 0);
