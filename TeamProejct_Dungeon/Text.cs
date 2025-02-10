@@ -10,6 +10,52 @@ using System.Xml.Linq;
 
 namespace TeamProejct_Dungeon
 {
+    public class TextString
+    {
+        (int x, int y) StartPos_;
+        (int x, int y) EndPos_;
+        public string str;
+        public bool IsSelected;
+        bool IsTexting;
+        ConsoleColor color;
+
+        public TextString(String s)
+        {
+            str = s;
+            IsSelected = false;
+            IsTexting = false;
+            color = ConsoleColor.White;
+        }
+
+        public void Print()
+        {
+            if (IsSelected == true)
+                color = ConsoleColor.Blue;
+            Text.Texting(str, color, false);
+            IsTexting = true;
+            Console.WriteLine();
+        }
+
+        public void TurnOn()
+        {
+            this.color = ConsoleColor.Magenta;
+        }
+
+        public void TurnOff()
+        {
+            if (IsSelected == false)
+                this.color = ConsoleColor.White;
+        }
+        public void SaveStart()
+        {
+            StartPos_ = Console.GetCursorPosition();
+        }
+
+        public void SaveEnd()
+        {
+            EndPos_ = Console.GetCursorPosition();
+        }
+    }
     public class TextMonster
     {
         (int x, int y) StartPos_;
@@ -62,7 +108,69 @@ namespace TeamProejct_Dungeon
         static (int x, int y) Startpos;
         static (int x, int y) Endpos;
 
-        public static List<Monster> GetInputMulti(int trynum, List<Monster> monster)
+        //키보드로 선택하기(문자열형)
+        public static int? GetInputMulti(bool CanNull, params string[] input)
+        {
+            (int x, int y) startPos_;
+            (int x, int y) endPos_;
+            int select = 0;
+            startPos_ = Console.GetCursorPosition();
+            int result = -1;
+            List<TextString> tm = new List<TextString>();
+            foreach (string s in input)
+            {
+                tm.Add(new TextString(s));
+            }
+            while (result == -1)
+            {
+                (int x, int y) s;
+                (int x, int y) e;
+                int num = 0;
+                s = Console.GetCursorPosition();
+                Text.TextingLine("-------선택-------", ConsoleColor.Red, false);
+                tm[select].TurnOn();
+                foreach (TextString t in tm)
+                {
+                    Text.Texting($"{num + 1} . ", ConsoleColor.White, false);
+                    t.Print();
+                    num++;
+                }
+                ConsoleKeyInfo keyinfo = Console.ReadKey(true);
+                switch (keyinfo.Key)
+                {
+                    case ConsoleKey.Escape:
+                        if(CanNull == true)
+                            return null;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        if (select < tm.Count - 1)
+                        {
+                            tm[select].TurnOff();
+                            select++;
+                        }
+                        break;
+                    case ConsoleKey.UpArrow:
+                        if (select > 0)
+                        {
+                            tm[select].TurnOff();
+                            select--;
+                        }
+                        break;
+                    case ConsoleKey.Enter:
+                        result = select;
+                        break;
+                }
+                e = Console.GetCursorPosition();
+                if(result != -1)
+                    Thread.Sleep(500);
+                ClearTextBetween(s, e);
+            }
+            endPos_ = Console.GetCursorPosition();
+            ClearTextBetween(startPos_, endPos_);
+            return result + 1;
+        }
+        //키보드로 선택하기(몬스터형)
+        public static List<Monster> GetInputMulti(int trynum, List<Monster> monster, bool Cannull = true)
         {
             (int x, int y) startPos_;
             (int x, int y) endPos_;
@@ -94,7 +202,9 @@ namespace TeamProejct_Dungeon
                 switch (keyinfo.Key)
                 {
                     case ConsoleKey.Escape:
-                        return null;
+                        if(Cannull == true)
+                            return null;
+                        break;
                     case ConsoleKey.DownArrow:
                         if (select < tm.Count - 1)
                         {

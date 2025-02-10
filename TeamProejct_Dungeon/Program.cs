@@ -153,14 +153,21 @@ namespace TeamProejct_Dungeon
                 // 플레이어 정보 (레벨과 이름, 직업)
                 Console.WriteLine($"Lv.{player.level} {player.Name}");
                 Console.WriteLine($"HP {player.hp} / {player.maxHp}\n");
-     
+
+                /*//태겸씨 코드
                 Console.WriteLine("1. 공격");
                 Console.WriteLine("2. 스킬\n");
                 Console.WriteLine("0. 전투 종료\n");
+                */
 
-                int input = Text.GetInput(null, 0, 1, 2);
+                //수정판
+                Text.TextingLine("ESC : 전투 종료");
+                int? input = Text.GetInputMulti(true,"1. 공격","2. 스킬");
 
-                if (input == 0)
+                //태겸씨 코드
+                //int input = Text.GetInput(null, 0, 1, 2);
+                
+                if (input == null)
                 {
                     Console.WriteLine("전투를 종료합니다...");
                     Thread.Sleep(500);
