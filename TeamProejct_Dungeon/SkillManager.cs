@@ -82,7 +82,7 @@ namespace TeamProejct_Dungeon
                 return false;
             }
 
-            // 스킬 효과 적용
+            // 전사 스킬 사용
             if (skillChoice == 1)
             {
                 int damage = player.atk * 2;
@@ -126,7 +126,7 @@ namespace TeamProejct_Dungeon
             int targetCount = Math.Min(maxCount, monsters.Count);
 
             // MP가 부족하면 스킬 사용 불가
-            if ((skillChoice == 1 && player.mp < 10) || (skillChoice == 2 && player.mp < 60))
+            if ((skillChoice == 1 && player.mp < 10) || (skillChoice == 2 && player.mp < 15))
             {
                 Console.WriteLine("사용할 마나가 부족합니다.");
                 Console.ReadLine();
@@ -142,7 +142,7 @@ namespace TeamProejct_Dungeon
                 return false;
             }
 
-            // 스킬 효과 적용
+            // 도적 스킬 사용
             if (skillChoice == 1)
             {
                 int damage = player.atk;
@@ -152,7 +152,7 @@ namespace TeamProejct_Dungeon
             else if (skillChoice == 2)
             {
                 int damage = (int)(player.atk * 0.5f);
-                player.mp -= 60; // 기존 60에서 15로 수정 (60이면 너무 많음)
+                player.mp -= 15; 
                 DealDamage(player, selectedMonsters, damage);
             }
             return true;
