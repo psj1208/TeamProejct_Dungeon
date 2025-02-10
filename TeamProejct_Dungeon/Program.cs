@@ -110,13 +110,14 @@ namespace TeamProejct_Dungeon
                 Console.ForegroundColor = monster.isDead ? ConsoleColor.DarkGray : ConsoleColor.White;
                 if (Shownumber == true)
                 {
-                    Console.WriteLine($"{i + 1}.Lv.{monsters[i].level} {monsters[i].Name} HP {monsters[i].hp} ");
+                    Console.WriteLine($"{i + 1}.Lv.{monsters[i].level} {monsters[i].Name} {status}");
                 }
                 else
                 {
-                    Console.WriteLine($"Lv.{monsters[i].level} {monsters[i].Name} HP {monsters[i].hp} ");
+                    Console.WriteLine($"Lv.{monsters[i].level} {monsters[i].Name} {status}");
                 }
             }
+            Console.ResetColor(); // 색상 초기화
         }
 
         // 몬스터 랜덤 스폰
@@ -153,12 +154,7 @@ namespace TeamProejct_Dungeon
             Text.TextingLine($"HP {player.hp} / {player.maxHp}", ConsoleColor.Red, false);
             Text.TextingLine($"HP {player.mp} / {player.maxMp}\n", ConsoleColor.Blue, false);
 
-
-            Text.TextingLine("1. 공격", ConsoleColor.Cyan, false);
-            Text.TextingLine("2. 스킬\n", ConsoleColor.Cyan, false);
-
             Text.TextingLine("0. 전투 종료\n", ConsoleColor.Red, false);
-            
         }
 
         static void Battle_Dead(Player player, Monster monster)
@@ -203,13 +199,6 @@ namespace TeamProejct_Dungeon
                 // 플레이어 턴 진행
                 bool playerActionSuccess = ExecutePlayerTurn(player, monsters, input.Value);
                 if (!playerActionSuccess) continue; // 플레이어 행동 실패 시 다시 입력받음
-
-                //// 몬스터가 모두 쓰러지면 전투 종료
-                //if (monsters.All(m => m.isDead))
-                //{
-                //    Battle_Result(player, monsters);
-                //    return;
-                //}
 
                 // 적의 턴 진행
                 EnemyPhase(player, monsters);
@@ -264,16 +253,8 @@ namespace TeamProejct_Dungeon
                 {
 
                     Console.Clear();
-                    Console.WriteLine("Battle!!\n");
+                    ShowBattleScreen(player, monsters);
 
-                    // 몬스터 정보 다시 출력
-                    ShowMonsterInfo(monsters);
-
-                    Console.ResetColor();
-
-                    Console.WriteLine("\n[내정보]");
-                    Console.WriteLine($"Lv.{player.level} {player.Name}");
-                    Console.WriteLine($"HP {player.hp} / {player.maxHp}");
                     //bool형식으로 선언해서 esc 누르면 null값받아오는게 멀티 메소드인데. null값을 if문으로 구분해서. false를 돌려받고.
 
                     bool skillUsed = player.skill.Use(player, monsters);
