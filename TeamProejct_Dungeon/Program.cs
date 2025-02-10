@@ -135,7 +135,7 @@ namespace TeamProejct_Dungeon
             return monsterList;
         }
 
-
+        /*
         // 전투 시작
         static void Battle(Player player)
         {
@@ -161,19 +161,13 @@ namespace TeamProejct_Dungeon
                 Console.WriteLine($"Lv.{player.level} {player.Name}");
                 Console.WriteLine($"HP {player.hp} / {player.maxHp}\n");
 
-                /*//태겸씨 코드
-                Console.WriteLine("1. 공격");
-                Console.WriteLine("2. 스킬\n");
-                Console.WriteLine("0. 전투 종료\n");
-                */
-
                 //수정판
                 Text.TextingLine("ESC : 전투 종료");
-                int? input = Text.GetInputMulti(true,"1. 공격","2. 스킬");
+                int? input = Text.GetInputMulti(true, "1. 공격", "2. 스킬");
 
                 //태겸씨 코드
                 //int input = Text.GetInput(null, 0, 1, 2);
-                
+
                 if (input == null)
                 {
                     Console.WriteLine("전투를 종료합니다...");
@@ -239,7 +233,7 @@ namespace TeamProejct_Dungeon
                             else
                                 break;
                         }
-                        else if(isPlayerTurn != true)
+                        else if (isPlayerTurn != true)
                         {
                             EnemyPhase(player, monsters);
                             isPlayerTurn = !isPlayerTurn;
@@ -268,10 +262,13 @@ namespace TeamProejct_Dungeon
                     Console.WriteLine($"HP {player.hp} / {player.maxHp}");
                     //bool형식으로 선언해서 esc 누르면 null값받아오는게 멀티 메소드인데. null값을 if문으로 구분해서. false를 돌려받고.
                     player.skill.Use(player, monsters);
-                    
+
                 }
             }
         }
+        */
+
+
 
         static void EnemyPhase(Player player, List<Monster> monsters)
         {
