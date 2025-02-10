@@ -25,26 +25,30 @@ namespace TeamProejct_Dungeon
         public int maxExp { get; set; } = 100;
         public int gold { get; set; } = 1000;
         public int maxHp { get; set; } = 100;
+        public int maxMp { get; set; } = 100;
         public int atk { get; set; }
         public int dfs { get; set; }
         public bool isDead = false;
 
         //변경 가능 정보
         public int hp { get; set; }
+        public int mp { get; set; }
         public int equipAtk { get; set; }
         public int equipDfs { get; set; }
 
-        public Inventory inven;
+        
         public Player() { }
 
         public Skill skill { get;}
-            
+        public Inventory inven;
+        
         //플레이어 생성자  (초기값)
         public Player(string _name, Job _job)
         {
             Name = _name; 
             job = _job;
             hp = maxHp;
+            mp = maxMp;
             GameManager.player = this;
             inven = new Inventory();
 
@@ -123,7 +127,8 @@ namespace TeamProejct_Dungeon
             str = equipAtk == 0 ? $"방어력 : {dfs}" : $"방어력 : {dfs + equipDfs} (+{equipDfs})";
             Console.WriteLine(str);
 
-            Console.WriteLine($"체력 : {hp} / {maxHp}");
+            Console.WriteLine($"체 력 : {hp} / {maxHp}");
+            Console.WriteLine($"마 나 : {hp} / {maxHp}");
             Console.WriteLine($"Gold : {gold} G");
 
             Console.WriteLine("\n0. 나가기\n");
