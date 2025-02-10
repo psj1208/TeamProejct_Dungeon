@@ -156,5 +156,21 @@ namespace TeamProejct_Dungeon
         {
             return monsters.Where(monster => monster.type == type).ToList();
         }
+        
+        // 특정 등급의 몬스터만 반환(스테이지)
+        public static List<Monster> GetMonstersByLevel(int minLevel, int maxLevel)
+        {
+            List<Monster> stageMonsters = new List<Monster>();
+
+            foreach (Monster monster in monsters)
+            {
+                if (monster.level >= minLevel && monster.level <= maxLevel)
+                {
+                    stageMonsters.Add(monster);
+                }
+            }
+            return stageMonsters;
+        }
+
     }
 }
