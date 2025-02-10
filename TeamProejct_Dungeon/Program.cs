@@ -153,11 +153,12 @@ namespace TeamProejct_Dungeon
                 // 플레이어 정보 (레벨과 이름, 직업)
                 Console.WriteLine($"Lv.{player.level} {player.Name}");
                 Console.WriteLine($"HP {player.hp} / {player.maxHp}\n");
-
+     
                 Console.WriteLine("1. 공격");
+                Console.WriteLine("2. 스킬\n");
                 Console.WriteLine("0. 전투 종료\n");
 
-                int input = Text.GetInput(null, 0, 1);
+                int input = Text.GetInput(null, 0, 1, 2);
 
                 if (input == 0)
                 {
@@ -168,6 +169,7 @@ namespace TeamProejct_Dungeon
                     //break;
                     return;
                 }
+
                 else if (input == 1)
                 {
                     while (true) // 올바른 입력을 받을 때까지 반복
@@ -187,7 +189,7 @@ namespace TeamProejct_Dungeon
                         {
                             Console.WriteLine("\n취소 : ESC\n");
 
-                            Console.WriteLine("대상을 선택해주세요.");
+                            Console.WriteLine("대상을 선택해주세요.\n");
                             List<Monster> selectMonster = Text.GetInputMulti(1, monsters);
 
                             Monster monster = selectMonster[0];
@@ -210,6 +212,7 @@ namespace TeamProejct_Dungeon
                                 //Text.TextingLine(원하는 문자열, 색깔, true or false 이거는 텍스트가 순차적으로 생길지 말지)
                                 //줄 안 띄우는건 Text.Texting
                                 Console.WriteLine($"{monster.Name}이(가) 쓰러졌습니다.\n");
+                                Text.TextingLine($"{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, true);
                                 Console.WriteLine($"{monster.exp} Exp를 얻었다!\n");
                                 Console.WriteLine($"{monster.gold} G를 얻었다!\n");
                                 Console.WriteLine("---------------------------------------------");
@@ -230,6 +233,24 @@ namespace TeamProejct_Dungeon
                             return;
                         }
                     }
+
+                }
+                else if (input == 2)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Battle!!\n");
+
+                    // 몬스터 정보 다시 출력
+                    ShowMonsterInfo(monsters);
+
+                    Console.ResetColor();
+
+                    Console.WriteLine("\n[내정보]");
+                    Console.WriteLine($"Lv.{player.level} {player.Name}");
+                    Console.WriteLine($"HP {player.hp} / {player.maxHp}");
+
+                    player.skill.Use(player, monsters);
+                  
                 }
             }
         }
@@ -245,10 +266,12 @@ namespace TeamProejct_Dungeon
                 Monster attackingMonster = aliveMonsters[random.Next(aliveMonsters.Count)];
                 int dmg = attackingMonster.atk;
                 Console.WriteLine("\n\n-------------------적의 차례------------------\n");
-                //여기에 foreach
-                //나중에 foreach문해서 monster.attack()메서드 써주세요.
-                Console.WriteLine($"{player.Name}을(를) 맞췄습니다. [데미지 : {dmg}]\n");
-                Console.WriteLine("\n---------^------------------------^----------");
+
+                foreach (Monster monster in aliveMonsters)
+                {
+                    monster.Attack(player);
+                    Console.WriteLine("---------^------------------------^----------");
+                }
             }
             Console.ReadKey();
         }
