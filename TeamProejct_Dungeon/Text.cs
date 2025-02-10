@@ -114,6 +114,8 @@ namespace TeamProejct_Dungeon
                             tm[select].IsSelected = true;
                         }
                         break;
+                    case ConsoleKey.Escape:
+                        return null;
                 }
                 e = Console.GetCursorPosition();
                 if (mons.Count == trynum)
