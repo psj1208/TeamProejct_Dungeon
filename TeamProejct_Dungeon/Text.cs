@@ -93,6 +93,8 @@ namespace TeamProejct_Dungeon
                 ConsoleKeyInfo keyinfo = Console.ReadKey(true);
                 switch (keyinfo.Key)
                 {
+                    case ConsoleKey.Escape:
+                        return null;
                     case ConsoleKey.DownArrow:
                         if (select < tm.Count - 1)
                         {
@@ -114,8 +116,6 @@ namespace TeamProejct_Dungeon
                             tm[select].IsSelected = true;
                         }
                         break;
-                    case ConsoleKey.Escape:
-                        return null;
                 }
                 e = Console.GetCursorPosition();
                 if (mons.Count == trynum)
