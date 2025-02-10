@@ -75,14 +75,14 @@ namespace TeamProejct_Dungeon
             Random random = new Random();
 
             //플레이어 데미지
-            int playerDamage = atk + equipAtk;
+            int damage = atk + equipAtk;
 
             //데미지 오차범위 (-20% ~ +20%)
-            double damageRatio = playerDamage * 0.1d;
+            double damageRatio = damage * 0.1d;
             int damageChance = random.Next(-2,3);
             int extraDamage = (int)Math.Round(damageChance * damageRatio);
-            
-            int damage = playerDamage + extraDamage;
+
+            damage += extraDamage;
 
             //크리티컬 20% 확률
             int cirticalChance = random.Next(0, 5);
