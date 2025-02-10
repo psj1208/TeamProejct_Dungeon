@@ -8,7 +8,20 @@ namespace TeamProejct_Dungeon
 {
     public class Shop
     {
-        List<List<Armour>> ShopList;
+        //List<List<Armour>> ShopList;
+        private List<List<IItem>> shopList; // 접근
+
+        public Shop()
+        {
+            // 아이템 데이터베이스에서 종류별 아이템 리스트를 추가
+            shopList = new List<List<IItem>>
+            {
+                new List<IItem>(ItemDatabase.armourList),
+                new List<IItem>(ItemDatabase.weaponList),
+                new List<IItem>(ItemDatabase.consumableList)
+            };
+        }
+
 
         //------갑옷류--------
         //1. 2. 3.for(int i ~~~~)
