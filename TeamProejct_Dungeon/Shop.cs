@@ -53,6 +53,7 @@ namespace TeamProejct_Dungeon
 
                     for (int i = 0; i < shopList[0].Count; i++)
                     {
+                        Console.WriteLine("----------갑옷류----------");
                         Console.WriteLine($"{index}. {shopList[0][i].name} - 가격: {shopList[0][i].buyPrice}");
                         index++;
                     }
@@ -61,6 +62,7 @@ namespace TeamProejct_Dungeon
                 case (int)ItemType.Weapon:
                     for (int i = 0; i < shopList[1].Count; i++)
                     {
+                        Console.WriteLine("----------무기류----------");
                         Console.WriteLine($"{index}. {shopList[1][i].name} - 가격: {shopList[1][i].buyPrice}");
                         index++;
                     }
@@ -68,6 +70,7 @@ namespace TeamProejct_Dungeon
                 case (int)ItemType.Consumable:
                     for (int i = 0; i < shopList[2].Count; i++)
                     {
+                        Console.WriteLine("----------소비류----------");
                         Console.WriteLine($"{index}. {shopList[2][i].name} - 가격: {shopList[2][i].buyPrice}");
                         index++;
                     }
