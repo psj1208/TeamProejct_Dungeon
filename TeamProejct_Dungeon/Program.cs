@@ -262,7 +262,6 @@ namespace TeamProejct_Dungeon
                     ShowBattleScreen(player, monsters);
 
                     //bool형식으로 선언해서 esc 누르면 null값받아오는게 멀티 메소드인데. null값을 if문으로 구분해서. false를 돌려받고.
-
                     bool skillUsed = player.skill.Use(player, monsters);
                     if (!skillUsed) return false; // 스킬 사용 취소 시 다시 선택하도록 처리
 
