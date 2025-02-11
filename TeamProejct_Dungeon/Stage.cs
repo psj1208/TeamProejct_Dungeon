@@ -116,7 +116,8 @@ namespace TeamProejct_Dungeon
         public Stage(List<Monster> monsterList, Action<Player> clearAction)
         {
             original = monsterList;                             // 전체 몬스터 리스트
-            monsters = GetRandomMonsters(original, 3);   // 몬스터 리스트에서 3마리를 랜덤하게 선택
+            //monsters = GetRandomMonsters(original, 3);   // 몬스터 리스트에서 3마리를 랜덤하게 선택
+            RefreshMonsters();                                // 새로 추가된 코드
             ClearStage = clearAction;                         // 보상 지급 메서드 실행
         }
 
@@ -125,6 +126,12 @@ namespace TeamProejct_Dungeon
         {
             return monsters;
         }
+        // 매번 3마리를 새롭게 선정
+        public void RefreshMonsters()
+        {
+            monsters = GetRandomMonsters(original, 3);  // 매번 3마리를 새롭게 선정
+        }
+
 
         // 몬스터 리스트에서 랜덤하게 count 마리의 몬스터를 선택
         private List<Monster> GetRandomMonsters(List<Monster> monsterList, int count)
