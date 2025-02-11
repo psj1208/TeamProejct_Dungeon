@@ -83,6 +83,8 @@ namespace TeamProejct_Dungeon
         public static int ShowStageList()
         {
             Console.Clear();
+            Text.TextingLine("-------------------던전-------------------", ConsoleColor.DarkRed, true);
+
             foreach (var stage in StageList)    // 모든 스테이지의 정보를 출력
             {
                 stage.StageInfo();
