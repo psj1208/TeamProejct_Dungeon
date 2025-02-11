@@ -28,7 +28,6 @@ namespace TeamProejct_Dungeon
             // 플레이어와 몬스터 리스트 생성
             Player player = new Player();
             Shop shop = new Shop();
-            //List<Monster> mons = MonsterSpawn();
 
             while (true)
             {
@@ -108,10 +107,10 @@ namespace TeamProejct_Dungeon
                     List<Monster> monsters = selectedStage.GetMonsters();
 
                     // 전투 시작
-                    Battle(player, monsters);
+                    Battle(player, selectedStage, monsters);
 
                     // 스테이지 클리어 보상 지급
-                    selectedStage.ClearReward(player);
+                    //selectedStage.ClearReward(player);
 
                     // 마을로 복귀
                     sceneType = SceneType.Home;
@@ -138,7 +137,7 @@ namespace TeamProejct_Dungeon
                     Console.Write($"Lv.{levelText} {monster.Name} ");
                 }
 
-                // 🟥"Dead"를 DarkGray로, HP 상태를 Red로 출력
+                // "Dead"를 DarkGray로, HP 상태를 Red로 출력
                 if (monster.isDead)
                 {
                     Text.TextingLine("Dead", ConsoleColor.DarkGray, false);
@@ -207,8 +206,7 @@ namespace TeamProejct_Dungeon
             Console.ReadKey();
         }
 
-
-        static void Battle(Player player, List<Monster> monsters)
+        static void Battle(Player player, Stage selectedStage, List<Monster> monsters)
         {
             bool isPlayerTurn = true;
 
@@ -240,7 +238,7 @@ namespace TeamProejct_Dungeon
                 // 플레이어가 사망하면 전투 종료
                 if (player.isDead || monsters.All(m => m.isDead))
                 {
-                    Battle_Result(player, monsters);
+                    Battle_Result(player, selectedStage ,monsters);
                     Thread.Sleep(500);
                     return;
                 }
@@ -330,11 +328,13 @@ namespace TeamProejct_Dungeon
 
 
         // 전투 결과
-        static void Battle_Result(Player player, List<Monster> monsters)
+        static void Battle_Result(Player player, Stage selectedStage, List<Monster> monsters)
         {
             Console.Clear();
-            // 전투 시작
-            Console.WriteLine("Battle!! - Result\n");
+            // 전투 결과
+            Text.TextingLine("==================================================", ConsoleColor.White, false);
+            Text.TextingLine("Battle!! - Result", ConsoleColor.Yellow, false);
+            Text.TextingLine("==================================================\n", ConsoleColor.White, false);
 
             // 이겼을 경우 - Victory, You Lose
             if (!player.isDead && monsters.All(m => m.isDead))
@@ -346,6 +346,9 @@ namespace TeamProejct_Dungeon
                 Console.WriteLine($"던전에서 몬스터 {monsterCount}마리를 잡았습니다!\n");
                 Console.WriteLine($"Lv. {player.level} {player.Name}");
                 Console.WriteLine($"HP {player.maxHp} -> {player.hp}");
+
+                // 스테이지 보상 지급
+                selectedStage.ClearReward(player);
             }
             else if (player.isDead)
             {
@@ -355,6 +358,8 @@ namespace TeamProejct_Dungeon
 
                 Console.WriteLine($"Lv. {player.level} {player.Name}");
                 Console.WriteLine($"HP {player.maxHp} -> {player.hp}");
+
+                // 패배 시 체력 일부 회복
                 player.hp += 10;
             }
             Console.WriteLine("\n0. 마을로 ");
