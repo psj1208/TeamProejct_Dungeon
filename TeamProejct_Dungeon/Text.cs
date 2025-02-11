@@ -121,6 +121,9 @@ namespace TeamProejct_Dungeon
             //텍스트 제거와 위치 유지를 위한 포지션 변수
             (int x, int y) startPos_;
             (int x, int y) endPos_;
+            (int x, int y) s;
+            (int x, int y) e;
+            int num;
             //배열 중에 현재 선택중인 것.기본 값은 맨 처음 인덱스인 0
             int select = 0;
             //선택지 스타트 위치 저장
@@ -129,15 +132,13 @@ namespace TeamProejct_Dungeon
             int result = -1;
             List<TextString> tm = new List<TextString>();
             //문자열을 클래스 형식으로 변환 후 배열에 추가
-            foreach (string s in input)
+            foreach (string st in input)
             {
-                tm.Add(new TextString(s));
+                tm.Add(new TextString(st));
             }
             while (result == -1)
             {
-                (int x, int y) s;
-                (int x, int y) e;
-                int num = 0;
+                num = 0;
                 s = Console.GetCursorPosition();
                 Text.TextingLine("-------선택-------", ConsoleColor.Red, false);
                 tm[select].TurnOn();
@@ -179,8 +180,10 @@ namespace TeamProejct_Dungeon
                         break;
                 }
                 e = Console.GetCursorPosition();
-                if(result != -1)
+                if (result != -1)
                     Thread.Sleep(500);
+                else
+                    Thread.Sleep(10);
                 ClearTextBetween(s, e);
             }
             endPos_ = Console.GetCursorPosition();
@@ -193,6 +196,9 @@ namespace TeamProejct_Dungeon
             //텍스트 제거와 위치 유지를 위한 포지션 변수
             (int x, int y) startPos_;
             (int x, int y) endPos_;
+            (int x, int y) s;
+            (int x, int y) e;
+            int num;
             //배열 중에 현재 선택중인 것.기본 값은 맨 처음 인덱스인 0
             int select = 0;
             //선택지 스타트 위치 저장
@@ -210,9 +216,7 @@ namespace TeamProejct_Dungeon
             }
             while(mons.Count != trynum)
             {
-                (int x, int y) s;
-                (int x, int y) e;
-                int num = 0;
+                num = 0;
                 s = Console.GetCursorPosition();
                 Text.TextingLine("-------선택-------", ConsoleColor.Red, false);
                 tm[select].TurnOn();
@@ -260,6 +264,8 @@ namespace TeamProejct_Dungeon
                 e = Console.GetCursorPosition();
                 if (mons.Count == trynum)
                     Thread.Sleep(500);
+                else
+                    Thread.Sleep(10);
                 ClearTextBetween(s, e);
             }
             endPos_ = Console.GetCursorPosition();

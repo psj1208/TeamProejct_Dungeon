@@ -20,8 +20,20 @@ namespace TeamProejct_Dungeon
         public virtual double buyPrice { get; set; } // 구매 가격
         public virtual double sellPrice { get; set; } // 판매 가격 85퍼센트의 가격 판매 
         public virtual ItemType type { get; set; }
-        public virtual string Description() { return null; } 
+        public virtual string Description() { return null; }
 
+
+        // 부모 virtual deepcopy 메소드 선언
+        // new Armour(this.name, ~
+        // new Weapon
+        // new Consumalbe(
+        // name = this.name
+        // ?? 
+
+        public virtual IItem DeepCopy() // Deep Copy 함수 
+        {
+            return null;
+        }
         public virtual void Use() { }//장착. 혹은 소비.
         public virtual void UnUse() { }//장착 해제(포션은 제외)
 
@@ -42,7 +54,7 @@ namespace TeamProejct_Dungeon
         public override void Use() { GameManager.player.equipDfs += defend; }// 장착시 장비 방어력 증가
         public override void UnUse() { GameManager.player.equipDfs -= defend; }// 해제시 장비 방어력 감소
 
-        public Armour(string name, double buyPrice, int defend= 0)
+        public Armour(string name, double buyPrice, int defend = 0)
         {
             this.name = name;
             this.buyPrice = buyPrice;
@@ -51,6 +63,12 @@ namespace TeamProejct_Dungeon
             type = ItemType.Armour;
 
         }
+
+        public override IItem DeepCopy()
+        {
+            return new Armour(this.name, this.buyPrice, this.defend);
+        }
+
     }
 
     public class Weapon : IItem // 무기
@@ -64,7 +82,7 @@ namespace TeamProejct_Dungeon
 
         public override string Description() { return $"공격력이 {attack}만큼 상승하였습니다"; }
 
-        public override void Use(){ GameManager.player.equipAtk += attack; } // 장착시 공격력 상승
+        public override void Use() { GameManager.player.equipAtk += attack; } // 장착시 공격력 상승
         public override void UnUse() { GameManager.player.equipAtk -= attack; } // 장착시 공격력 감소
 
         public Weapon(string name, double buyPrice, int attack = 0)
@@ -75,9 +93,14 @@ namespace TeamProejct_Dungeon
             this.attack = attack;
             type = ItemType.Weapon;
         }
+
+        public override IItem DeepCopy()
+        {
+            return new Weapon(this.name, this.buyPrice, this.attack);
+        }
     }
-    
-    public class Consumable: IItem // 소비
+
+    public class Consumable : IItem // 소비
     {
         public override string name { get; set; }
         public override double buyPrice { get; set; }
@@ -90,9 +113,9 @@ namespace TeamProejct_Dungeon
         public int pHeatlh; // 체력포션의 체력 올려주는 값
 
         public int pStrength; // 힘포션의 공격력양
-        public override string Description() {return null;}
+        public override string Description() { return null; }
 
-        public override void Use() 
+        public override void Use()
         {
             if (amt <= 0) // 포션이 없을 때 
             {
@@ -118,8 +141,8 @@ namespace TeamProejct_Dungeon
             }
             amt--; // 포션 수량 감소
         }
-     
-        public Consumable(string name, double buyPrice, int health, int strength, int amount =1)
+
+        public Consumable(string name, double buyPrice, int health, int strength, int amount = 1)
         {
             this.name = name;
             this.buyPrice = buyPrice;
@@ -127,12 +150,19 @@ namespace TeamProejct_Dungeon
             pHeatlh = health; // 체력 포션 상승값
             pStrength = strength; // 힘 포션 상승값
 
-           type = ItemType.Consumable;
+            type = ItemType.Consumable;
             amt += amount;
 
-         
+
         }
-      
+
+        public override IItem DeepCopy()
+        {
+            return new Consumable(this.name, this.buyPrice, this.pHeatlh, this.pStrength);
+        }
+
+
+
     }
 
     // 데이터베이스 
