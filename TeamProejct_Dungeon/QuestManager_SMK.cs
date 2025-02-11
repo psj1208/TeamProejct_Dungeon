@@ -176,6 +176,34 @@ namespace TeamProejct_Dungeon
             }
         }
     }
+    // 방어력 / 힘 10 영구 증가 
+    public class Quest5_SMK : Quest_SMK
+    {
+        int gold;
+       public Quest5_SMK()
+        {
+            gold = GameManager.player.gold;
+            questName = "돈이면 다 되는 세상";
+            questDescription = "gold 5000 달성시 공격력 증가";
+        }
 
-    // 방어력 / 힘 10 영구 증가
+        public void RichMoney()
+        {
+            if( gold >=5000)
+            {
+                Compelete_SMK();
+            }
+        }
+            
+        public override void Reward_SMK(Player player)
+        {
+            if (status == QuestStatus_SMK.Completed)
+            {
+                player.atk += 10; // 공격력 10 상승
+                player.AddGold(500);
+            }
+            
+        }
+    }
+   
 }
