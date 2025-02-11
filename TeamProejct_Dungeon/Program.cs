@@ -109,9 +109,6 @@ namespace TeamProejct_Dungeon
                     // 전투 시작
                     Battle(GameManager.player, selectedStage, monsters);
 
-                    // 스테이지 클리어 보상 지급
-                    //selectedStage.ClearReward(player);
-
                     // 마을로 복귀
                     sceneType = SceneType.Home;
                 }
@@ -307,7 +304,7 @@ namespace TeamProejct_Dungeon
             }
         }
 
-
+        // 적의 턴
         static void EnemyPhase(Player player, List<Monster> monsters)
         {
             // 전투 시작
