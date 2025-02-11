@@ -24,7 +24,7 @@ namespace TeamProejct_Dungeon
             Text.TextingLine("------------------------인벤토리-------------------------", ConsoleColor.Red, false);
             for (int i = 0; i < items.Count; i++)
             {
-                Text.TextingLine($"{i + 1} . {items[i].name} : 판매 가격: {items[i].sellPrice} / {items[i].Description()}");
+                Text.TextingLine($"{i + 1} . {items[i].name} : 판매 가격: {items[i].sellPrice} / {items[i].Description()}", ConsoleColor.Gray, false);
             }
             Text.TextingLine("---------------------------------------------------------\n", ConsoleColor.Red, false);
         }
@@ -45,21 +45,9 @@ namespace TeamProejct_Dungeon
                 }
                 else
                 {
-                    if (items[input].IsEquipped == false)
-                    {
-                        Text.TextingLine($"{items[input].name} 아이템 사용 ! ", ConsoleColor.Magenta);
-                        items[input].Use();
-                        Console.ReadLine();
-                    }
-                    else
-                    {
-                        Text.TextingLine($"{items[input].name} 아이템 해제 ! ", ConsoleColor.Magenta);
-                        items[input].Use();
-                        Console.ReadLine();
-                    }
-
-                }
-                    
+                    UseItem(input);
+                    Console.ReadLine();
+                }   
             }
         }
 
@@ -86,10 +74,62 @@ namespace TeamProejct_Dungeon
             }
         }
         //아이템 사용(화면에 표기된 숫자 입력하시면 됩니다.실제 인덱스는 0부터 시작하나 화면에 표기는 1부터 시작하는 걸 감안했습니다.
+
+        public bool Equipitem(IItem item)
+        {
+            if(item is Weapon)
+            {
+                if(GameManager.player.curWeapon == null)
+                {
+                    GameManager.player.curWeapon = item.DeepCopy();
+                    GameManager.player.curWeapon.Use();
+                    return true;
+                }
+                else
+                {
+                    AddItem(GameManager.player.curWeapon.DeepCopy());
+                    GameManager.player.curWeapon.UnUse();
+                    GameManager.player.curWeapon = item;
+                    GameManager.player.curWeapon.Use();
+                    return true;
+                }
+            }
+            else if (item is Armour)
+            {
+                if (GameManager.player.curArmour == null)
+                {
+                    GameManager.player.curArmour = item.DeepCopy();
+                    GameManager.player.curArmour.Use();
+                    return true;
+                }
+                else
+                {
+                    AddItem(GameManager.player.curArmour.DeepCopy());
+                    GameManager.player.curArmour.UnUse();
+                    GameManager.player.curArmour = item;
+                    GameManager.player.curArmour.Use();
+                    return true;
+                }
+            }
+            return false;
+        }
         public void UseItem(int num)
         {
-            items[num - 1].Use();
-            Text.TextingLine($"{items[num - 1].name} 사용 !", ConsoleColor.Green);
+            if (items[num] is Armour || items[num] is Weapon)
+            {
+                if (Equipitem(items[num]))
+                {
+                    RemoveItem(num);
+                }
+                else
+                {
+                    Text.TextingLine("아이템 장착에 실패했습니다.", ConsoleColor.Red, false);
+                }
+            }
+            else
+            {
+                items[num].Use();
+            }
         }
 
         //찾는 아이템의 인덱스를 찾아 반환합니다. 발견을 못 할 시 -1을 반환.

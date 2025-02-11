@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -54,13 +55,15 @@ namespace TeamProejct_Dungeon
 
         public override void Use() // 장착시 장비 방어력 증가
         { 
-            GameManager.player.equipDfs += defend; 
-            IsEquipped = true;
+            GameManager.player.equipDfs += defend;
+            GameManager.player.dfs += defend;
+            Text.TextingLine($"{name} 아이템 장착 ! ", ConsoleColor.Magenta);
         }
         public override void UnUse() // 해제시 장비 방어력 감소
         { 
             GameManager.player.equipDfs -= defend;
-            IsEquipped = false;
+            GameManager.player.dfs -= defend;
+            Text.TextingLine($"{name} 아이템 해제 ! ", ConsoleColor.Magenta);
         }
 
         public Armour(string name, double buyPrice, int defend)
@@ -94,13 +97,14 @@ namespace TeamProejct_Dungeon
         public override void Use() // 장착시 공격력 상승
         { 
             GameManager.player.equipAtk += attack;
-            IsEquipped = true;
+            GameManager.player.atk += attack;
+            Text.TextingLine($"{name} 아이템 장착 ! ", ConsoleColor.Magenta);
         } 
         public override void UnUse() // 장착시 공격력 감소
         { 
             GameManager.player.equipAtk -= attack;
-            IsEquipped = false;
-
+            GameManager.player.atk -= attack;
+            Text.TextingLine($"{name} 아이템 해제 ! ", ConsoleColor.Magenta);
         } 
 
         public Weapon(string name, double buyPrice, int attack = 0)
@@ -135,6 +139,7 @@ namespace TeamProejct_Dungeon
 
         public override void Use()
         {
+            Text.TextingLine($"{name} 아이템 사용 ! ", ConsoleColor.Magenta);
             if (amt <= 0) // 포션이 없을 때 
             {
                 Console.WriteLine("포션이 없습니다. 포션을 구매해주세요."); // 포션 구매 요청

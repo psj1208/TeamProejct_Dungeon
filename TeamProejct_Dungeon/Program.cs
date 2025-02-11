@@ -57,7 +57,7 @@ namespace TeamProejct_Dungeon
                     Console.Clear();
                     Text.TextingLine("------------------------마을-------------------------", ConsoleColor.Magenta, true);
                     Text.TextingLine("\n\n1 . 상태 보기\n\n2 . 인벤토리\n\n3 . 상점\n\n4 . 던전\n\n5. 세이브\n", ConsoleColor.Green, false);
-                    int input = Text.GetInput(null, 1, 2, 3, 4, 5);
+                    int input = Text.GetInput(null, 1, 2, 3, 4, 5, 6);
                     switch (input)
                     {
                         case 1:
@@ -74,15 +74,14 @@ namespace TeamProejct_Dungeon
                             shop.DisplayItems();
                             break;
                         case 4:
-                            //던전 이동
-                            //테스트 코드 시작
-                            //int input_ = StageDB.ShowStageList();
-                            //Console.WriteLine(input_);
-                            //Thread.Sleep(500);
-                            //테스트 코드 끝
-                            sceneType = SceneType.Dungeon;
+                            //여기에 퀘스트 보드 보여주는 쪽으로.
+
                             break;
                         case 5:
+                            //던전 이동
+                            sceneType = SceneType.Dungeon;
+                            break;
+                        case 6:
                             //세이브 기능
                             break;
                         default:
