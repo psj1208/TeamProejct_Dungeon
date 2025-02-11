@@ -145,11 +145,13 @@ namespace TeamProejct_Dungeon
             {
                 GameManager.player.hp += pHeatlh; // 체력 상승
                 Text.TextingLine($"{this.pHeatlh} 를 회복했습니다.", ConsoleColor.Green);
+                GameManager.player.inven.RemoveItem(this);
             }
             if (pStrength > 0)
             {
                 GameManager.player.atk += pStrength; // 공격력 상승
                 Text.TextingLine($"{this.pStrength} 만큼 공격력이 상승했습니다.", ConsoleColor.Green);
+                GameManager.player.inven.RemoveItem(this);
             }
 
             if (GameManager.player.hp > GameManager.player.maxHp) // 체력 회복 후, 최대 체력보다 높으면
