@@ -35,7 +35,7 @@ namespace TeamProejct_Dungeon
                 if (sceneType == SceneType.Lobby)
                 {
                     string input_name = Text.GetInput("캐릭터의 이름을 입력해주세요.");
-                    int input_job = Text.GetInput("플레이어의 직업을 선택해주세요\n\n1 . 전사\n\n2 . 도적\n\n", 1, 2);
+                    int input_job = Text.GetInput("플레이어의 직업을 선택해주세요\n\n1 . 전사 : 높은 방어력과 강력한 한 방이 있습니다.\n\n2 . 도적 : 높은 공격력과 다중공격을 할 수 있습니다.\n\n", 1, 2);
                     if (input_job == 1)
                     {
                         player = new Player(input_name, Job.Warrior);
