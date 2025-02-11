@@ -127,6 +127,7 @@ namespace TeamProejct_Dungeon
             Console.Clear();
             Text.TextingLine("[ 상태 보기 ]\n", ConsoleColor.Yellow, false);
             Text.TextingLine("캐릭터의 정보가 표시됩니다.\n", ConsoleColor.Green, false);
+            Text.TextingLine("---------------------------------\n", ConsoleColor.Green, false);
 
             //플레이어 스텟창
             Text.TextingLine($"Lv. {level} ( Exp. {exp} / {maxExp} )", ConsoleColor.Green, false);
@@ -135,22 +136,21 @@ namespace TeamProejct_Dungeon
             string str = equipAtk == 0 ? $"{atk}" : $"{atk + equipAtk} (+{equipAtk})";
 
             Text.Texting("공격력 : ", ConsoleColor.Magenta, false);
-            Console.WriteLine(str, ConsoleColor.Green, false);
+            Text.TextingLine(str, ConsoleColor.Green, false);
 
             str = equipAtk == 0 ? $"{dfs}" : $"{dfs + equipDfs} (+{equipDfs})";
             Text.Texting("방어력 : ", ConsoleColor.Magenta, false);
-            Console.WriteLine(str, ConsoleColor.Green, false);
-
+            Text.TextingLine(str, ConsoleColor.Green, false);
             Text.Texting("체  력 : ", ConsoleColor.Red, false);
-            Console.WriteLine($"{hp} / {maxHp}");
+            Text.TextingLine($"{hp} / {maxHp}", ConsoleColor.Green, false);
             Text.Texting("마  나 : ", ConsoleColor.Blue, false);
-            Console.WriteLine($"{mp} / {maxMp}");
-            Text.Texting("Gold : ", ConsoleColor.Yellow, false);
-            Console.Write(gold);
+            Text.TextingLine($"{mp} / {maxMp}", ConsoleColor.Green, false);
+            Text.Texting("G o l d : ", ConsoleColor.Yellow, false);
+            Text.Texting($"{gold}", ConsoleColor.Green, false);
             Text.TextingLine(" G", ConsoleColor.Yellow, false);
-            
 
-            Console.WriteLine("\n0. 나가기\n");
+
+            Text.TextingLine("\n0. 나가기\n", ConsoleColor.Green, false);
             Text.GetInput(null, 0);
         }
         
