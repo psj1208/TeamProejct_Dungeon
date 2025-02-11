@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Intrinsics.Arm;
@@ -66,8 +67,8 @@ namespace TeamProejct_Dungeon
             }
             else if (_job == Job.Assassin)
             {
-                atk = 10;
-                dfs = 1;
+                atk = 100;
+                dfs = 100;
                 skill = new AssassinSkill();
             }
         }
@@ -172,7 +173,7 @@ namespace TeamProejct_Dungeon
         }
 
         //레벨 업 메서드
-        public void LevelUp()
+        public void LevelUp(Quest2 quest)
         {
             exp = 0; // exp 초기화 (초과 시 추가값 받아오도록) 
             maxExp += 20; // 레벨당 (maxExp 20 증가)
@@ -191,6 +192,11 @@ namespace TeamProejct_Dungeon
             {
                 atk += 4;
                 dfs += 2;
+            }
+
+            if (quest.isAccept && level ==3) 
+            {
+                quest.isClear = true;
             }
         }
     }

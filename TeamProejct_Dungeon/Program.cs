@@ -33,7 +33,7 @@ namespace TeamProejct_Dungeon
             //여기에 게임 흐름
             // 플레이어와 몬스터 리스트 생성
             Shop shop = new Shop();
-
+            QuestScene_KSJ quset = new QuestScene_KSJ() ;
             while (true)
             {
                 //로비
@@ -80,6 +80,7 @@ namespace TeamProejct_Dungeon
                             break;
                         case 4:
                             //여기에 퀘스트 보드 보여주는 쪽으로.
+                            quset.QuestDisplay();
 
                             break;
                         case 5:

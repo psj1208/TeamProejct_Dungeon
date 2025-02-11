@@ -92,12 +92,17 @@ namespace TeamProejct_Dungeon
         }
 
         // 보상 지급 메서드
-        public void GrantReward(Player player, Monster monster)
+        public void GrantReward(Player player, Monster monster, Quest1 quest = null)
         {
             if (isDead)
             {
                 player.AddGold(gold);
                 player.AddExp(monster.exp);
+
+                if (quest.isAccept)
+                {
+                    quest.curKill++;
+                }
             }
         }
 
