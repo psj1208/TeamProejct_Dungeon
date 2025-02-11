@@ -41,7 +41,8 @@ namespace TeamProejct_Dungeon
             Text.TextingLine("1. 갑옷", ConsoleColor.White);
             Text.TextingLine("2. 무기", ConsoleColor.White);
             Text.TextingLine("3. 소비", ConsoleColor.White);
-
+            Text.TextingLine("4. 휴식", ConsoleColor.White);
+            Text.Texting("구매하고싶은 목록을 선택해주세요>> ");
             int index = 1;
             string input = Console.ReadLine();
             int category = int.Parse(input);
@@ -76,6 +77,11 @@ namespace TeamProejct_Dungeon
                         Console.WriteLine($"{index}. {shopList[2][i].name} - 가격: {shopList[2][i].buyPrice}");
                         index++;
                     }
+                    break;
+                case 3:
+                    Console.Clear();
+                    Console.WriteLine("----------휴식중----------");
+                    Rest();
                     break;
                 default:
                     Console.WriteLine("잘못입력하셨습니다.");
@@ -118,12 +124,13 @@ namespace TeamProejct_Dungeon
 
         public void Rest() // 휴식하기
         {
-
+            Console.WriteLine($"현재 체력은{GameManager.player.hp} 입니다.");
             GameManager.player.hp += GameManager.player.maxHp / 2; // 플레이어 최대체력 50퍼센트 체력 회복
             if (GameManager.player.hp > GameManager.player.maxHp)
             {
                 GameManager.player.hp = GameManager.player.maxHp; // 최대체력보다 체력이 높으면 최대체력으로 보정
             }
+            Console.WriteLine($"휴식후 현재 체력은{GameManager.player.hp} 입니다.");
         }
 
     }
