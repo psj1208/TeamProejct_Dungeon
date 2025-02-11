@@ -35,7 +35,7 @@ namespace TeamProejct_Dungeon
         }
 
         // switch case 써서 카테고리 나누기
-        public void DisplayItems()
+        public void DisplayItems() // DisplayItems를 호출하면 => Buy호출
         {
             Console.WriteLine("--- 상점 목록 ---");
             Text.TextingLine("1. 갑옷", ConsoleColor.White);
@@ -50,27 +50,29 @@ namespace TeamProejct_Dungeon
             {
 
                 case (int)ItemType.Armour:
-
+                    Console.WriteLine("----------갑옷류----------");
                     for (int i = 0; i < shopList[0].Count; i++)
                     {
-                        Console.WriteLine("----------갑옷류----------");
+                       
                         Console.WriteLine($"{index}. {shopList[0][i].name} - 가격: {shopList[0][i].buyPrice}");
                         index++;
                     }
 
                     break;
                 case (int)ItemType.Weapon:
+                    Console.WriteLine("----------무기류----------");
                     for (int i = 0; i < shopList[1].Count; i++)
                     {
-                        Console.WriteLine("----------무기류----------");
+                       
                         Console.WriteLine($"{index}. {shopList[1][i].name} - 가격: {shopList[1][i].buyPrice}");
                         index++;
                     }
                     break;
                 case (int)ItemType.Consumable:
+                    Console.WriteLine("----------소비류----------");
                     for (int i = 0; i < shopList[2].Count; i++)
                     {
-                        Console.WriteLine("----------소비류----------");
+                       
                         Console.WriteLine($"{index}. {shopList[2][i].name} - 가격: {shopList[2][i].buyPrice}");
                         index++;
                     }
@@ -80,12 +82,13 @@ namespace TeamProejct_Dungeon
                     break;
 
             }
-            Buy(categoryIndex);
+            Buy(categoryIndex); // 구매 호출
         }
 
 
         public void Buy(int categoryIndex)
         {
+
             Console.Write("\n구매하려는 물건의 번호를 입력하세요: ");
             string input = Console.ReadLine();
             if (!int.TryParse(input, out int itemNumber) || itemNumber < 1 || itemNumber > shopList[categoryIndex].Count)
