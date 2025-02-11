@@ -22,16 +22,12 @@ namespace TeamProejct_Dungeon
             AsciiArt.Draw(imagePath, 20);
             GameStart();
         }
-
-
-        // 김태겸
-        // Battle_Init
         static void GameStart()
         {
             //여기에 게임 흐름
             // 플레이어와 몬스터 리스트 생성
             Player player = new Player();
-            List<Monster> mons = MonsterSpawn();
+            //List<Monster> mons = MonsterSpawn();
 
             while (true)
             {
@@ -39,7 +35,7 @@ namespace TeamProejct_Dungeon
                 if (sceneType == SceneType.Lobby)
                 {
                     string input_name = Text.GetInput("캐릭터의 이름을 입력해주세요.");
-                    int input_job = Text.GetInput("플레이어의 직업을 선택해주세요\n\n1 . 전사\n\n2 . 도적\n\n", 1, 2);
+                    int input_job = Text.GetInput("플레이어의 직업을 선택해주세요\n\n1 . 전사 : 높은 방어력과 강력한 한 방이 있습니다.\n\n2 . 도적 : 높은 공격력과 다중공격을 할 수 있습니다.\n\n", 1, 2);
                     if (input_job == 1)
                     {
                         player = new Player(input_name, Job.Warrior);
@@ -79,9 +75,9 @@ namespace TeamProejct_Dungeon
                         case 4:
                             //던전 이동
                             //테스트 코드 시작
-                            int input_ = StageDB.ShowStageList();
-                            Console.WriteLine(input_);
-                            Thread.Sleep(500);
+                            //int input_ = StageDB.ShowStageList();
+                            //Console.WriteLine(input_);
+                            //Thread.Sleep(500);
                             //테스트 코드 끝
                             sceneType = SceneType.Dungeon;
                             break;
@@ -95,9 +91,30 @@ namespace TeamProejct_Dungeon
                 //던전
                 else if (sceneType == SceneType.Dungeon)
                 {
+                    Console.Clear();
+                    Text.TextingLine("-------------------던전-------------------", ConsoleColor.DarkRed, true);
+
+                    // 스테이지 선택
+                    int stageIndex = StageDB.ShowStageList();
+                    Stage selectedStage = StageDB.StageList[stageIndex - 1];
+
+                    // 선택한 스테이지 출력
+                    selectedStage.StageInfo();
+                    Console.ReadKey();
+
+                    // 몬스터 리스트 가져오기
+                    List<Monster> monsters = selectedStage.GetMonsters();
+
                     // 전투 시작
-                    Battle(player);
+                    Battle(player, monsters);
+
+                    // 스테이지 클리어 보상 지급
+                    selectedStage.ClearReward(player);
+
+                    // 마을로 복귀
+                    sceneType = SceneType.Home;
                 }
+
             }
         }
 
@@ -106,24 +123,39 @@ namespace TeamProejct_Dungeon
             for (int i = 0; i < monsters.Count; i++)
             {
                 Monster monster = monsters[i];
-                string status = monster.isDead ? "Dead" : $"HP {monster.hp}/{monster.maxHp}";
+                string levelText = monster.level.ToString("D2");
+
                 Console.ForegroundColor = monster.isDead ? ConsoleColor.DarkGray : ConsoleColor.White;
-                if (Shownumber == true)
+
+                if (Shownumber)
                 {
-                    Console.WriteLine($"{i + 1}.Lv.{monsters[i].level} {monsters[i].Name} HP {monsters[i].hp} ");
+                    Console.Write($"{i + 1}.Lv.{levelText} {monster.Name} ");
                 }
                 else
                 {
-                    Console.WriteLine($"Lv.{monsters[i].level} {monsters[i].Name} HP {monsters[i].hp} ");
+                    Console.Write($"Lv.{levelText} {monster.Name} ");
+                }
+
+                // 🟥"Dead"를 DarkGray로, HP 상태를 Red로 출력
+                if (monster.isDead)
+                {
+                    Text.TextingLine("Dead", ConsoleColor.DarkGray, false);
+                }
+                else
+                {
+                    Text.TextingLine($"HP {monster.hp}/{monster.maxHp}", ConsoleColor.Red, false);
                 }
             }
+
+            Text.TextingLine("\n==================================================", ConsoleColor.White, false);
         }
 
+
         // 몬스터 랜덤 스폰
-        static List<Monster> MonsterSpawn()
+        static List<Monster> MonsterSpawn(Stage stage)
         {
             Random random = new Random();
-            List<Monster> monsterList = new List<Monster>();
+            List<Monster> monsterList = stage.GetMonsters();
 
             // 1~4마리의 몬스터가 랜덤하게 등장
             int monsterCount = random.Next(1, 5);
@@ -137,7 +169,9 @@ namespace TeamProejct_Dungeon
 
         static void ShowBattleScreen(Player player, List<Monster> monsters)
         {
-            Text.TextingLine("Battle!!\n", ConsoleColor.Yellow, false);
+            Text.TextingLine("==================================================", ConsoleColor.White, false);
+            Text.TextingLine("Battle!!", ConsoleColor.Yellow, false);
+            Text.TextingLine("==================================================\n", ConsoleColor.White, false);
             // 몬스터 정보 출력
             ShowMonsterInfo(monsters, false);
             Battle_Profile(player);
@@ -146,24 +180,19 @@ namespace TeamProejct_Dungeon
         static void Battle_Profile(Player player)
         {
             Text.TextingLine("\n[내정보]", ConsoleColor.Yellow, false);
-            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("--------------------------------------------------");
 
             // 플레이어 정보 (레벨과 이름, 직업)
             Text.TextingLine($"Lv.{player.level} {player.Name}", ConsoleColor.Green, false);
             Text.TextingLine($"HP {player.hp} / {player.maxHp}", ConsoleColor.Red, false);
             Text.TextingLine($"HP {player.mp} / {player.maxMp}\n", ConsoleColor.Blue, false);
 
-
-            Text.TextingLine("1. 공격", ConsoleColor.Cyan, false);
-            Text.TextingLine("2. 스킬\n", ConsoleColor.Cyan, false);
-
             Text.TextingLine("0. 전투 종료\n", ConsoleColor.Red, false);
-            
         }
 
         static void Battle_Dead(Player player, Monster monster)
         {
-            monster.GrantReward(player);
+            monster.GrantReward(player,monster);
 
             Text.TextingLine($"\n{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, false);
             Text.TextingLine($"{monster.exp} Exp를 얻었다!\n", ConsoleColor.White, false);
@@ -171,15 +200,14 @@ namespace TeamProejct_Dungeon
             Text.Texting($" G", ConsoleColor.Yellow, false);
             Text.TextingLine($"를 얻었다!\n", ConsoleColor.White, false);
 
-            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("--------------------------------------------------");
 
             Console.ReadKey();
         }
 
 
-        static void Battle(Player player)
+        static void Battle(Player player, List<Monster> monsters)
         {
-            List<Monster> monsters = MonsterSpawn();
             bool isPlayerTurn = true;
 
             while (true)
@@ -203,13 +231,6 @@ namespace TeamProejct_Dungeon
                 // 플레이어 턴 진행
                 bool playerActionSuccess = ExecutePlayerTurn(player, monsters, input.Value);
                 if (!playerActionSuccess) continue; // 플레이어 행동 실패 시 다시 입력받음
-
-                //// 몬스터가 모두 쓰러지면 전투 종료
-                //if (monsters.All(m => m.isDead))
-                //{
-                //    Battle_Result(player, monsters);
-                //    return;
-                //}
 
                 // 적의 턴 진행
                 EnemyPhase(player, monsters);
@@ -249,12 +270,11 @@ namespace TeamProejct_Dungeon
 
                     // 공격 실행
                     player.Attack(monster);
-                    Console.WriteLine("---------------------------------------------");
+                    Console.WriteLine("--------------------------------------------------");
                     Console.ReadKey();
 
                     if (monster.isDead)
                     {
-                        monster.GrantReward(player);
                         Battle_Dead(player, monster);
                     }
 
@@ -264,21 +284,19 @@ namespace TeamProejct_Dungeon
                 {
 
                     Console.Clear();
-                    Console.WriteLine("Battle!!\n");
+                    ShowBattleScreen(player, monsters);
 
-                    // 몬스터 정보 다시 출력
-                    ShowMonsterInfo(monsters);
-
-                    Console.ResetColor();
-
-                    Console.WriteLine("\n[내정보]");
-                    Console.WriteLine($"Lv.{player.level} {player.Name}");
-                    Console.WriteLine($"HP {player.hp} / {player.maxHp}");
                     //bool형식으로 선언해서 esc 누르면 null값받아오는게 멀티 메소드인데. null값을 if문으로 구분해서. false를 돌려받고.
-
                     bool skillUsed = player.skill.Use(player, monsters);
                     if (!skillUsed) return false; // 스킬 사용 취소 시 다시 선택하도록 처리
 
+                    foreach (var monster in monsters)
+                    {
+                        if (monster.isDead)
+                        {
+                            Battle_Dead(player, monster);
+                        }
+                    }
                     return true; // 스킬 사용 성공 시 턴 종료
                 }
             }
@@ -295,12 +313,14 @@ namespace TeamProejct_Dungeon
             {
                 Monster attackingMonster = aliveMonsters[random.Next(aliveMonsters.Count)];
                 int dmg = attackingMonster.atk;
-                Console.WriteLine("\n\n-------------------적의 차례------------------\n");
+                Console.WriteLine("\n\n==================>>적의 차례<<==================\n");
+
 
                 foreach (Monster monster in aliveMonsters)
                 {
                     monster.Attack(player);
-                    Console.WriteLine("---------^------------------------^----------");
+                    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+
                 }
             }
             Console.ReadKey();
