@@ -192,7 +192,7 @@ namespace TeamProejct_Dungeon
 
         static void Battle_Dead(Player player, Monster monster)
         {
-            monster.GrantReward(player);
+            monster.GrantReward(player,monster);
 
             Text.TextingLine($"\n{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, false);
             Text.TextingLine($"{monster.exp} Exp를 얻었다!\n", ConsoleColor.White, false);
@@ -275,7 +275,6 @@ namespace TeamProejct_Dungeon
 
                     if (monster.isDead)
                     {
-                        monster.GrantReward(player);
                         Battle_Dead(player, monster);
                     }
 
@@ -291,6 +290,13 @@ namespace TeamProejct_Dungeon
                     bool skillUsed = player.skill.Use(player, monsters);
                     if (!skillUsed) return false; // 스킬 사용 취소 시 다시 선택하도록 처리
 
+                    foreach (var monster in monsters)
+                    {
+                        if (monster.isDead)
+                        {
+                            Battle_Dead(player, monster);
+                        }
+                    }
                     return true; // 스킬 사용 성공 시 턴 종료
                 }
             }
