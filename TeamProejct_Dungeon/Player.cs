@@ -51,8 +51,9 @@ namespace TeamProejct_Dungeon
             job = _job;
             hp = maxHp;
             mp = maxMp;
-            GameManager.player = this;
             inven = new Inventory();
+            atk += equipAtk;
+            dfs += equipDfs;
 
             //직업별 기본스텟 변경
             if (_job == Job.Warrior)
@@ -76,7 +77,7 @@ namespace TeamProejct_Dungeon
             Random random = new Random();
 
             //플레이어 데미지
-            int damage = atk + equipAtk;
+            int damage = atk;
 
             //데미지 오차범위 (-20% ~ +20%)
             double damageRatio = damage * 0.1d;
