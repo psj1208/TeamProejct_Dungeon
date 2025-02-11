@@ -1,73 +1,154 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TeamProejct_Dungeon
 {
-
     class QuestScene
     {
+        private List<Quest> quests = new List<Quest>();
 
         public QuestScene()
         {
+            AddQuests();
             QuestDisplay();
+        }
+
+        public void AddQuests()
+        {
+            quests.Add(new Quest1());
+            quests.Add(new Quest2());
         }
 
         public void QuestDisplay()
         {
             Console.Clear();
-            Text.TextingLine("Quest!!", ConsoleColor.Yellow, false);
+            Text.TextingLine("퀘스트 목록\n", ConsoleColor.Yellow, false);
+            foreach (Quest quest in quests)
+            {
+                Console.WriteLine($"{quest.questName} - {quest.questDescription}\n");
+            }
 
+            int questChoice = Text.GetInput(null,1, 2);
+
+            if (questChoice == 1)
+            {
+                
+            }
+            else if(questChoice ==2)
+            {
+
+            }
 
         }
-
     }
 
-    abstract class Quest
+    public enum QuestStatus
+    {
+        NotProgress, // 미수락
+        IsProgress,  // 진행중
+        Completed,   // 완료
+    }
+
+    public abstract class Quest
     {
         public string questName { get; set; }
         public string questDescription { get; set; }
+        public QuestStatus status { get; set; } = QuestStatus.NotProgress;
+        
 
-        public string QuestType { get; set; }
-        public abstract void Reward();
-        public abstract void SimpleDescription();
-        public bool isProgress;
+        public void Accept()
+        {
+            status = QuestStatus.IsProgress;
 
-        //마을을 위협하는 미니언 처치
+        }
 
-        //이봐! 마을 근처에 미니언들이 너무 많아졌다고 생각하지 않나?
+        public void Compelete()
+        {
+            status = QuestStatus.Completed;
+        }
 
-        //미니언 5마리 처치 (0/5)
-
-        // 보상 - 아이템
-
-
-
-        // 장비를 장착해보자
-
-        // 자네! 멋진 장비를 들고 있군 장비를 한번 착용해보게
-
-        // 장비 장착해보기.
-
-        // 보상 - 1000G.
-
-
-        // 더욱 더 강해지기!
-
-        // 자네! 멋진 장비를 들고 있군 장비를 한번 착용해보게
-
-        // 레벨 3 달성
-
-        // 방어력 / 힘 10 영구 증가
+        public abstract void Reward(Player player);
     }
 
+    //3킬퀘스트
     public class Quest1 : Quest
     {
-        public Quest1() {
+        private int totlalKill =  3;
+        private int curKill = 0;
+
+        public Quest1()
+        {
+            questName = "마을을 위협하는 몬스터 처치";
+            questDescription = "몬스터 3킬";
+        }
+
+        public void KillMonster()
+        {
+            if (status == QuestStatus.IsProgress)
+            {
+                curKill++;
+                if (curKill >= totlalKill)
+                {
+                    Compelete();
+                }
+            }
+        }
+
+        //퀘스트 완료시 1000골드 지급
+        public override void Reward(Player player)
+        {
+            if (status == QuestStatus.Completed)
+            {
+                player.AddGold(1000);
+            }
+        }
+    }
+
+    //장비착용 퀘스트
+    public class Quest2 : Quest
+    {
+        private int totlalKill = 3;
+        private int curKill = 0;
+
+        public Quest2()
+        {
+            questName = "더욱 강해지기!";
+            questDescription = "레벨 3달성";
+        }
+
+        public void EquipItem()
+        {
+            if (status == QuestStatus.IsProgress)
+            {
+                curKill++;
+                if (curKill >= totlalKill)
+                {
+                    Compelete();
+                }
+            }
+        }
+
+        //퀘스트 완료시 1000골드 지급
+        public override void Reward(Player player)
+        {
+            if (status == QuestStatus.Completed)
+            {
+                player.AddGold(1000);
+            }
+        }
     }
 
 
 
+    // 더욱 더 강해지기!
+
+    // 
+
+    // 레벨 3 달성
+
+    // 방어력 / 힘 10 영구 증가
 }
