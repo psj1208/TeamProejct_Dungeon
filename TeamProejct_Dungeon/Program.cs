@@ -27,6 +27,7 @@ namespace TeamProejct_Dungeon
             //여기에 게임 흐름
             // 플레이어와 몬스터 리스트 생성
             Player player = new Player();
+            Shop shop = new Shop();
             //List<Monster> mons = MonsterSpawn();
 
             while (true)
@@ -54,6 +55,7 @@ namespace TeamProejct_Dungeon
                 //마을
                 else if (sceneType == SceneType.Home)
                 {
+                    Console.Clear();
                     Text.TextingLine("------------------------마을-------------------------", ConsoleColor.Magenta, true);
                     Text.TextingLine("\n\n1 . 상태 보기\n\n2 . 인벤토리\n\n3 . 상점\n\n4 . 던전\n\n5. 세이브\n", ConsoleColor.Green, false);
                     int input = Text.GetInput(null, 1, 2, 3, 4, 5);
@@ -70,7 +72,7 @@ namespace TeamProejct_Dungeon
                             player.inven.UsingInventory();
                             break;
                         case 3:
-                            //상점 이동
+                            shop.DisplayItems();
                             break;
                         case 4:
                             //던전 이동
