@@ -107,7 +107,7 @@ namespace TeamProejct_Dungeon
                     List<Monster> monsters = selectedStage.GetMonsters();
 
                     // 전투 시작
-                    Battle(player, selectedStage, monsters);
+                    Battle(GameManager.player, selectedStage, monsters);
 
                     // 스테이지 클리어 보상 지급
                     //selectedStage.ClearReward(player);
@@ -193,8 +193,9 @@ namespace TeamProejct_Dungeon
 
         static void Battle_Dead(Player player, Monster monster)
         {
-            monster.GrantReward(player,monster);
-
+            if (!monster.isDead ) { return; }// 이미 죽지 않았다면 보상 X
+            // 보상 지급 (경험치 & 골드)
+            monster.GrantReward(player, monster);
             Text.TextingLine($"\n{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, false);
             Text.TextingLine($"{monster.exp} Exp를 얻었다!\n", ConsoleColor.White, false);
             Text.Texting($"{monster.gold}", ConsoleColor.White, false);
@@ -247,6 +248,7 @@ namespace TeamProejct_Dungeon
 
         static bool ExecutePlayerTurn(Player player, List<Monster> monsters, int action)
         {
+            
             while (true) // 올바른 입력을 받을 때까지 반복
             {
                 Console.Clear();
@@ -282,17 +284,20 @@ namespace TeamProejct_Dungeon
                 }
                 else if (action == 2) // 스킬
                 {
-
                     Console.Clear();
                     ShowBattleScreen(player, monsters);
 
-                    //bool형식으로 선언해서 esc 누르면 null값받아오는게 멀티 메소드인데. null값을 if문으로 구분해서. false를 돌려받고.
+                    // 스킬 사용 전 몬스터의 생존 저장
+                    List<Monster> beforDead = monsters.Where(m => m.isDead).ToList();
+                    
+                    // 스킬 사용
                     bool skillUsed = player.skill.Use(player, monsters);
                     if (!skillUsed) return false; // 스킬 사용 취소 시 다시 선택하도록 처리
 
+                    // 스킬 사용 후, 죽은 몬스터 처리 (여러 마리 가능)
                     foreach (var monster in monsters)
                     {
-                        if (monster.isDead)
+                        if (monster.isDead && !beforDead.Contains(monster))
                         {
                             Battle_Dead(player, monster);
                         }
