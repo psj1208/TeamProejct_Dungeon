@@ -68,6 +68,7 @@ namespace TeamProejct_Dungeon
         (int x, int y) EndPos_;
         public Monster monster;
         public bool IsSelected;
+        public bool canSelect;
         bool IsTexting;
         ConsoleColor color;
 
@@ -75,6 +76,7 @@ namespace TeamProejct_Dungeon
         {
             monster = mon;
             IsSelected = false;
+            canSelect = true;
             IsTexting = false;
             color = ConsoleColor.White;
         }
@@ -88,9 +90,18 @@ namespace TeamProejct_Dungeon
             Console.WriteLine();
         }
         //글자 색깔 바꾸기(현재 선택지)
+
+        public void SelectOff()
+        {
+            this.color = ConsoleColor.DarkGray;
+            canSelect = false;
+        }
         public void TurnOn()
         {
-            this.color = ConsoleColor.Magenta;
+            if (canSelect == true)
+            {
+                this.color = ConsoleColor.Magenta;
+            }
         }
         //글자 색깔 끄기(선택지 변경)
         public void TurnOff()
@@ -182,8 +193,6 @@ namespace TeamProejct_Dungeon
                 e = Console.GetCursorPosition();
                 if (result != -1)
                     Thread.Sleep(500);
-                else
-                    Thread.Sleep(10);
                 ClearTextBetween(s, e);
             }
             endPos_ = Console.GetCursorPosition();
@@ -199,8 +208,17 @@ namespace TeamProejct_Dungeon
             (int x, int y) s;
             (int x, int y) e;
             int num;
-            //배열 중에 현재 선택중인 것.기본 값은 맨 처음 인덱스인 0
+            int surviveNumber = 0;
+            //배열 중에 현재 선택중인 것. 살아있는 몬스터 중에 가장 위에 있는 것.
             int select = 0;
+            for (int i=0; i<monster.Count; i++)
+            {
+                if (monster[i].isDead == false)
+                {
+                    select = i;
+                    break;
+                }
+            }
             //선택지 스타트 위치 저장
             startPos_ = Console.GetCursorPosition();
             //반환용
@@ -220,9 +238,11 @@ namespace TeamProejct_Dungeon
                 s = Console.GetCursorPosition();
                 Text.TextingLine("-------선택-------", ConsoleColor.Red, false);
                 tm[select].TurnOn();
+                surviveNumber = tm.Count;
                 foreach (TextMonster t in tm)
                 {
-                    Text.Texting($"{num + 1} . ", ConsoleColor.White, false);
+                    if (t.monster.isDead == true)
+                        t.SelectOff();
                     t.Print();
                     num++;
                 }
@@ -243,7 +263,17 @@ namespace TeamProejct_Dungeon
                         if (select < tm.Count - 1)
                         {
                             tm[select].TurnOff();
-                            select++;
+                            select++;  
+                        }
+                        if (tm[select].canSelect == false)
+                        {
+                            for (int i = select + 1; i < tm.Count; i++)
+                                if (tm[i].canSelect == true)
+                                    select = i;
+                            if (tm[select].canSelect == false)
+                            {
+                                select--;
+                            }
                         }
                         break;
                     case ConsoleKey.UpArrow:
@@ -251,6 +281,16 @@ namespace TeamProejct_Dungeon
                         {
                             tm[select].TurnOff();
                             select--;
+                        }
+                        if (tm[select].canSelect == false)
+                        {
+                            for (int i = select - 1; i >= 0; i--) 
+                                if (tm[i].canSelect == true)
+                                    select = i;
+                            if (tm[select].canSelect == false)
+                            {
+                                select++;
+                            }
                         }
                         break;
                     case ConsoleKey.Enter:
@@ -262,10 +302,17 @@ namespace TeamProejct_Dungeon
                         break;
                 }
                 e = Console.GetCursorPosition();
+                foreach(TextMonster t in tm)
+                {
+                    if (t.monster.isDead == true)
+                        surviveNumber--;
+                }
+                if (surviveNumber < trynum)
+                {
+                    trynum = surviveNumber;
+                }
                 if (mons.Count == trynum)
                     Thread.Sleep(500);
-                else
-                    Thread.Sleep(10);
                 ClearTextBetween(s, e);
             }
             endPos_ = Console.GetCursorPosition();
@@ -377,7 +424,7 @@ namespace TeamProejct_Dungeon
             Console.SetCursorPosition(Startpos.x, Startpos.y);
             for (int i = Startpos.y; i <= Endpos.y; i++)
             {
-                Console.Write("                                               ");
+                Console.Write("                                                                                                     ");
                 Console.WriteLine(" ");
             }
             Console.SetCursorPosition(Startpos.x, Startpos.y);

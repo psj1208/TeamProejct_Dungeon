@@ -24,7 +24,7 @@ namespace TeamProejct_Dungeon
             Text.TextingLine("------------------------인벤토리-------------------------", ConsoleColor.Red, false);
             for (int i = 0; i < items.Count; i++)
             {
-                Text.TextingLine($"{i + 1} . {items[i].name} , 판매 가격: {items[i].sellPrice} : {items[i].Description()}");
+                Text.TextingLine($"{i + 1} . {items[i].name} : 판매 가격: {items[i].sellPrice} / {items[i].Description()}");
             }
             Text.TextingLine("---------------------------------------------------------\n", ConsoleColor.Red, false);
         }
@@ -44,7 +44,22 @@ namespace TeamProejct_Dungeon
                     break;
                 }
                 else
-                    Text.TextingLine($"{input + 1} 아이템 사용 ! ", ConsoleColor.Magenta);
+                {
+                    if (items[input].IsEquipped == false)
+                    {
+                        Text.TextingLine($"{items[input].name} 아이템 사용 ! ", ConsoleColor.Magenta);
+                        items[input].Use();
+                        Console.ReadLine();
+                    }
+                    else
+                    {
+                        Text.TextingLine($"{items[input].name} 아이템 해제 ! ", ConsoleColor.Magenta);
+                        items[input].Use();
+                        Console.ReadLine();
+                    }
+
+                }
+                    
             }
         }
 
