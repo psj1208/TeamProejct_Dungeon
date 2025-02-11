@@ -5,6 +5,7 @@ using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TeamProejct_Dungeon
 {
@@ -37,16 +38,16 @@ namespace TeamProejct_Dungeon
         public int equipAtk { get; set; }
         public int equipDfs { get; set; }
 
-        
+
         public Player() { }
 
-        public Skill skill { get;}
+        public Skill skill { get; }
         public Inventory inven;
-        
+
         //플레이어 생성자  (초기값)
         public Player(string _name, Job _job)
         {
-            Name = _name; 
+            Name = _name;
             job = _job;
             hp = maxHp;
             mp = maxMp;
@@ -59,7 +60,7 @@ namespace TeamProejct_Dungeon
                 atk = 5;
                 dfs = 3;
                 skill = new WarriorSkill();
-                
+
             }
             else if (_job == Job.Assassin)
             {
@@ -68,7 +69,7 @@ namespace TeamProejct_Dungeon
                 skill = new AssassinSkill();
             }
         }
-  
+
         //플레이어가 공격 
         public void Attack(ICharacter monster)
         {
@@ -79,7 +80,7 @@ namespace TeamProejct_Dungeon
 
             //데미지 오차범위 (-20% ~ +20%)
             double damageRatio = damage * 0.1d;
-            int damageChance = random.Next(-2,3);
+            int damageChance = random.Next(-2, 3);
             int extraDamage = (int)Math.Round(damageChance * damageRatio);
 
             damage += extraDamage;
@@ -88,7 +89,7 @@ namespace TeamProejct_Dungeon
             int cirticalChance = random.Next(0, 5);
             bool isCrital = (cirticalChance == 0);
 
-            
+
             // 크리티컬 시 20% 데미지 증가
             if (isCrital)
             {
@@ -124,22 +125,30 @@ namespace TeamProejct_Dungeon
         public void StatusDisplay()
         {
             Console.Clear();
-            Console.WriteLine("상태보기");
-            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
+            Text.TextingLine("[ 상태 보기 ]\n", ConsoleColor.Yellow, false);
+            Text.TextingLine("캐릭터의 정보가 표시됩니다.\n", ConsoleColor.Green, false);
 
             //플레이어 스텟창
-            Console.WriteLine($"Lv. {level} ( Exp. {exp} / {maxExp} )");
-            Console.WriteLine($"{Name} ( {job} )");
+            Text.TextingLine($"Lv. {level} ( Exp. {exp} / {maxExp} )", ConsoleColor.Green, false);
+            Text.TextingLine($"{Name} ( {job} )", ConsoleColor.Green, false);
 
-            string str = equipAtk == 0 ? $"공격력 : {atk}" : $"공격력 : {atk + equipAtk} (+{equipAtk})";
-            Console.WriteLine(str);
+            string str = equipAtk == 0 ? $"{atk}" : $"{atk + equipAtk} (+{equipAtk})";
 
-            str = equipAtk == 0 ? $"방어력 : {dfs}" : $"방어력 : {dfs + equipDfs} (+{equipDfs})";
-            Console.WriteLine(str);
+            Text.Texting("공격력 : ", ConsoleColor.Magenta, false);
+            Console.WriteLine(str, ConsoleColor.Green, false);
 
-            Console.WriteLine($"체 력 : {hp} / {maxHp}");
-            Console.WriteLine($"마 나 : {mp} / {maxMp}");
-            Console.WriteLine($"Gold : {gold} G");
+            str = equipAtk == 0 ? $"{dfs}" : $"{dfs + equipDfs} (+{equipDfs})";
+            Text.Texting("방어력 : ", ConsoleColor.Magenta, false);
+            Console.WriteLine(str, ConsoleColor.Green, false);
+
+            Text.Texting("체  력 : ", ConsoleColor.Red, false);
+            Console.WriteLine($"{hp} / {maxHp}");
+            Text.Texting("마  나 : ", ConsoleColor.Blue, false);
+            Console.WriteLine($"{mp} / {maxMp}");
+            Text.Texting("Gold : ", ConsoleColor.Yellow, false);
+            Console.Write(gold);
+            Text.TextingLine(" G", ConsoleColor.Yellow, false);
+            
 
             Console.WriteLine("\n0. 나가기\n");
             Text.GetInput(null, 0);
