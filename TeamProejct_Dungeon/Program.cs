@@ -10,7 +10,8 @@ namespace TeamProejct_Dungeon
     {
         Lobby,
         Home,
-        Dungeon
+        Dungeon,
+        QuestBoard_LYR
     }
     internal class Program
     {
@@ -56,7 +57,7 @@ namespace TeamProejct_Dungeon
                 {
                     Console.Clear();
                     Text.TextingLine("------------------------마을-------------------------", ConsoleColor.Magenta, true);
-                    Text.TextingLine("\n\n1 . 상태 보기\n\n2 . 인벤토리\n\n3 . 상점\n\n4 . 던전\n\n5. 세이브\n", ConsoleColor.Green, false);
+                    Text.TextingLine("\n\n1 . 상태 보기\n\n2 . 인벤토리\n\n3 . 상점\n\n4. 퀘스트\n\n5 . 던전\n\n6. 세이브\n", ConsoleColor.Green, false);
                     int input = Text.GetInput(null, 1, 2, 3, 4, 5, 6);
                     switch (input)
                     {
@@ -75,7 +76,7 @@ namespace TeamProejct_Dungeon
                             break;
                         case 4:
                             //여기에 퀘스트 보드 보여주는 쪽으로.
-
+                            sceneType = SceneType.QuestBoard_LYR;
                             break;
                         case 5:
                             //던전 이동
@@ -88,6 +89,22 @@ namespace TeamProejct_Dungeon
                             break;
                     };
                 }
+                //퀘스트
+                else if (sceneType == SceneType.QuestBoard_LYR)
+                {
+                    Console.Clear();
+                    Text.TextingLine("-------------------퀘스트 보드-------------------", ConsoleColor.Yellow, true);
+                    Text.TextingLine("\n1 . 레벨 2를 달성하세요.\n", ConsoleColor.Green, false);
+                    Text.TextingLine("\n0 . 돌아가기\n", ConsoleColor.Red, false);
+
+                    int input = Text.GetInput(null, 0, 1);
+
+                    if (input == 0)
+                    {
+                        sceneType = SceneType.Home; // 마을로 돌아감
+                    }
+                }
+                
                 //던전
                 else if (sceneType == SceneType.Dungeon)
                 {
