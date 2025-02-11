@@ -39,32 +39,32 @@ namespace TeamProejct_Dungeon
         public static void Clear1(Player player)
         {
             player.AddGold(Randomize.Makenum(20, 50));
-            Randomize.RandomGain(player, ItemDatabase.weaponList[0], 20);
-            Randomize.RandomGain(player, ItemDatabase.armourList[0], 20);
-            Randomize.RandomGain(player, ItemDatabase.consumableList[0], 20);
-            Randomize.RandomGain(player, ItemDatabase.consumableList[1], 5);
+            Randomize.RandomGain(player, ItemDatabase.weaponList[0].DeepCopy(), 20);
+            Randomize.RandomGain(player, ItemDatabase.armourList[0].DeepCopy(), 20);
+            Randomize.RandomGain(player, ItemDatabase.consumableList[0].DeepCopy(), 20);
+            Randomize.RandomGain(player, ItemDatabase.consumableList[1].DeepCopy(), 5);
         }
         
         // 2단계 스테이지 클리어 보상
         public static void Clear2(Player player)
         {
             player.AddGold(Randomize.Makenum(40, 70));
-            Randomize.RandomGain(player, ItemDatabase.weaponList[1], 20);
-            Randomize.RandomGain(player, ItemDatabase.armourList[1], 20);
-            Randomize.RandomGain(player, ItemDatabase.consumableList[0], 50);
-            Randomize.RandomGain(player, ItemDatabase.consumableList[1], 10);
-            Randomize.RandomGain(player, ItemDatabase.consumableList[2], 5);
+            Randomize.RandomGain(player, ItemDatabase.weaponList[1].DeepCopy(), 20);
+            Randomize.RandomGain(player, ItemDatabase.armourList[1].DeepCopy(), 20);
+            Randomize.RandomGain(player, ItemDatabase.consumableList[0].DeepCopy(), 50);
+            Randomize.RandomGain(player, ItemDatabase.consumableList[1].DeepCopy(), 10);
+            Randomize.RandomGain(player, ItemDatabase.consumableList[2].DeepCopy(), 5);
         }
         
         // 3단계 스테이지 클리어 보상
         public static void Clear3(Player player)
         {
             player.AddGold(Randomize.Makenum(60, 90));
-            Randomize.RandomGain(player, ItemDatabase.weaponList[2], 20);
-            Randomize.RandomGain(player, ItemDatabase.armourList[2], 20);
-            Randomize.RandomGain(player, ItemDatabase.consumableList[0], 70);
-            Randomize.RandomGain(player, ItemDatabase.consumableList[1], 20);
-            Randomize.RandomGain(player, ItemDatabase.consumableList[2], 20);
+            Randomize.RandomGain(player, ItemDatabase.weaponList[2].DeepCopy(), 20);
+            Randomize.RandomGain(player, ItemDatabase.armourList[2].DeepCopy(), 20);
+            Randomize.RandomGain(player, ItemDatabase.consumableList[0].DeepCopy(), 70);
+            Randomize.RandomGain(player, ItemDatabase.consumableList[1].DeepCopy(), 20);
+            Randomize.RandomGain(player, ItemDatabase.consumableList[2].DeepCopy(), 20);
         }
     }
 
@@ -140,7 +140,7 @@ namespace TeamProejct_Dungeon
         // 스테이지 1, 2, 3 보여주는 창
         public void StageInfo()
         {   
-            Console.WriteLine($"스테이지 {StageDB.StageList.IndexOf(this) + 1}:");
+            Text.TextingLine($"[스테이지 {StageDB.StageList.IndexOf(this) + 1}]", ConsoleColor.Green);
             
             for (int i = 0; i < original.Count; i++)    // 모든 몬스터 정보 출력
             {
@@ -150,11 +150,11 @@ namespace TeamProejct_Dungeon
                 if (i < original.Count - 1)    
                 {
                     // e.g. Lv.1 슬라임,
-                    Text.Texting($"Lv.{monster.level} {monster.Name}, ", ConsoleColor.Red, false);
+                    Text.Texting($"Lv.{monster.level} {monster.Name}, ", ConsoleColor.DarkRed, false);
                 }
                 else
                 {   // e.g. Lv.1 슬라임
-                    Text.Texting($"Lv.{monster.level} {monster.Name}", ConsoleColor.Red, false);  // 마지막 몬스터는 ',' 없이 출력
+                    Text.Texting($"Lv.{monster.level} {monster.Name}", ConsoleColor.DarkRed, false);  // 마지막 몬스터는 ',' 없이 출력
                 }
             }
             Console.WriteLine("\n");

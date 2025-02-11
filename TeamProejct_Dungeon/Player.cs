@@ -38,12 +38,13 @@ namespace TeamProejct_Dungeon
         public int equipAtk { get; set; }
         public int equipDfs { get; set; }
 
+        public IItem curWeapon = null;
+        public IItem curArmour = null;
 
         public Player() { }
 
         public Skill skill { get; }
         public Inventory inven;
-
         //플레이어 생성자  (초기값)
         public Player(string _name, Job _job)
         {
@@ -54,7 +55,7 @@ namespace TeamProejct_Dungeon
             inven = new Inventory();
             atk += equipAtk;
             dfs += equipDfs;
-
+            
             //직업별 기본스텟 변경
             if (_job == Job.Warrior)
             {
@@ -134,12 +135,12 @@ namespace TeamProejct_Dungeon
             Text.TextingLine($"Lv. {level} ( Exp. {exp} / {maxExp} )", ConsoleColor.Green, false);
             Text.TextingLine($"{Name} ( {job} )", ConsoleColor.Green, false);
 
-            string str = equipAtk == 0 ? $"{atk}" : $"{atk + equipAtk} (+{equipAtk})";
+            string str = equipAtk == 0 ? $"{atk}" : $"{atk} (+{equipAtk})";
 
             Text.Texting("공격력 : ", ConsoleColor.Magenta, false);
             Text.TextingLine(str, ConsoleColor.Green, false);
 
-            str = equipDfs == 0 ? $"{dfs}" : $"{dfs + equipDfs} (+{equipDfs})";
+            str = equipDfs == 0 ? $"{dfs}" : $"{dfs} (+{equipDfs})";
             Text.Texting("방어력 : ", ConsoleColor.Magenta, false);
             Text.TextingLine(str, ConsoleColor.Green, false);
             Text.Texting("체  력 : ", ConsoleColor.Red, false);
