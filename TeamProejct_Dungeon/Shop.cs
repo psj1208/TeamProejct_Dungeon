@@ -96,7 +96,7 @@ namespace TeamProejct_Dungeon
             Console.Write("\n구매하려는 물건의 번호를 입력하세요\n");
             int category = Text.GetInput(null, 1, 2, 3);
 
-            IItem selectedItem = shopList[categoryIndex][category - 1];
+            IItem selectedItem = shopList[categoryIndex -1][category - 1];
 
             // 골드 부족 확인
             if (GameManager.player.gold < selectedItem.buyPrice)
