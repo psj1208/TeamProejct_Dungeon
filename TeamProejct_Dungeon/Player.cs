@@ -139,7 +139,7 @@ namespace TeamProejct_Dungeon
             Text.Texting("공격력 : ", ConsoleColor.Magenta, false);
             Text.TextingLine(str, ConsoleColor.Green, false);
 
-            str = equipAtk == 0 ? $"{dfs}" : $"{dfs + equipDfs} (+{equipDfs})";
+            str = equipDfs == 0 ? $"{dfs}" : $"{dfs + equipDfs} (+{equipDfs})";
             Text.Texting("방어력 : ", ConsoleColor.Magenta, false);
             Text.TextingLine(str, ConsoleColor.Green, false);
             Text.Texting("체  력 : ", ConsoleColor.Red, false);
