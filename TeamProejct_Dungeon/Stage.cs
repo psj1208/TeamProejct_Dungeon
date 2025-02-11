@@ -117,7 +117,13 @@ namespace TeamProejct_Dungeon
             monsters = GetRandomMonsters(original, 3);   // 몬스터 리스트에서 3마리를 랜덤하게 선택
             ClearStage = clearAction;                         // 보상 지급 메서드 실행
         }
-        
+
+        // 몬스터 3마리 랜덤 선택 반환하기
+        public List<Monster> GetMonsters()
+        {
+            return monsters;
+        }
+
         // 몬스터 리스트에서 랜덤하게 count 마리의 몬스터를 선택
         private List<Monster> GetRandomMonsters(List<Monster> monsterList, int count)
         {
