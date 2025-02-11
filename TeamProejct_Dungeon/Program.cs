@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Xml.Linq;
@@ -26,7 +27,6 @@ namespace TeamProejct_Dungeon
         {
             //여기에 게임 흐름
             // 플레이어와 몬스터 리스트 생성
-            Player player = new Player();
             Shop shop = new Shop();
 
             while (true)
@@ -38,13 +38,13 @@ namespace TeamProejct_Dungeon
                     int input_job = Text.GetInput("플레이어의 직업을 선택해주세요\n\n1 . 전사 : 높은 방어력과 강력한 한 방이 있습니다.\n\n2 . 도적 : 높은 공격력과 다중공격을 할 수 있습니다.\n\n", 1, 2);
                     if (input_job == 1)
                     {
-                        player = new Player(input_name, Job.Warrior);
+                        GameManager.player = new Player(input_name, Job.Warrior);
                     }
                     else
                     {
-                        player = new Player(input_name, Job.Assassin);
+                        GameManager.player = new Player(input_name, Job.Assassin);
                     }
-                    Text.TextingLine($"이름 : {player.Name} , 직업 : {player.job} 캐릭터가 생성되었습니다.", ConsoleColor.Green);
+                    Text.TextingLine($"이름 : {GameManager.player.Name} , 직업 : {GameManager.player.job} 캐릭터가 생성되었습니다.", ConsoleColor.Green);
                     Thread.Sleep(500);
                     Text.TextingLine($"\n\n잠시 후 마을에 입장합니다.", ConsoleColor.Green);
                     sceneType = SceneType.Home;
@@ -63,12 +63,12 @@ namespace TeamProejct_Dungeon
                         case 1:
                             //플레이어 스탯 보기
                             Console.Clear();
-                            player.StatusDisplay();
+                            GameManager.player.StatusDisplay();
                             Console.Clear();
                             break;
                         case 2:
                             //플레이어 인벤토리(장착하는 기능)
-                            player.inven.UsingInventory();
+                            GameManager.player.inven.UsingInventory();
                             break;
                         case 3:
                             shop.DisplayItems();
