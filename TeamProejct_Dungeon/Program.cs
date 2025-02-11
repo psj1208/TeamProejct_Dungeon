@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Xml.Linq;
+using Newtonsoft.Json;
 
 namespace TeamProejct_Dungeon
 {
@@ -22,7 +24,10 @@ namespace TeamProejct_Dungeon
             string imagePath = AppDomain.CurrentDomain.BaseDirectory + "\\sample.jpg"; // 이미지 경로(상위 폴더/bin/Debug/net버전안에 넣어야함.)
             AsciiArt.Draw(imagePath, 20);
             GameStart();
+
+            
         }
+
         static void GameStart()
         {
             //여기에 게임 흐름
@@ -56,8 +61,8 @@ namespace TeamProejct_Dungeon
                 {
                     Console.Clear();
                     Text.TextingLine("------------------------마을-------------------------", ConsoleColor.Magenta, true);
-                    Text.TextingLine("\n\n1 . 상태 보기\n\n2 . 인벤토리\n\n3 . 상점\n\n4 . 던전\n\n5. 세이브\n", ConsoleColor.Green, false);
-                    int input = Text.GetInput(null, 1, 2, 3, 4, 5, 6);
+                    Text.TextingLine("\n\n1 . 상태 보기\n\n2 . 인벤토리\n\n3 . 상점\n\n4 . 퀘스트\n\n5 . 던전\n\n6. 세이브\n\n7 . 로드\n", ConsoleColor.Green, false);
+                    int input = Text.GetInput(null, 1, 2, 3, 4, 5, 6, 7);
                     switch (input)
                     {
                         case 1:
@@ -83,7 +88,13 @@ namespace TeamProejct_Dungeon
                             break;
                         case 6:
                             //세이브 기능
+                            SaveData();
                             break;
+                        case 7:
+                            //세이브 기능
+                            LoadData();
+                            break;
+
                         default:
                             break;
                     };
@@ -381,6 +392,41 @@ namespace TeamProejct_Dungeon
                 { return input; }
                 Console.WriteLine("잘못된 입력입니다. 다시 입력해주세요");
             }
+        }
+
+        static void SaveData()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory + "Json";
+            string filePath = path + "\\playerData.json";
+
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            string userData = Newtonsoft.Json.JsonConvert.SerializeObject(GameManager.player, Newtonsoft.Json.Formatting.Indented);
+
+            File.WriteAllText(filePath, userData);
+
+            Console.WriteLine("게임 데이터가 저장되었습니다!");
+        }
+
+        static void LoadData()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory + "Json";
+            string filePath = path + "\\playerData.json";
+
+            if (!File.Exists(filePath))
+            {
+                Console.WriteLine("저장된 데이터가 없습니다.");
+                return;
+            }
+
+            string jsonData = File.ReadAllText(filePath);
+            GameManager.player = Newtonsoft.Json.JsonConvert.DeserializeObject<Player>(jsonData);
+
+            Console.WriteLine("게임 데이터를 불러왔습니다.");
         }
     }
 }
