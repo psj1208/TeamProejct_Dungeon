@@ -53,7 +53,7 @@ namespace TeamProejct_Dungeon
             
         }
     }
-    class Quest
+    public class Quest_PSJ
     {
         private string title;
         private string description;
@@ -64,7 +64,7 @@ namespace TeamProejct_Dungeon
 
         bool isCleared;
 
-        public Quest(string title, string des, QuestType_PSJ type, ICharacter target, int TargetCount = 1)
+        private Quest_PSJ(string title, string des, QuestType_PSJ type, ICharacter target, int TargetCount = 1)
         {
             this.title = title;
             this.description = des;
