@@ -68,7 +68,7 @@ namespace TeamProejct_Dungeon
         (int x, int y) EndPos_;
         public Monster monster;
         public bool IsSelected;
-        bool isDead;
+        bool canSelect;
         bool IsTexting;
         ConsoleColor color;
 
@@ -76,6 +76,7 @@ namespace TeamProejct_Dungeon
         {
             monster = mon;
             IsSelected = false;
+            canSelect = true;
             IsTexting = false;
             color = ConsoleColor.White;
         }
@@ -90,9 +91,10 @@ namespace TeamProejct_Dungeon
         }
         //글자 색깔 바꾸기(현재 선택지)
 
-        public void Die()
+        public void SelectOff()
         {
             this.color = ConsoleColor.Gray;
+            canSelect = false;
         }
         public void TurnOn()
         {
@@ -229,8 +231,8 @@ namespace TeamProejct_Dungeon
                 foreach (TextMonster t in tm)
                 {
                     if (t.monster.isDead == true)
-                        t.Die();
-                    Text.Texting($"{num + 1} . ", ConsoleColor.White, false);
+                        t.SelectOff();
+                    Text.Texting($"", ConsoleColor.White, false);
                     t.Print();
                     num++;
                 }

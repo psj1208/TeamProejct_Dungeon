@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace TeamProejct_Dungeon
 {
-    enum QuestType
+    enum QuestType_PSJ
     {
         kill,
         find,
         talk
     }
 
-    class Reward
+    class Reward_PSJ
     {
         public int gold;
         public int exp;
         public List<IItem> reward_items = new List<IItem>();
         public string description;
 
-        public Reward(int g,int e, params IItem[] items)
+        public Reward_PSJ(int g,int e, params IItem[] items)
         {
             gold = g;
             exp = e;
@@ -58,13 +58,13 @@ namespace TeamProejct_Dungeon
         private string title;
         private string description;
         private string target;
-        private QuestType qt;
+        private QuestType_PSJ qt;
         private int TargetClearCount;
         private int CurClearCount;
 
         bool isCleared;
 
-        public Quest(string title, string des, QuestType type, ICharacter target, int TargetCount = 1)
+        public Quest(string title, string des, QuestType_PSJ type, ICharacter target, int TargetCount = 1)
         {
             this.title = title;
             this.description = des;
@@ -87,9 +87,5 @@ namespace TeamProejct_Dungeon
                 isCleared = true;
             }
         }
-    }
-    public static class QuestManager
-    {
-
     }
 }
