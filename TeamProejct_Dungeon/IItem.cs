@@ -23,7 +23,7 @@ namespace TeamProejct_Dungeon
         public virtual string Description() { return null; }
         public bool IsEquipped { get; set; } = false;
 
-
+        public int addAmount { get; set; }
         // 부모 virtual deepcopy 메소드 선언
         // new Armour(this.name, ~
         // new Weapon
