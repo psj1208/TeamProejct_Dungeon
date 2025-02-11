@@ -377,7 +377,7 @@ namespace TeamProejct_Dungeon
             Console.SetCursorPosition(Startpos.x, Startpos.y);
             for (int i = Startpos.y; i <= Endpos.y; i++)
             {
-                Console.Write("                                               ");
+                Console.Write("                                                                                                     ");
                 Console.WriteLine(" ");
             }
             Console.SetCursorPosition(Startpos.x, Startpos.y);
