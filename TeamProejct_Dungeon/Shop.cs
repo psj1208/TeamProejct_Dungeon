@@ -38,11 +38,15 @@ namespace TeamProejct_Dungeon
         public void DisplayItems()
         {
             Console.WriteLine("--- 상점 목록 ---");
+            Text.TextingLine("1. 갑옷", ConsoleColor.White);
+            Text.TextingLine("2. 무기", ConsoleColor.White);
+            Text.TextingLine("3. 소비", ConsoleColor.White);
 
             int index = 1;
             string input = Console.ReadLine();
             int category = int.Parse(input);
-            switch (category)
+            int categoryIndex = category - 1;
+            switch (category - 1)
             {
 
                 case (int)ItemType.Armour:
@@ -73,10 +77,39 @@ namespace TeamProejct_Dungeon
                     break;
 
             }
-
+            Buy(categoryIndex);
         }
 
-     
+
+        public void Buy(int categoryIndex)
+        {
+            Console.Write("\n구매하려는 물건의 번호를 입력하세요: ");
+            string input = Console.ReadLine();
+            if (!int.TryParse(input, out int itemNumber) || itemNumber < 1 || itemNumber > shopList[categoryIndex].Count)
+            {
+                Console.WriteLine("잘못된 입력입니다.");
+                return;
+            }
+
+            IItem selectedItem = shopList[categoryIndex][itemNumber - 1];
+
+            // 골드 부족 확인
+            if (GameManager.player.gold < selectedItem.buyPrice)
+            {
+                Console.WriteLine("골드가 부족합니다.");
+                return;
+            }
+
+            // 구매 처리
+            GameManager.player.gold -= (int)selectedItem.buyPrice;
+            GameManager.player.inven.AddItem(selectedItem.DeepCopy());
+
+            Console.WriteLine($"{selectedItem.name}을(를) 구매했습니다! 남은 골드: {GameManager.player.gold}");
+        }
+
+
+
+
         public void Rest() // 휴식하기
         {
 
