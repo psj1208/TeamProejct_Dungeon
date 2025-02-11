@@ -51,8 +51,9 @@ namespace TeamProejct_Dungeon
             job = _job;
             hp = maxHp;
             mp = maxMp;
-            GameManager.player = this;
             inven = new Inventory();
+            atk += equipAtk;
+            dfs += equipDfs;
 
             //직업별 기본스텟 변경
             if (_job == Job.Warrior)
@@ -76,7 +77,7 @@ namespace TeamProejct_Dungeon
             Random random = new Random();
 
             //플레이어 데미지
-            int damage = atk + equipAtk;
+            int damage = atk;
 
             //데미지 오차범위 (-20% ~ +20%)
             double damageRatio = damage * 0.1d;
@@ -138,7 +139,7 @@ namespace TeamProejct_Dungeon
             Text.Texting("공격력 : ", ConsoleColor.Magenta, false);
             Text.TextingLine(str, ConsoleColor.Green, false);
 
-            str = equipAtk == 0 ? $"{dfs}" : $"{dfs + equipDfs} (+{equipDfs})";
+            str = equipDfs == 0 ? $"{dfs}" : $"{dfs + equipDfs} (+{equipDfs})";
             Text.Texting("방어력 : ", ConsoleColor.Magenta, false);
             Text.TextingLine(str, ConsoleColor.Green, false);
             Text.Texting("체  력 : ", ConsoleColor.Red, false);

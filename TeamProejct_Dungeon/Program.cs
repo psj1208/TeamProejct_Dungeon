@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Xml.Linq;
@@ -26,8 +27,7 @@ namespace TeamProejct_Dungeon
         {
             //여기에 게임 흐름
             // 플레이어와 몬스터 리스트 생성
-            Player player = new Player();
-            //List<Monster> mons = MonsterSpawn();
+            Shop shop = new Shop();
 
             while (true)
             {
@@ -38,13 +38,13 @@ namespace TeamProejct_Dungeon
                     int input_job = Text.GetInput("플레이어의 직업을 선택해주세요\n\n1 . 전사 : 높은 방어력과 강력한 한 방이 있습니다.\n\n2 . 도적 : 높은 공격력과 다중공격을 할 수 있습니다.\n\n", 1, 2);
                     if (input_job == 1)
                     {
-                        player = new Player(input_name, Job.Warrior);
+                        GameManager.player = new Player(input_name, Job.Warrior);
                     }
                     else
                     {
-                        player = new Player(input_name, Job.Assassin);
+                        GameManager.player = new Player(input_name, Job.Assassin);
                     }
-                    Text.TextingLine($"이름 : {player.Name} , 직업 : {player.job} 캐릭터가 생성되었습니다.", ConsoleColor.Green);
+                    Text.TextingLine($"이름 : {GameManager.player.Name} , 직업 : {GameManager.player.job} 캐릭터가 생성되었습니다.", ConsoleColor.Green);
                     Thread.Sleep(500);
                     Text.TextingLine($"\n\n잠시 후 마을에 입장합니다.", ConsoleColor.Green);
                     sceneType = SceneType.Home;
@@ -54,6 +54,7 @@ namespace TeamProejct_Dungeon
                 //마을
                 else if (sceneType == SceneType.Home)
                 {
+                    Console.Clear();
                     Text.TextingLine("------------------------마을-------------------------", ConsoleColor.Magenta, true);
                     Text.TextingLine("\n\n1 . 상태 보기\n\n2 . 인벤토리\n\n3 . 상점\n\n4 . 던전\n\n5. 세이브\n", ConsoleColor.Green, false);
                     int input = Text.GetInput(null, 1, 2, 3, 4, 5);
@@ -62,15 +63,15 @@ namespace TeamProejct_Dungeon
                         case 1:
                             //플레이어 스탯 보기
                             Console.Clear();
-                            player.StatusDisplay();
+                            GameManager.player.StatusDisplay();
                             Console.Clear();
                             break;
                         case 2:
                             //플레이어 인벤토리(장착하는 기능)
-                            player.inven.UsingInventory();
+                            GameManager.player.inven.UsingInventory();
                             break;
                         case 3:
-                            //상점 이동
+                            shop.DisplayItems();
                             break;
                         case 4:
                             //던전 이동
@@ -106,10 +107,10 @@ namespace TeamProejct_Dungeon
                     List<Monster> monsters = selectedStage.GetMonsters();
 
                     // 전투 시작
-                    Battle(player, monsters);
+                    Battle(GameManager.player, selectedStage, monsters);
 
                     // 스테이지 클리어 보상 지급
-                    selectedStage.ClearReward(player);
+                    //selectedStage.ClearReward(player);
 
                     // 마을로 복귀
                     sceneType = SceneType.Home;
@@ -136,7 +137,7 @@ namespace TeamProejct_Dungeon
                     Console.Write($"Lv.{levelText} {monster.Name} ");
                 }
 
-                // 🟥"Dead"를 DarkGray로, HP 상태를 Red로 출력
+                // "Dead"를 DarkGray로, HP 상태를 Red로 출력
                 if (monster.isDead)
                 {
                     Text.TextingLine("Dead", ConsoleColor.DarkGray, false);
@@ -192,8 +193,9 @@ namespace TeamProejct_Dungeon
 
         static void Battle_Dead(Player player, Monster monster)
         {
-            monster.GrantReward(player,monster);
-
+            if (!monster.isDead ) { return; }// 이미 죽지 않았다면 보상 X
+            // 보상 지급 (경험치 & 골드)
+            monster.GrantReward(player, monster);
             Text.TextingLine($"\n{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, false);
             Text.TextingLine($"{monster.exp} Exp를 얻었다!\n", ConsoleColor.White, false);
             Text.Texting($"{monster.gold}", ConsoleColor.White, false);
@@ -205,8 +207,7 @@ namespace TeamProejct_Dungeon
             Console.ReadKey();
         }
 
-
-        static void Battle(Player player, List<Monster> monsters)
+        static void Battle(Player player, Stage selectedStage, List<Monster> monsters)
         {
             bool isPlayerTurn = true;
 
@@ -238,7 +239,7 @@ namespace TeamProejct_Dungeon
                 // 플레이어가 사망하면 전투 종료
                 if (player.isDead || monsters.All(m => m.isDead))
                 {
-                    Battle_Result(player, monsters);
+                    Battle_Result(player, selectedStage ,monsters);
                     Thread.Sleep(500);
                     return;
                 }
@@ -247,6 +248,7 @@ namespace TeamProejct_Dungeon
 
         static bool ExecutePlayerTurn(Player player, List<Monster> monsters, int action)
         {
+            
             while (true) // 올바른 입력을 받을 때까지 반복
             {
                 Console.Clear();
@@ -282,17 +284,20 @@ namespace TeamProejct_Dungeon
                 }
                 else if (action == 2) // 스킬
                 {
-
                     Console.Clear();
                     ShowBattleScreen(player, monsters);
 
-                    //bool형식으로 선언해서 esc 누르면 null값받아오는게 멀티 메소드인데. null값을 if문으로 구분해서. false를 돌려받고.
+                    // 스킬 사용 전 몬스터의 생존 저장
+                    List<Monster> beforDead = monsters.Where(m => m.isDead).ToList();
+                    
+                    // 스킬 사용
                     bool skillUsed = player.skill.Use(player, monsters);
                     if (!skillUsed) return false; // 스킬 사용 취소 시 다시 선택하도록 처리
 
+                    // 스킬 사용 후, 죽은 몬스터 처리 (여러 마리 가능)
                     foreach (var monster in monsters)
                     {
-                        if (monster.isDead)
+                        if (monster.isDead && !beforDead.Contains(monster))
                         {
                             Battle_Dead(player, monster);
                         }
@@ -328,11 +333,13 @@ namespace TeamProejct_Dungeon
 
 
         // 전투 결과
-        static void Battle_Result(Player player, List<Monster> monsters)
+        static void Battle_Result(Player player, Stage selectedStage, List<Monster> monsters)
         {
             Console.Clear();
-            // 전투 시작
-            Console.WriteLine("Battle!! - Result\n");
+            // 전투 결과
+            Text.TextingLine("==================================================", ConsoleColor.White, false);
+            Text.TextingLine("Battle!! - Result", ConsoleColor.Yellow, false);
+            Text.TextingLine("==================================================\n", ConsoleColor.White, false);
 
             // 이겼을 경우 - Victory, You Lose
             if (!player.isDead && monsters.All(m => m.isDead))
@@ -344,6 +351,9 @@ namespace TeamProejct_Dungeon
                 Console.WriteLine($"던전에서 몬스터 {monsterCount}마리를 잡았습니다!\n");
                 Console.WriteLine($"Lv. {player.level} {player.Name}");
                 Console.WriteLine($"HP {player.maxHp} -> {player.hp}");
+
+                // 스테이지 보상 지급
+                selectedStage.ClearReward(player);
             }
             else if (player.isDead)
             {
@@ -353,6 +363,8 @@ namespace TeamProejct_Dungeon
 
                 Console.WriteLine($"Lv. {player.level} {player.Name}");
                 Console.WriteLine($"HP {player.maxHp} -> {player.hp}");
+
+                // 패배 시 체력 일부 회복
                 player.hp += 10;
             }
             Console.WriteLine("\n0. 마을로 ");

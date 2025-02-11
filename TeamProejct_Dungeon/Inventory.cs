@@ -24,7 +24,7 @@ namespace TeamProejct_Dungeon
             Text.TextingLine("------------------------인벤토리-------------------------", ConsoleColor.Red, false);
             for (int i = 0; i < items.Count; i++)
             {
-                Text.TextingLine($"{i + 1} . {items[i].name} , 판매 가격: {items[i].sellPrice} : {items[i].Description()}");
+                Text.TextingLine($"{i + 1} . {items[i].name} : 판매 가격: {items[i].sellPrice} / {items[i].Description()}");
             }
             Text.TextingLine("---------------------------------------------------------\n", ConsoleColor.Red, false);
         }
@@ -44,7 +44,22 @@ namespace TeamProejct_Dungeon
                     break;
                 }
                 else
-                    Text.TextingLine($"{input + 1} 아이템 사용 ! ", ConsoleColor.Magenta);
+                {
+                    if (items[input].IsEquipped == false)
+                    {
+                        Text.TextingLine($"{items[input].name} 아이템 사용 ! ", ConsoleColor.Magenta);
+                        items[input].Use();
+                        Console.ReadLine();
+                    }
+                    else
+                    {
+                        Text.TextingLine($"{items[input].name} 아이템 해제 ! ", ConsoleColor.Magenta);
+                        items[input].Use();
+                        Console.ReadLine();
+                    }
+
+                }
+                    
             }
         }
 
@@ -106,7 +121,24 @@ namespace TeamProejct_Dungeon
         //아이템 추가(IItem 클래스 형식으로 넣어야합니다.)
         public void AddItem(IItem item)
         {
-            items.Add(item);
+            if (item.type == ItemType.Consumable)
+            {
+                for (int i = 0; i < items.Count; i++)
+                {
+                    if(items[i].name == item.name)
+                    {
+                        //소비품 아이템 수량 추가.(이름 같을 경우)
+                    }
+                    if (i == items.Count - 1)
+                    {
+                        items.Add(item);
+                    }
+                }
+            }
+            else
+            {
+                items.Add(item);
+            }
         }
         
         //아이템 삭제(아이템 매개변수 형)

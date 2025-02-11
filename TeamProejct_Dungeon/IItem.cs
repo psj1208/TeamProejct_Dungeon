@@ -21,8 +21,9 @@ namespace TeamProejct_Dungeon
         public virtual double sellPrice { get; set; } // 판매 가격 85퍼센트의 가격 판매 
         public virtual ItemType type { get; set; }
         public virtual string Description() { return null; }
+        public bool IsEquipped { get; set; } = false;
 
-
+        public int addAmount { get; set; }
         // 부모 virtual deepcopy 메소드 선언
         // new Armour(this.name, ~
         // new Weapon
@@ -49,12 +50,20 @@ namespace TeamProejct_Dungeon
         public override ItemType type { get; set; }
 
         public int defend; // 방어력
-        public override string Description() { return $"방어력이 {defend}만큼 상승하였습니다."; }
+        public override string Description() { return $"방어력이 {defend}만큼 상승합니다."; }
 
-        public override void Use() { GameManager.player.equipDfs += defend; }// 장착시 장비 방어력 증가
-        public override void UnUse() { GameManager.player.equipDfs -= defend; }// 해제시 장비 방어력 감소
+        public override void Use() // 장착시 장비 방어력 증가
+        { 
+            GameManager.player.equipDfs += defend; 
+            IsEquipped = true;
+        }
+        public override void UnUse() // 해제시 장비 방어력 감소
+        { 
+            GameManager.player.equipDfs -= defend;
+            IsEquipped = false;
+        }
 
-        public Armour(string name, double buyPrice, int defend = 0)
+        public Armour(string name, double buyPrice, int defend)
         {
             this.name = name;
             this.buyPrice = buyPrice;
@@ -80,10 +89,19 @@ namespace TeamProejct_Dungeon
         public int attack;
         public override ItemType type { get; set; }
 
-        public override string Description() { return $"공격력이 {attack}만큼 상승하였습니다"; }
+        public override string Description() { return $"공격력이 {attack}만큼 상승합니다"; }
 
-        public override void Use() { GameManager.player.equipAtk += attack; } // 장착시 공격력 상승
-        public override void UnUse() { GameManager.player.equipAtk -= attack; } // 장착시 공격력 감소
+        public override void Use() // 장착시 공격력 상승
+        { 
+            GameManager.player.equipAtk += attack;
+            IsEquipped = true;
+        } 
+        public override void UnUse() // 장착시 공격력 감소
+        { 
+            GameManager.player.equipAtk -= attack;
+            IsEquipped = false;
+
+        } 
 
         public Weapon(string name, double buyPrice, int attack = 0)
         {
@@ -127,11 +145,13 @@ namespace TeamProejct_Dungeon
             {
                 GameManager.player.hp += pHeatlh; // 체력 상승
                 Text.TextingLine($"{this.pHeatlh} 를 회복했습니다.", ConsoleColor.Green);
+                GameManager.player.inven.RemoveItem(this);
             }
             if (pStrength > 0)
             {
                 GameManager.player.atk += pStrength; // 공격력 상승
                 Text.TextingLine($"{this.pStrength} 만큼 공격력이 상승했습니다.", ConsoleColor.Green);
+                GameManager.player.inven.RemoveItem(this);
             }
 
             if (GameManager.player.hp > GameManager.player.maxHp) // 체력 회복 후, 최대 체력보다 높으면
