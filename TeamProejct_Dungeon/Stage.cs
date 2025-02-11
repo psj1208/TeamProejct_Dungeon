@@ -20,7 +20,6 @@ namespace TeamProejct_Dungeon
         // 확률(per)에 따라 플레이어에게 아이템 지급
         public static void RandomGain(Player player, IItem item, int per)
         {
-            Random rand = new Random();
             if (rand.Next(0, 101) <= per)
                GameManager.inven.AddItem(item);  // 아이템 지급 메서드
         }
@@ -72,21 +71,23 @@ namespace TeamProejct_Dungeon
     // 전체 스테이지 데이터베이스
     public static class StageDB
     {
-        //for문 돌려서 0~4,5~9,10~14 이렇게 순서대로 넣으셔도 되고. 임의로 넣으셔고 되고. 수정 가하셔도됩니다.
+        // 스테이지 리스트
         public static List<Stage> StageList = new List<Stage>
         {
             new Stage(MonsterDB.GetMonstersByLevel(1, 8), StageClear.Clear1),   // 하급 몬스터
             new Stage(MonsterDB.GetMonstersByLevel(8, 16), StageClear.Clear2),  // 중급 몬스터
             new Stage(MonsterDB.GetMonstersByLevel(17, 31), StageClear.Clear3)  // 상급 몬스터
         };
-
+        
+        //  던전 입장 시 스테이지의 정보 출력(몬스터 이름, 레벨)
         public static int ShowStageList()
         {
-            foreach (var stage in StageList)
+            Console.Clear();
+            foreach (var stage in StageList)    // 모든 스테이지의 정보를 출력
             {
                 stage.StageInfo();
             }
-            int input = Text.GetInput(null, 1, 2, 3);
+            int input = Text.GetInput(null, 1, 2, 3); // 입장할 스테이지 정보를 반환
             return input;
         }
     }
@@ -95,32 +96,62 @@ namespace TeamProejct_Dungeon
     public class Stage
     {
         List<Monster> monsters;     // 스테이지에 등장하는 몬스터 목록(랜덤 3마리)
-        Action<Player> ClearStage;  // 스테이지 클리어 시 보상 지급 메서드
-        public List<Monster> original;
+        Action<Player> ClearStage;  // 해당 스테이지의 클리어 보상 메서드를 저장
+        public List<Monster> original;  // 해당 스테이지에서 등장할 가능성이 있는 전체 몬스터 목록(이후 여기서 3마리 픽)
+        
+        public string Name { get; private set; }
+        public int rewardGold { get; private set; }
+        public List<IItem> rewardItems { get; private set; }
+
+        public Stage(string name, int gold, List<IItem> items)
+        {
+            Name = name;
+            rewardGold = gold;
+            rewardItems = items;
+        }
+        
         // 스테이지 생성자
         public Stage(List<Monster> monsterList, Action<Player> clearAction)
         {
-            original = monsterList;
+            original = monsterList;                             // 전체 몬스터 리스트
             monsters = GetRandomMonsters(original, 3);   // 몬스터 리스트에서 3마리를 랜덤하게 선택
-            ClearStage = clearAction;       // 보상 지급 메서드
+            ClearStage = clearAction;                         // 보상 지급 메서드 실행
         }
         
-        // 몬스터 리스트에서 랜덤하게 n마리의 몬스터를 생성
+        // 몬스터 리스트에서 랜덤하게 count 마리의 몬스터를 선택
         private List<Monster> GetRandomMonsters(List<Monster> monsterList, int count)
         {
             Random random = new Random();  
             return monsterList.OrderBy(m => random.Next()).Take(count).Select(m => m.GetCopy()).ToList();
         }
-
-        public void StageC(Player player)
+        
+        // 클리어 보상 실행
+        public void ClearReward(Player player)
         {
             ClearStage(player);
         }
 
-        //
+        // 스테이지 1, 2, 3 보여주는 창
         public void StageInfo()
-        {
-            //n 스테이지 : level. 이름 ~~~~~~~~~~(출현 몬스터 보여주기)
+        {   
+            Console.WriteLine($"스테이지 {StageDB.StageList.IndexOf(this) + 1}:");
+            
+            for (int i = 0; i < original.Count; i++)    // 모든 몬스터 정보 출력
+            {
+                var monster = original[i];
+                
+                // 몬스터 나열 시, 마지막 몬스터에는 ',' 빼주기
+                if (i < original.Count - 1)    
+                {
+                    // e.g. Lv.1 슬라임,
+                    Text.Texting($"Lv.{monster.level} {monster.Name}, ", ConsoleColor.Red, false);
+                }
+                else
+                {   // e.g. Lv.1 슬라임
+                    Text.Texting($"Lv.{monster.level} {monster.Name}", ConsoleColor.Red, false);  // 마지막 몬스터는 ',' 없이 출력
+                }
+            }
+            Console.WriteLine("\n");
         }
     }
 }
