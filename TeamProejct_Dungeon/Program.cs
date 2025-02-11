@@ -108,15 +108,19 @@ namespace TeamProejct_Dungeon
                 Monster monster = monsters[i];
                 string status = monster.isDead ? "Dead" : $"HP {monster.hp}/{monster.maxHp}";
                 Console.ForegroundColor = monster.isDead ? ConsoleColor.DarkGray : ConsoleColor.White;
+
+                string levelText = monster.level.ToString("D2");
                 if (Shownumber == true)
                 {
-                    Console.WriteLine($"{i + 1}.Lv.{monsters[i].level} {monsters[i].Name} {status}");
+                    Console.WriteLine($"{i + 1}.Lv.{levelText} {monsters[i].Name} {status}");
                 }
                 else
                 {
-                    Console.WriteLine($"Lv.{monsters[i].level} {monsters[i].Name} {status}");
+                    Console.Write($"Lv.{levelText} {monster.Name} ");
+                    Text.TextingLine($"{status}", ConsoleColor.Red, false);
                 }
             }
+            Text.TextingLine("\n==================================================", ConsoleColor.White, false);
             Console.ResetColor(); // 색상 초기화
         }
 
@@ -138,7 +142,9 @@ namespace TeamProejct_Dungeon
 
         static void ShowBattleScreen(Player player, List<Monster> monsters)
         {
-            Text.TextingLine("Battle!!\n", ConsoleColor.Yellow, false);
+            Text.TextingLine("==================================================", ConsoleColor.White, false);
+            Text.TextingLine("Battle!!", ConsoleColor.Yellow, false);
+            Text.TextingLine("==================================================\n", ConsoleColor.White, false);
             // 몬스터 정보 출력
             ShowMonsterInfo(monsters, false);
             Battle_Profile(player);
@@ -147,7 +153,7 @@ namespace TeamProejct_Dungeon
         static void Battle_Profile(Player player)
         {
             Text.TextingLine("\n[내정보]", ConsoleColor.Yellow, false);
-            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("--------------------------------------------------");
 
             // 플레이어 정보 (레벨과 이름, 직업)
             Text.TextingLine($"Lv.{player.level} {player.Name}", ConsoleColor.Green, false);
@@ -167,7 +173,7 @@ namespace TeamProejct_Dungeon
             Text.Texting($" G", ConsoleColor.Yellow, false);
             Text.TextingLine($"를 얻었다!\n", ConsoleColor.White, false);
 
-            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("--------------------------------------------------");
 
             Console.ReadKey();
         }
@@ -186,7 +192,6 @@ namespace TeamProejct_Dungeon
                 // ESC 처리: 도망가기
                 Text.TextingLine("ESC : 도망가기");
                 int? input = Text.GetInputMulti(true, "1. 공격", "2. 스킬");
-                Thread.Sleep(100);
 
                 if (input == null) // ESC 입력 시 마을로 복귀
                 {
@@ -239,7 +244,7 @@ namespace TeamProejct_Dungeon
 
                     // 공격 실행
                     player.Attack(monster);
-                    Console.WriteLine("---------------------------------------------");
+                    Console.WriteLine("--------------------------------------------------");
                     Console.ReadKey();
 
                     if (monster.isDead)
@@ -277,12 +282,14 @@ namespace TeamProejct_Dungeon
             {
                 Monster attackingMonster = aliveMonsters[random.Next(aliveMonsters.Count)];
                 int dmg = attackingMonster.atk;
-                Console.WriteLine("\n\n-------------------적의 차례------------------\n");
+                Console.WriteLine("\n\n==================>>적의 차례<<==================\n");
+
 
                 foreach (Monster monster in aliveMonsters)
                 {
                     monster.Attack(player);
-                    Console.WriteLine("---------^------------------------^----------");
+                    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+
                 }
             }
             Console.ReadKey();
