@@ -172,10 +172,11 @@ namespace TeamProejct_Dungeon
         //레벨 업 메서드
         public void LevelUp()
         {
-            exp = exp - maxExp; // exp 초기화 (초과 시 추가값 받아오도록) 
-            maxExp += (level - 1) * 20; // 레벨당 (maxExp 20 증가)
+            exp = 0; // exp 초기화 (초과 시 추가값 받아오도록) 
+            maxExp += 20; // 레벨당 (maxExp 20 증가)
             maxHp += level * 20; // 레벨당 (maxHp 20 증가)
             hp = maxHp; // hp 100%
+            mp = 100;
             level++;
             
             //직업별 스텟 증가치 변경
