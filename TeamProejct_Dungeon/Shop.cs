@@ -37,19 +37,17 @@ namespace TeamProejct_Dungeon
         // switch case 써서 카테고리 나누기
         public void DisplayItems() // DisplayItems를 호출하면 => Buy호출
         {
+            Console.Clear();
             Console.WriteLine("--- 상점 목록 ---");
             Text.TextingLine("1. 갑옷", ConsoleColor.White);
             Text.TextingLine("2. 무기", ConsoleColor.White);
             Text.TextingLine("3. 소비", ConsoleColor.White);
             Text.TextingLine("4. 휴식", ConsoleColor.White);
-            Text.Texting("구매하고싶은 목록을 선택해주세요>> ");
+            Text.TextingLine("구매하고싶은 목록을 선택해주세요");
             int index = 1;
-            string input = Console.ReadLine();
-            int category = int.Parse(input);
-            int categoryIndex = category - 1;
+            int category = Text.GetInput(null, 1, 2, 3, 4);
             switch (category - 1)
             {
-
                 case (int)ItemType.Armour:
                     Console.WriteLine("----------갑옷류----------");
                     for (int i = 0; i < shopList[0].Count; i++)
@@ -88,22 +86,17 @@ namespace TeamProejct_Dungeon
                     break;
 
             }
-            Buy(categoryIndex); // 구매 호출
+            Buy(category); // 구매 호출
         }
 
 
         public void Buy(int categoryIndex)
         {
 
-            Console.Write("\n구매하려는 물건의 번호를 입력하세요: ");
-            string input = Console.ReadLine();
-            if (!int.TryParse(input, out int itemNumber) || itemNumber < 1 || itemNumber > shopList[categoryIndex].Count)
-            {
-                Console.WriteLine("잘못된 입력입니다.");
-                return;
-            }
+            Console.Write("\n구매하려는 물건의 번호를 입력하세요\n");
+            int category = Text.GetInput(null, 1, 2, 3);
 
-            IItem selectedItem = shopList[categoryIndex][itemNumber - 1];
+            IItem selectedItem = shopList[categoryIndex -1][category - 1];
 
             // 골드 부족 확인
             if (GameManager.player.gold < selectedItem.buyPrice)
@@ -117,6 +110,7 @@ namespace TeamProejct_Dungeon
             GameManager.player.inven.AddItem(selectedItem.DeepCopy());
 
             Console.WriteLine($"{selectedItem.name}을(를) 구매했습니다! 남은 골드: {GameManager.player.gold}");
+            Console.ReadLine();
         }
 
 
