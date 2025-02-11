@@ -186,6 +186,7 @@ namespace TeamProejct_Dungeon
                 // ESC 처리: 도망가기
                 Text.TextingLine("ESC : 도망가기");
                 int? input = Text.GetInputMulti(true, "1. 공격", "2. 스킬");
+                Thread.Sleep(100);
 
                 if (input == null) // ESC 입력 시 마을로 복귀
                 {
