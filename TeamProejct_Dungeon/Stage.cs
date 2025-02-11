@@ -99,6 +99,17 @@ namespace TeamProejct_Dungeon
         Action<Player> ClearStage;  // 해당 스테이지의 클리어 보상 메서드를 저장
         public List<Monster> original;  // 해당 스테이지에서 등장할 가능성이 있는 전체 몬스터 목록(이후 여기서 3마리 픽)
         
+        public string Name { get; private set; }
+        public int rewardGold { get; private set; }
+        public List<IItem> rewardItems { get; private set; }
+
+        public Stage(string name, int gold, List<IItem> items)
+        {
+            Name = name;
+            rewardGold = gold;
+            rewardItems = items;
+        }
+        
         // 스테이지 생성자
         public Stage(List<Monster> monsterList, Action<Player> clearAction)
         {
