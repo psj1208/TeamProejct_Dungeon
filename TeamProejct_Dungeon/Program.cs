@@ -22,16 +22,12 @@ namespace TeamProejct_Dungeon
             AsciiArt.Draw(imagePath, 20);
             GameStart();
         }
-
-
-        // 김태겸
-        // Battle_Init
         static void GameStart()
         {
             //여기에 게임 흐름
             // 플레이어와 몬스터 리스트 생성
             Player player = new Player();
-            List<Monster> mons = MonsterSpawn();
+            //List<Monster> mons = MonsterSpawn();
 
             while (true)
             {
@@ -79,9 +75,9 @@ namespace TeamProejct_Dungeon
                         case 4:
                             //던전 이동
                             //테스트 코드 시작
-                            int input_ = StageDB.ShowStageList();
-                            Console.WriteLine(input_);
-                            Thread.Sleep(500);
+                            //int input_ = StageDB.ShowStageList();
+                            //Console.WriteLine(input_);
+                            //Thread.Sleep(500);
                             //테스트 코드 끝
                             sceneType = SceneType.Dungeon;
                             break;
@@ -95,9 +91,30 @@ namespace TeamProejct_Dungeon
                 //던전
                 else if (sceneType == SceneType.Dungeon)
                 {
+                    Console.Clear();
+                    Text.TextingLine("-------------------던전-------------------", ConsoleColor.DarkRed, true);
+
+                    // 스테이지 선택
+                    int stageIndex = StageDB.ShowStageList();
+                    Stage selectedStage = StageDB.StageList[stageIndex - 1];
+
+                    // 선택한 스테이지 출력
+                    selectedStage.StageInfo();
+                    Console.ReadKey();
+
+                    // 몬스터 리스트 가져오기
+                    List<Monster> monsters = selectedStage.GetMonsters();
+
                     // 전투 시작
-                    Battle(player);
+                    Battle(player, monsters);
+
+                    // 스테이지 클리어 보상 지급
+                    selectedStage.ClearReward(player);
+
+                    // 마을로 복귀
+                    sceneType = SceneType.Home;
                 }
+
             }
         }
 
@@ -106,29 +123,39 @@ namespace TeamProejct_Dungeon
             for (int i = 0; i < monsters.Count; i++)
             {
                 Monster monster = monsters[i];
-                string status = monster.isDead ? "Dead" : $"HP {monster.hp}/{monster.maxHp}";
+                string levelText = monster.level.ToString("D2");
+
                 Console.ForegroundColor = monster.isDead ? ConsoleColor.DarkGray : ConsoleColor.White;
 
-                string levelText = monster.level.ToString("D2");
-                if (Shownumber == true)
+                if (Shownumber)
                 {
-                    Console.WriteLine($"{i + 1}.Lv.{levelText} {monsters[i].Name} {status}");
+                    Console.Write($"{i + 1}.Lv.{levelText} {monster.Name} ");
                 }
                 else
                 {
                     Console.Write($"Lv.{levelText} {monster.Name} ");
-                    Text.TextingLine($"{status}", ConsoleColor.Red, false);
+                }
+
+                // 🟥"Dead"를 DarkGray로, HP 상태를 Red로 출력
+                if (monster.isDead)
+                {
+                    Text.TextingLine("Dead", ConsoleColor.DarkGray, false);
+                }
+                else
+                {
+                    Text.TextingLine($"HP {monster.hp}/{monster.maxHp}", ConsoleColor.Red, false);
                 }
             }
+
             Text.TextingLine("\n==================================================", ConsoleColor.White, false);
-            Console.ResetColor(); // 색상 초기화
         }
 
+
         // 몬스터 랜덤 스폰
-        static List<Monster> MonsterSpawn()
+        static List<Monster> MonsterSpawn(Stage stage)
         {
             Random random = new Random();
-            List<Monster> monsterList = new List<Monster>();
+            List<Monster> monsterList = stage.GetMonsters();
 
             // 1~4마리의 몬스터가 랜덤하게 등장
             int monsterCount = random.Next(1, 5);
@@ -179,9 +206,8 @@ namespace TeamProejct_Dungeon
         }
 
 
-        static void Battle(Player player)
+        static void Battle(Player player, List<Monster> monsters)
         {
-            List<Monster> monsters = MonsterSpawn();
             bool isPlayerTurn = true;
 
             while (true)
