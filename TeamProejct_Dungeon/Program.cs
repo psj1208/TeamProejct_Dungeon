@@ -56,7 +56,7 @@ namespace TeamProejct_Dungeon
                 {
                     Console.Clear();
                     Text.TextingLine("------------------------마을-------------------------", ConsoleColor.Magenta, true);
-                    Text.TextingLine("\n\n1 . 상태 보기\n\n2 . 인벤토리\n\n3 . 상점\n\n4 . 던전\n\n5. 세이브\n", ConsoleColor.Green, false);
+                    Text.TextingLine("\n\n1 . 상태 보기\n\n2 . 인벤토리\n\n3 . 상점\n\n4 . 퀘스트 보드\n\n5 . 던전\n\n6. 세이브\n", ConsoleColor.Green, false);
                     int input = Text.GetInput(null, 1, 2, 3, 4, 5, 6);
                     switch (input)
                     {
