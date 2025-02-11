@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Xml.Linq;
+//using TeamProject_Dungeon;
 
 namespace TeamProejct_Dungeon
 {
@@ -28,6 +29,7 @@ namespace TeamProejct_Dungeon
             //여기에 게임 흐름
             // 플레이어와 몬스터 리스트 생성
             Shop shop = new Shop();
+            QuestManager_KTK questManager_KTK = new QuestManager_KTK(GameManager.player);
 
             while (true)
             {
@@ -75,7 +77,8 @@ namespace TeamProejct_Dungeon
                             break;
                         case 4:
                             //여기에 퀘스트 보드 보여주는 쪽으로.
-
+                            Console.Clear();
+                            questManager_KTK.ShowQuestBoard_KTK();
                             break;
                         case 5:
                             //던전 이동
