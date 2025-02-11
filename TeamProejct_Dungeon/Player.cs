@@ -122,6 +122,7 @@ namespace TeamProejct_Dungeon
                 isDead = true;
             }
         }
+        public bool HasCheckedStatus { get; private set; } = false; //  상태창 확인 여부 추가
 
         //플레이어 상태보기
         public void StatusDisplay()
@@ -151,6 +152,7 @@ namespace TeamProejct_Dungeon
             Text.Texting($"{gold}", ConsoleColor.Green, false);
             Text.TextingLine(" G", ConsoleColor.Yellow, false);
 
+            HasCheckedStatus = true; // 상태창 확인 시 true로 변경
 
             Text.TextingLine("\n0. 나가기\n", ConsoleColor.Green, false);
             Text.GetInput(null, 0);

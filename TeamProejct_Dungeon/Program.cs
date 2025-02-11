@@ -146,24 +146,6 @@ namespace TeamProejct_Dungeon
             Text.TextingLine("\n==================================================", ConsoleColor.White, false);
         }
 
-
-        // 몬스터 랜덤 스폰 (1~4마리 추가)
-        static List<Monster> MonsterSpawn(Stage stage)
-        {
-            List<Monster> monsterList = new List<Monster>(stage.GetMonsters()); // 기존 몬스터 복사
-
-            Random random = new Random();
-            int monsterCount = random.Next(1, 3); // 1~4마리 랜덤 추가
-
-            for (int i = 0; i < monsterCount; i++)
-            {
-                monsterList.Add(Monster.GetRandomMonster()); // 랜덤 몬스터 추가
-            }
-            return monsterList;
-        }
-
-        // 스테이지에 들어올 때마다 새로운 몬스터로 초기화
-        
         static void ShowBattleScreen(Player player, List<Monster> monsters)
         {
             Text.TextingLine("==================================================", ConsoleColor.White, false);
