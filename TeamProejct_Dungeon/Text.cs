@@ -68,6 +68,7 @@ namespace TeamProejct_Dungeon
         (int x, int y) EndPos_;
         public Monster monster;
         public bool IsSelected;
+        bool isDead;
         bool IsTexting;
         ConsoleColor color;
 
@@ -88,6 +89,11 @@ namespace TeamProejct_Dungeon
             Console.WriteLine();
         }
         //글자 색깔 바꾸기(현재 선택지)
+
+        public void Die()
+        {
+            this.color = ConsoleColor.Gray;
+        }
         public void TurnOn()
         {
             this.color = ConsoleColor.Magenta;
@@ -222,6 +228,8 @@ namespace TeamProejct_Dungeon
                 tm[select].TurnOn();
                 foreach (TextMonster t in tm)
                 {
+                    if (t.monster.isDead == true)
+                        t.Die();
                     Text.Texting($"{num + 1} . ", ConsoleColor.White, false);
                     t.Print();
                     num++;
