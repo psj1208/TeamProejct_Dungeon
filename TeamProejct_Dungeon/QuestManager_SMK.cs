@@ -117,7 +117,7 @@ namespace TeamProejct_Dungeon
         public Quest2_SMK()
         {
             questName = "더욱 강해지기!";
-            questDescription = "레벨 3달성";
+            questDescription = "강력한 장비 착용하기";
         }
 
         public void EquipItem()
@@ -149,6 +149,33 @@ namespace TeamProejct_Dungeon
     // 
 
     // 레벨 3 달성
+    public class Quest4_SMK : Quest_SMK
+    {
+        public int level;
+
+        public  Quest4_SMK()
+        {
+            level= GameManager.player.level;
+            questName = "이제부터 진짜 시작이야!";
+            questDescription = "레벨3 달성하기";
+
+
+        }
+        public void LevelUp_SMK()
+        {
+            if(level == 3)
+            {
+                Compelete_SMK();
+            }
+        }
+        public override void Reward_SMK(Player player) // 퀘스트 완료시 1500골드 지급
+        {
+           if(status == QuestStatus_SMK.Completed)
+            {
+                player.AddGold(1500);
+            }
+        }
+    }
 
     // 방어력 / 힘 10 영구 증가
 }
