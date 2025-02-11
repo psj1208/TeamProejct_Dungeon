@@ -179,8 +179,10 @@ namespace TeamProejct_Dungeon
                         break;
                 }
                 e = Console.GetCursorPosition();
-                if(result != -1)
+                if (result != -1)
                     Thread.Sleep(500);
+                else
+                    Thread.Sleep(10);
                 ClearTextBetween(s, e);
             }
             endPos_ = Console.GetCursorPosition();
@@ -260,6 +262,8 @@ namespace TeamProejct_Dungeon
                 e = Console.GetCursorPosition();
                 if (mons.Count == trynum)
                     Thread.Sleep(500);
+                else
+                    Thread.Sleep(10);
                 ClearTextBetween(s, e);
             }
             endPos_ = Console.GetCursorPosition();
