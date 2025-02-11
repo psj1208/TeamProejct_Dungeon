@@ -50,7 +50,19 @@ namespace TeamProejct_Dungeon
 
         public void RewardGet()
         {
-            
+            if (gold != 0)
+            {
+                GameManager.player.AddGold(gold);
+            }
+            if (exp != 0)
+            {
+                GameManager.player.AddExp(exp);
+            }
+            if (reward_items.Count > 0)
+            {
+                foreach (IItem item in reward_items)
+                    GameManager.inven.AddItem(item);
+            }
         }
     }
     public class Quest_PSJ
