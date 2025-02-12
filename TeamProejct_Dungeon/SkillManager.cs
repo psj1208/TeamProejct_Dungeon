@@ -30,11 +30,13 @@ namespace TeamProejct_Dungeon
             Console.ReadLine();
         }
 
+        //몬스터 리스트 출력 후 몬스터 선택 메서드 / max : 선택할 몬스터 수)
         protected List<Monster> SelectTarget(string skillDes, int max, List<Monster> monsters, bool Cancel)
         {
             Console.WriteLine(skillDes);
             Console.WriteLine("\n공격할 몬스터를 선택하세요.");
 
+           
             List<Monster> selectedMonsters = Text.GetInputMulti(max, monsters, Cancel);
 
             if (selectedMonsters == null || selectedMonsters.Count == 0)
@@ -46,6 +48,7 @@ namespace TeamProejct_Dungeon
         }
     }
 
+    //워리어스킬
     public class WarriorSkill : Skill
     {
         public WarriorSkill() : base("전사 스킬", "전사 스킬 설명 ") { }
@@ -102,7 +105,7 @@ namespace TeamProejct_Dungeon
         }
     }
 
-
+    //도적스킬
     public class AssassinSkill : Skill
     {
         public AssassinSkill() : base("도적 스킬", "기본 공격에 추가 피해를 입힘") { }
@@ -122,6 +125,7 @@ namespace TeamProejct_Dungeon
                 return false;
             }
 
+            //  1번 스킬은 2명 선택 , 2번 스킬은 4명 선택
             int maxCount = (skillChoice == 1) ? 2 : 4;
             int targetCount = Math.Min(maxCount, monsters.Count);
 

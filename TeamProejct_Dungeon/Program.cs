@@ -48,7 +48,7 @@ namespace TeamProejct_Dungeon
                     }
                     Text.TextingLine($"이름 : {GameManager.player.Name} , 직업 : {GameManager.player.job} 캐릭터가 생성되었습니다.", ConsoleColor.Green);
                     //디버깅 코드 시작
-                    GameManager.player.atk = 100;
+                    GameManager.player.atk = 10;
                     //디버깅 코드 끝
                     Thread.Sleep(500);
                     Text.TextingLine($"\n\n잠시 후 마을에 입장합니다.", ConsoleColor.Green);
@@ -199,7 +199,7 @@ namespace TeamProejct_Dungeon
             bool isPlayerTurn = true;
             int initGold = player.gold;
             int initExp = player.exp;
-            (int initgold,  int initexp, int initLevel) initStatus = (player.gold, player.exp, player.level);
+            (int initgold,  int initexp, int initLevel, int initHP) initStatus = (player.gold, player.exp, player.level, player.hp);
 
             while (true)
             {
@@ -322,7 +322,7 @@ namespace TeamProejct_Dungeon
 
 
         // 전투 결과
-        static void Battle_Result(Player player, Stage selectedStage, List<Monster> monsters, (int g, int e, int l) p )
+        static void Battle_Result(Player player, Stage selectedStage, List<Monster> monsters, (int g, int e, int l, int h) p )
         {
             Console.Clear();
             // 전투 결과
@@ -390,10 +390,10 @@ namespace TeamProejct_Dungeon
                 Console.WriteLine("\n던전에서 패배했습니다. 다시 도전하세요!\n");
 
                 Console.WriteLine($"Lv. {player.level} {player.Name}");
-                Console.WriteLine($"HP {player.maxHp} -> {player.hp}");
+                Console.WriteLine($"HP {p.h} -> {player.hp}");
 
                 // 패배 시 체력 일부 회복
-                player.hp += 10;
+                player.hp = (int)(player.maxHp * 0.5f);
             }
             Console.WriteLine("\n0. 마을로 ");
             GetInput(0, 0);

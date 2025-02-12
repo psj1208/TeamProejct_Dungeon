@@ -46,10 +46,11 @@ namespace TeamProejct_Dungeon
                 Text.TextingLine("2. 무기", ConsoleColor.White);
                 Text.TextingLine("3. 소비", ConsoleColor.White);
                 Text.TextingLine("4. 휴식", ConsoleColor.White);
-                Text.TextingLine("5. 나가기", ConsoleColor.White);
+                Text.TextingLine("5. 판매\n", ConsoleColor.White);
+                Text.TextingLine("0. 나가기", ConsoleColor.White);
                 Text.TextingLine("구매하고싶은 목록을 선택해주세요");
                 int index = 1;
-                int category = Text.GetInput(null, 1, 2, 3, 4, 5);
+                int category = Text.GetInput(null, 1, 2, 3, 4, 5, 0);
                 Console.Clear();
                 switch (category - 1)
                 {
@@ -88,8 +89,11 @@ namespace TeamProejct_Dungeon
                         Console.WriteLine("----------휴식중----------");
                         Rest();
                         break;
-                    case 4:
+                    case -1:
                         return;
+                    case 4:
+                        Sell();
+                        break;
                     default:
                         Console.WriteLine("잘못입력하셨습니다.");
                         break;
@@ -148,5 +152,13 @@ namespace TeamProejct_Dungeon
             Console.ReadLine();
         }
 
+        public void Sell() // 판매하기
+        {
+            Console.Clear();
+            GameManager.inven.ShowInventory();
+            GameManager.inven.SellingInventory();
+
+            
+        }
     }
 }

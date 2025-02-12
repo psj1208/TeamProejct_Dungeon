@@ -67,9 +67,10 @@ namespace TeamProejct_Dungeon
                 }
                 else
                 {
-                    GameManager.player.gold += (int)items[input].sellPrice;
-                    RemoveItem(input);
+                    GameManager.player.gold += (int)items[input].sellPrice;  
                     Text.TextingLine($"{input + 1} 아이템 판매 ! ", ConsoleColor.Magenta);
+                    RemoveItem(input);
+                    Console.ReadLine();
                 }
             }
         }

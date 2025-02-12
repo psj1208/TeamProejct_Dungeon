@@ -21,7 +21,7 @@ namespace TeamProejct_Dungeon
                 try
                 {
                     if (quests == null || quests.Count == 0)
-                        throw new NullReferenceException();
+                        throw new Exception();
                     string[] questList = new string[quests.Count];
                     for (int i = 0; i < quests.Count; i++)
                         questList[i] = $"{i + 1} . {quests[i].title} : {quests[i].description}";
