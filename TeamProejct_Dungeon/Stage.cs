@@ -74,9 +74,9 @@ namespace TeamProejct_Dungeon
         // 스테이지 리스트
         public static List<Stage> StageList = new List<Stage>
         {
-            new Stage(MonsterDB.GetMonstersByLevel(1, 8), StageClear.Clear1),   // 하급 몬스터
-            new Stage(MonsterDB.GetMonstersByLevel(8, 16), StageClear.Clear2),  // 중급 몬스터
-            new Stage(MonsterDB.GetMonstersByLevel(17, 31), StageClear.Clear3)  // 상급 몬스터
+            new Stage(MonsterDB.GetMonstersByLevel(1, 7), StageClear.Clear1),   // 하급 몬스터
+            new Stage(MonsterDB.GetMonstersByLevel(8, 15), StageClear.Clear2),  // 중급 몬스터
+            new Stage(MonsterDB.GetMonstersByLevel(16, 30), StageClear.Clear3)  // 상급 몬스터
         };
         
         //  던전 입장 시 스테이지의 정보 출력(몬스터 이름, 레벨)
