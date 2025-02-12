@@ -68,9 +68,6 @@ namespace TeamProejct_Dungeon
                     if (canLoad == true)
                     {
                         Text.TextingLine($"이름 : {GameManager.player.Name} , 직업 : {GameManager.player.job} 캐릭터가 생성되었습니다.", ConsoleColor.Green);
-                        //디버깅 코드 시작
-                        GameManager.player.atk = 10;
-                        //디버깅 코드 끝
                         Thread.Sleep(500);
                         Text.TextingLine($"\n\n잠시 후 마을에 입장합니다.", ConsoleColor.Green);
                         sceneType = SceneType.Home;
