@@ -78,7 +78,7 @@ namespace TeamProejct_Dungeon
                         case 4:
                             //여기에 퀘스트 보드 보여주는 쪽으로.
                             Console.Clear();
-                            questManager_KTK.ShowQuestBoard_KTK();
+                            //questManager_KTK.ShowQuestBoard_KTK();
                             break;
                         case 5:
                             //던전 이동
@@ -178,13 +178,14 @@ namespace TeamProejct_Dungeon
         static void Battle_Dead(Player player, Monster monster)
         {
             if (!monster.isDead ) { return; }// 이미 죽지 않았다면 보상 X
+            Text.TextingLine($"\n{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, false);
+
             // 보상 지급 (경험치 & 골드)
             monster.GrantReward(player, monster);
-            Text.TextingLine($"\n{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, false);
-            Text.TextingLine($"{monster.exp} Exp를 얻었다!\n", ConsoleColor.White, false);
-            Text.Texting($"{monster.gold}", ConsoleColor.White, false);
-            Text.Texting($" G", ConsoleColor.Yellow, false);
-            Text.TextingLine($"를 얻었다!\n", ConsoleColor.White, false);
+            //Text.TextingLine($"{monster.exp} Exp를 얻었다!\n", ConsoleColor.White, false);
+            //Text.Texting($"{monster.gold}", ConsoleColor.White, false);
+            //Text.Texting($" G", ConsoleColor.Yellow, false);
+            //Text.TextingLine($"를 얻었다!\n", ConsoleColor.White, false);
 
             Console.WriteLine("--------------------------------------------------");
 
@@ -194,6 +195,9 @@ namespace TeamProejct_Dungeon
         static void Battle(Player player, Stage selectedStage, List<Monster> monsters)
         {
             bool isPlayerTurn = true;
+            int initGold = player.gold;
+            int initExp = player.exp;
+            (int initgold,  int initexp, int initLevel) initStatus = (player.gold, player.exp, player.level);
 
             while (true)
             {
@@ -223,7 +227,7 @@ namespace TeamProejct_Dungeon
                 // 플레이어가 사망하면 전투 종료
                 if (player.isDead || monsters.All(m => m.isDead))
                 {
-                    Battle_Result(player, selectedStage ,monsters);
+                    Battle_Result(player, selectedStage ,monsters, initStatus);
                     Thread.Sleep(500);
                     return;
                 }
@@ -316,7 +320,7 @@ namespace TeamProejct_Dungeon
 
 
         // 전투 결과
-        static void Battle_Result(Player player, Stage selectedStage, List<Monster> monsters)
+        static void Battle_Result(Player player, Stage selectedStage, List<Monster> monsters, (int g, int e, int l) p )
         {
             Console.Clear();
             // 전투 결과
@@ -332,46 +336,36 @@ namespace TeamProejct_Dungeon
                 int monsterCount = monsters.Count;
                 int damageTaken = player.maxHp - player.hp;
 
-                int initialgold = player.gold;
-                int initialExp = player.exp;
-                int initialLevel = player.level;
+                //int initialgold = player.gold;
+                //int initialExp = player.exp;
+                //int initialLevel = player.level;
                 int totalExpGained = 0;
-
-                
-                // 경험치 적용하기
-                player.AddExp(totalExpGained);
-
-                Console.WriteLine($"던전에서 몬스터 {monsterCount}마리를 잡았습니다!\n");
-                Console.WriteLine($"Lv. {player.level} {player.Name}");
-                Console.WriteLine($"HP {player.maxHp} -> {player.hp}");
-
-                // 획득한 경험치 출력
-                Console.WriteLine($"\nEXP: {initialExp} -> {player.exp} (+{totalExpGained})");
-                // 레벨업 했을 경우
-                if (player.level > initialLevel)
-                {
-                    Console.WriteLine("레벨업 하셨습니다!");
-                    Console.WriteLine($"Lv. {initialLevel} -> Lv. {player.level}");
-                }
 
                 // 몬스터 처치 경험치 및 골드 획득
                 foreach (var monster in monsters)
                 {
                     int expGained = monster.exp;
                     totalExpGained += expGained;
-                    monster.GrantReward(player, monster); // 골드 & 경험치 지급
                 }
+
+                Console.WriteLine($"던전에서 몬스터 {monsterCount}마리를 잡았습니다!\n");
+                Console.WriteLine($"Lv. {player.level} {player.Name}");
+                Console.WriteLine($"HP {player.maxHp} -> {player.hp}");
+                
                 // 스테이지 보상 지급 및 목록 출력
-                Console.WriteLine("\n[획득한 보상]");
+                Console.WriteLine("\n[클리어 보상]\n");
                 selectedStage.ClearReward(player);
 
-                // 골드 보상 출력
-                int goldGained = player.gold - initialgold;
-                if (goldGained > 0)
-                {
-                    Console.WriteLine($"Gold: +{goldGained}");
-                }
+                Console.WriteLine("\n");
+                Console.WriteLine("[획득한 보상]\n");
+                // 획득한 레벨 출력
+                Console.WriteLine($"Lv  : {p.l} -> {player.level}");
 
+                // 획득한 경험치 출력
+                Console.WriteLine($"EXP: {p.e} -> {player.exp}");
+
+                // 골드 보상 출력
+                Console.WriteLine($"Gold: {p.g} -> {player.gold}");
 
             }
             else if (player.isDead)

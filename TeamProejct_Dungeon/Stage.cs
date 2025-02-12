@@ -25,6 +25,7 @@ namespace TeamProejct_Dungeon
                 Console.WriteLine($"{item.name}을 획득하였습니다"); // 아이템 획득 출력문
                 GameManager.inven.AddItem(item);  // 아이템 지급 메서드
             }
+
         }
     }
     
