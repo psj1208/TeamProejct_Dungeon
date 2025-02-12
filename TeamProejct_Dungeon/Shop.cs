@@ -131,12 +131,19 @@ namespace TeamProejct_Dungeon
         public void Rest() // 휴식하기
         {
             Console.WriteLine($"현재 체력은{GameManager.player.hp} 입니다.");
+            Console.WriteLine($"현재 마나는{GameManager.player.mp} 입니다.");
             GameManager.player.hp += GameManager.player.maxHp / 2; // 플레이어 최대체력 50퍼센트 체력 회복
+            GameManager.player.mp += (int)Math.Round(GameManager.player.maxMp * 0.7); // 플레이어 마나 반올림 
             if (GameManager.player.hp > GameManager.player.maxHp)
             {
                 GameManager.player.hp = GameManager.player.maxHp; // 최대체력보다 체력이 높으면 최대체력으로 보정
             }
+            if (GameManager.player.mp > GameManager.player.maxMp) // 최대 마나보다 마나가 높으면 최대마나로 보정
+            {
+                GameManager.player.mp = GameManager.player.maxMp;
+            }
             Console.WriteLine($"휴식후 현재 체력은{GameManager.player.hp} 입니다.");
+            Console.WriteLine($"휴식후 현재 마나는{GameManager.player.mp} 입니다.");
             Console.ReadLine();
         }
 
