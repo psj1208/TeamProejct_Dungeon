@@ -170,7 +170,9 @@ namespace TeamProejct_Dungeon
         public void AddExp(int _exp)
         {
             exp += _exp;
-            Console.WriteLine($"{_exp} Exp를 획득했습니다.");
+            Text.Texting($"{_exp} ", ConsoleColor.White, false);
+            Text.Texting($"Exp", ConsoleColor.DarkCyan, false);
+            Text.TextingLine($"를 획득하였습니다.", ConsoleColor.White, false);
 
             if (exp >= maxExp)
             {
@@ -181,7 +183,9 @@ namespace TeamProejct_Dungeon
         public void AddGold(int _gold)
         {
             gold += _gold;
-            Console.WriteLine($"{_gold} Gode를 획득했습니다.");
+            Text.Texting($"{_gold} ", ConsoleColor.White, false);
+            Text.Texting($"Gold", ConsoleColor.DarkYellow, false);
+            Text.TextingLine($"를 획득하였습니다.", ConsoleColor.White, false);
         }
 
         //레벨 업 메서드
