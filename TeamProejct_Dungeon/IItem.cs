@@ -14,6 +14,7 @@ namespace TeamProejct_Dungeon
         Weapon,
         Consumable
     }
+
     public class IItem
     {
         public virtual string name { get; set; }
@@ -38,7 +39,6 @@ namespace TeamProejct_Dungeon
         }
         public virtual void Use() { }//장착. 혹은 소비.
         public virtual void UnUse() { }//장착 해제(포션은 제외)
-
     }
 
     //상속해가지고 3가지 클래스 만드는 거로. 생성자에서 type 변수는 열거형 맞춰서.
@@ -73,7 +73,6 @@ namespace TeamProejct_Dungeon
             this.sellPrice = Math.Round(buyPrice * 0.85);
             this.defend = defend;
             type = ItemType.Armour;
-
         }
 
         public override IItem DeepCopy()
@@ -177,8 +176,6 @@ namespace TeamProejct_Dungeon
 
             type = ItemType.Consumable;
             amt += amount;
-
-
         }
 
         public override IItem DeepCopy()
@@ -193,7 +190,6 @@ namespace TeamProejct_Dungeon
     // 데이터베이스 
     public static class ItemDatabase
     {
-
         static public List<Armour> armourList = new List<Armour>
         {
             new Armour("천 갑옷",100,3),

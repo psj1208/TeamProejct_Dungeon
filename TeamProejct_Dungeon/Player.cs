@@ -63,7 +63,6 @@ namespace TeamProejct_Dungeon
                 atk = 5;
                 dfs = 3;
                 skill = new WarriorSkill();
-
             }
             else if (_job == Job.Assassin)
             {
@@ -173,7 +172,7 @@ namespace TeamProejct_Dungeon
         }
 
         //레벨 업 메서드
-        public void LevelUp(Quest2 quest)
+        public void LevelUp(Quest2 quest = null)
         {
             exp = 0; // exp 초기화 (초과 시 추가값 받아오도록) 
             maxExp += 20; // 레벨당 (maxExp 20 증가)

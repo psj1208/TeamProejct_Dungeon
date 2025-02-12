@@ -94,6 +94,7 @@ namespace TeamProejct_Dungeon
                     return true;
                 }
             }
+
             else if (item is Armour)
             {
                 if (GameManager.player.curArmour == null)
@@ -126,6 +127,7 @@ namespace TeamProejct_Dungeon
                     Text.TextingLine("아이템 장착에 실패했습니다.", ConsoleColor.Red, false);
                 }
             }
+
             else
             {
                 items[num].Use();

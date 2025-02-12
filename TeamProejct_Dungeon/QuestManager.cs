@@ -50,12 +50,10 @@ namespace TeamProejct_Dungeon
 
                 }
 
-
                 Console.WriteLine("0. 나가기");
                 Console.WriteLine("퀘스트를 선택하세요");
 
                 int questChoice = Text.GetInput(null, 1, 2, 0);
-
 
                 if (questChoice == 1)
                 {
@@ -100,8 +98,8 @@ namespace TeamProejct_Dungeon
                         break;
                 }
                 Console.ReadLine();
-
             }
+
             else if(quest.isClear == false )
             {
                 Console.WriteLine($"진행 중인 퀘스트입니다. ");
@@ -145,7 +143,6 @@ namespace TeamProejct_Dungeon
         }
 
         public abstract void Reword(Player player);
-
         public abstract void questDescriptionDetail();
     }
 
@@ -159,8 +156,7 @@ namespace TeamProejct_Dungeon
         {
             questName = "몬스터를 죽여라~";
             questDescription = "몬스터 3킬";
-            questReward = "1000G";
-            
+            questReward = "1000G";            
         }
 
         public bool ClearCheck()
@@ -169,7 +165,6 @@ namespace TeamProejct_Dungeon
             {
                 return true;
             }
-            
             return false;
         }
 
@@ -194,7 +189,6 @@ namespace TeamProejct_Dungeon
         private int totlalKill = 3;
         private int curKill = 0;
         
-
         public Quest2()
         {
             questName = "더욱 성장하기!";
@@ -211,21 +205,15 @@ namespace TeamProejct_Dungeon
             Console.WriteLine("레벨을 올려 한층 더 강해진 모습을 보여주게!");
         }
 
-
         public override void Reword(Player player)
         {
             GameManager.player.atk += 10;
             GameManager.player.dfs += 10;
             isClear = true;
         }
-
     }
 
-
-
     // 더욱 더 강해지기!
-
-    // 
 
     // 레벨 3 달성
 

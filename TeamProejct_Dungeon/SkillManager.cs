@@ -41,7 +41,6 @@ namespace TeamProejct_Dungeon
             {
                 return null;
             }
-
             return selectedMonsters;
         }
     }
@@ -97,7 +96,6 @@ namespace TeamProejct_Dungeon
                 player.mp -= 15;
                 DealDamage(player, selectedMonsters, damage);
             }
-
             return true;
         }
     }

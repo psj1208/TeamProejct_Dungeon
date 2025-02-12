@@ -14,6 +14,7 @@ namespace TeamProejct_Dungeon
         Home,
         Dungeon
     }
+
     internal class Program
     {
         static SceneType sceneType = SceneType.Lobby;
@@ -24,8 +25,6 @@ namespace TeamProejct_Dungeon
             string imagePath = AppDomain.CurrentDomain.BaseDirectory + "\\sample.jpg"; // 이미지 경로(상위 폴더/bin/Debug/net버전안에 넣어야함.)
             AsciiArt.Draw(imagePath, 20);
             GameStart();
-
-            
         }
 
         static void GameStart()
@@ -33,7 +32,8 @@ namespace TeamProejct_Dungeon
             //여기에 게임 흐름
             // 플레이어와 몬스터 리스트 생성
             Shop shop = new Shop();
-            QuestScene_KSJ quset = new QuestScene_KSJ() ;
+            QuestScene_KSJ quset = new QuestScene_KSJ();
+
             while (true)
             {
                 //로비
@@ -56,6 +56,7 @@ namespace TeamProejct_Dungeon
                     Thread.Sleep(500);
                     Console.Clear();
                 }
+
                 //마을
                 else if (sceneType == SceneType.Home)
                 {
@@ -100,6 +101,7 @@ namespace TeamProejct_Dungeon
                             break;
                     };
                 }
+
                 //던전
                 else if (sceneType == SceneType.Dungeon)
                 {
@@ -123,7 +125,6 @@ namespace TeamProejct_Dungeon
                     // 마을로 복귀
                     sceneType = SceneType.Home;
                 }
-
             }
         }
 
@@ -155,7 +156,6 @@ namespace TeamProejct_Dungeon
                     Text.TextingLine($"HP {monster.hp}/{monster.maxHp}", ConsoleColor.Red, false);
                 }
             }
-
             Text.TextingLine("\n==================================================", ConsoleColor.White, false);
         }
 
@@ -255,8 +255,7 @@ namespace TeamProejct_Dungeon
         }
 
         static bool ExecutePlayerTurn(Player player, List<Monster> monsters, int action)
-        {
-            
+        {           
             while (true) // 올바른 입력을 받을 때까지 반복
             {
                 Console.Clear();
@@ -339,7 +338,6 @@ namespace TeamProejct_Dungeon
             Console.ReadKey();
         }
 
-
         // 전투 결과
         static void Battle_Result(Player player, Stage selectedStage, List<Monster> monsters)
         {
@@ -400,14 +398,12 @@ namespace TeamProejct_Dungeon
             string path = AppDomain.CurrentDomain.BaseDirectory + "Json";
             string filePath = path + "\\playerData.json";
 
-
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
 
             string userData = Newtonsoft.Json.JsonConvert.SerializeObject(GameManager.player, Newtonsoft.Json.Formatting.Indented);
-
             File.WriteAllText(filePath, userData);
 
             Console.WriteLine("게임 데이터가 저장되었습니다!");
