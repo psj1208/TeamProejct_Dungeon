@@ -75,7 +75,7 @@ namespace TeamProejct_Dungeon
                             break;
                         case 4:
                             //여기에 퀘스트 보드 보여주는 쪽으로.
-
+                            QuestDb.SelectInQuestPanel();
                             break;
                         case 5:
                             //던전 이동
