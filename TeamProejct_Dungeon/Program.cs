@@ -37,7 +37,6 @@ namespace TeamProejct_Dungeon
             //여기에 게임 흐름
             // 플레이어와 몬스터 리스트 생성
             Shop shop = new Shop();
-            QuestManager_KTK questManager_KTK = new QuestManager_KTK(GameManager.player);
             bool canLoad;
 
             while (true)
