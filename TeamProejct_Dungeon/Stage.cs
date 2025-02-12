@@ -23,6 +23,7 @@ namespace TeamProejct_Dungeon
             if (rand.Next(0, 101) <= per)
             {
                 Console.WriteLine($"{item.name}을 획득하였습니다"); // 아이템 획득 출력문
+
                 GameManager.inven.AddItem(item);  // 아이템 지급 메서드
             }
 
@@ -47,6 +48,7 @@ namespace TeamProejct_Dungeon
             Randomize.RandomGain(player, ItemDatabase.armourList[0].DeepCopy(), 20);
             Randomize.RandomGain(player, ItemDatabase.consumableList[0].DeepCopy(), 20);
             Randomize.RandomGain(player, ItemDatabase.consumableList[1].DeepCopy(), 5);
+            PlayerQuestManage_PSJ.Alarm("Stage1", QuestType_PSJ.clear);
         }
         
         // 2단계 스테이지 클리어 보상
@@ -58,6 +60,7 @@ namespace TeamProejct_Dungeon
             Randomize.RandomGain(player, ItemDatabase.consumableList[0].DeepCopy(), 50);
             Randomize.RandomGain(player, ItemDatabase.consumableList[1].DeepCopy(), 10);
             Randomize.RandomGain(player, ItemDatabase.consumableList[2].DeepCopy(), 5);
+            PlayerQuestManage_PSJ.Alarm("Stage2", QuestType_PSJ.clear);
         }
         
         // 3단계 스테이지 클리어 보상
@@ -69,6 +72,7 @@ namespace TeamProejct_Dungeon
             Randomize.RandomGain(player, ItemDatabase.consumableList[0].DeepCopy(), 70);
             Randomize.RandomGain(player, ItemDatabase.consumableList[1].DeepCopy(), 20);
             Randomize.RandomGain(player, ItemDatabase.consumableList[2].DeepCopy(), 20);
+            PlayerQuestManage_PSJ.Alarm("Stage3", QuestType_PSJ.clear);
         }
     }
 
@@ -78,9 +82,9 @@ namespace TeamProejct_Dungeon
         // 스테이지 리스트
         public static List<Stage> StageList = new List<Stage>
         {
-            new Stage(MonsterDB.GetMonstersByLevel(1, 8), StageClear.Clear1),   // 하급 몬스터
-            new Stage(MonsterDB.GetMonstersByLevel(8, 16), StageClear.Clear2),  // 중급 몬스터
-            new Stage(MonsterDB.GetMonstersByLevel(17, 31), StageClear.Clear3)  // 상급 몬스터
+            new Stage(MonsterDB.GetMonstersByLevel(1, 7), StageClear.Clear1),   // 하급 몬스터
+            new Stage(MonsterDB.GetMonstersByLevel(8, 15), StageClear.Clear2),  // 중급 몬스터
+            new Stage(MonsterDB.GetMonstersByLevel(16, 30), StageClear.Clear3)  // 상급 몬스터
         };
         
         //  던전 입장 시 스테이지의 정보 출력(몬스터 이름, 레벨)

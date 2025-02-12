@@ -47,6 +47,9 @@ namespace TeamProejct_Dungeon
                         GameManager.player = new Player(input_name, Job.Assassin);
                     }
                     Text.TextingLine($"이름 : {GameManager.player.Name} , 직업 : {GameManager.player.job} 캐릭터가 생성되었습니다.", ConsoleColor.Green);
+                    //디버깅 코드 시작
+                    GameManager.player.atk = 100;
+                    //디버깅 코드 끝
                     Thread.Sleep(500);
                     Text.TextingLine($"\n\n잠시 후 마을에 입장합니다.", ConsoleColor.Green);
                     sceneType = SceneType.Home;
@@ -77,8 +80,7 @@ namespace TeamProejct_Dungeon
                             break;
                         case 4:
                             //여기에 퀘스트 보드 보여주는 쪽으로.
-                            Console.Clear();
-                            //questManager_KTK.ShowQuestBoard_KTK();
+                            QuestDb.SelectInQuestPanel();
                             break;
                         case 5:
                             //던전 이동
@@ -170,7 +172,7 @@ namespace TeamProejct_Dungeon
             // 플레이어 정보 (레벨과 이름, 직업)
             Text.TextingLine($"Lv.{player.level} {player.Name}", ConsoleColor.Green, false);
             Text.TextingLine($"HP {player.hp} / {player.maxHp}", ConsoleColor.Red, false);
-            Text.TextingLine($"HP {player.mp} / {player.maxMp}\n", ConsoleColor.Blue, false);
+            Text.TextingLine($"MP {player.mp} / {player.maxMp}\n", ConsoleColor.Blue, false);
 
             Text.TextingLine("0. 전투 종료\n", ConsoleColor.Red, false);
         }
@@ -332,13 +334,10 @@ namespace TeamProejct_Dungeon
             // 이겼을 경우 - Victory, You Lose
             if (!player.isDead && monsters.All(m => m.isDead))
             {
-                Console.WriteLine("Victory\n");
+                Text.TextingLine("Victory\n", ConsoleColor.Yellow, false);
                 int monsterCount = monsters.Count;
                 int damageTaken = player.maxHp - player.hp;
 
-                //int initialgold = player.gold;
-                //int initialExp = player.exp;
-                //int initialLevel = player.level;
                 int totalExpGained = 0;
 
                 // 몬스터 처치 경험치 및 골드 획득
@@ -349,23 +348,39 @@ namespace TeamProejct_Dungeon
                 }
 
                 Console.WriteLine($"던전에서 몬스터 {monsterCount}마리를 잡았습니다!\n");
-                Console.WriteLine($"Lv. {player.level} {player.Name}");
-                Console.WriteLine($"HP {player.maxHp} -> {player.hp}");
-                
+                Text.Texting("던전에서 몬스터 ", ConsoleColor.White, false);
+                Text.Texting($"{monsterCount}", ConsoleColor.Cyan, false);
+                Text.TextingLine("마리를 잡았습니다!\n", ConsoleColor.White, false);
+
+                Text.Texting($"Lv. {player.level}", ConsoleColor.DarkYellow, false); 
+                Text.TextingLine($" {player.Name}", ConsoleColor.White, false);
+
+                Text.Texting($"HP ", ConsoleColor.Red, false);
+                Text.TextingLine($"{player.maxHp} -> {player.hp}", ConsoleColor.White, false);
+
+                Console.WriteLine("\n--------------------------------------------------\n");
+
                 // 스테이지 보상 지급 및 목록 출력
                 Console.WriteLine("\n[클리어 보상]\n");
                 selectedStage.ClearReward(player);
 
-                Console.WriteLine("\n");
+                Console.WriteLine("\n--------------------------------------------------\n");
+
                 Console.WriteLine("[획득한 보상]\n");
                 // 획득한 레벨 출력
-                Console.WriteLine($"Lv  : {p.l} -> {player.level}");
+                Text.Texting($"Lv. ", ConsoleColor.Yellow, false);
+                Text.Texting($"{p.l} -> ", ConsoleColor.White, false);
+                Text.TextingLine($"{player.level}", ConsoleColor.Yellow, false);
 
                 // 획득한 경험치 출력
-                Console.WriteLine($"EXP: {p.e} -> {player.exp}");
+                Text.Texting($"Exp. ", ConsoleColor.DarkCyan, false);
+                Text.Texting($"{p.e} -> ", ConsoleColor.White, false);
+                Text.TextingLine($"{player.exp}", ConsoleColor.DarkCyan, false);
 
                 // 골드 보상 출력
-                Console.WriteLine($"Gold: {p.g} -> {player.gold}");
+                Text.Texting($"Gold. ", ConsoleColor.DarkYellow, false);
+                Text.Texting($"{p.g} -> ", ConsoleColor.White, false);
+                Text.TextingLine($"{player.gold}", ConsoleColor.DarkYellow, false);
 
             }
             else if (player.isDead)
