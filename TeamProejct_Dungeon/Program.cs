@@ -67,9 +67,6 @@ namespace TeamProejct_Dungeon
                     if (canLoad == true)
                     {
                         Text.TextingLine($"이름 : {GameManager.player.Name} , 직업 : {GameManager.player.job} 캐릭터가 생성되었습니다.", ConsoleColor.Green);
-                        //디버깅 코드 시작
-                        GameManager.player.atk = 10;
-                        //디버깅 코드 끝
                         Thread.Sleep(500);
                         Text.TextingLine($"\n\n잠시 후 마을에 입장합니다.", ConsoleColor.Green);
                         sceneType = SceneType.Home;
@@ -239,7 +236,7 @@ namespace TeamProejct_Dungeon
 
                 // ESC 처리: 도망가기
                 Text.TextingLine("ESC : 도망가기");
-                int? input = Text.GetInputMulti(true, "1. 공격", "2. 스킬");
+                int? input = Text.GetInputMulti(true, "공격", "스킬");
 
                 if (input == null) // ESC 입력 시 마을로 복귀
                 {

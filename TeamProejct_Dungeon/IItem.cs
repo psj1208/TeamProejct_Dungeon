@@ -24,7 +24,7 @@ namespace TeamProejct_Dungeon
         public virtual string Description() { return null; }
         public bool IsEquipped { get; set; } = false;
 
-        public int addAmount { get; set; }
+        public int amt { get; set; }
         // 부모 virtual deepcopy 메소드 선언
         // new Armour(this.name, ~
         // new Weapon
@@ -130,8 +130,6 @@ namespace TeamProejct_Dungeon
 
         public override ItemType type { get; set; }
 
-        public static int amt = 0; // 포션 수량
-
         public int pHeatlh; // 체력포션의 체력 올려주는 값
 
         public int pStrength; // 힘포션의 공격력양
@@ -150,19 +148,16 @@ namespace TeamProejct_Dungeon
             {
                 GameManager.player.hp += pHeatlh; // 체력 상승
                 Text.TextingLine($"{this.pHeatlh} 를 회복했습니다.", ConsoleColor.Green);
-                GameManager.player.inven.RemoveItem(this);
             }
             if (pStrength > 0)
             {
                 GameManager.player.atk += pStrength; // 공격력 상승
                 Text.TextingLine($"{this.pStrength} 만큼 공격력이 상승했습니다.", ConsoleColor.Green);
-                GameManager.player.inven.RemoveItem(this);
             }
 
             if (GameManager.player.hp > GameManager.player.maxHp) // 체력 회복 후, 최대 체력보다 높으면
             {
                 GameManager.player.hp = GameManager.player.maxHp; // 최대 체력으로 보정
-
             }
             amt--; // 포션 수량 감소
         }
@@ -176,9 +171,7 @@ namespace TeamProejct_Dungeon
             pStrength = strength; // 힘 포션 상승값
 
             type = ItemType.Consumable;
-            amt += amount;
-
-
+            amt = amount;
         }
 
         public override IItem DeepCopy()
