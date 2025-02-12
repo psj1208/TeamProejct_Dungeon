@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ForArt;
 
 namespace TeamProejct_Dungeon
 {
@@ -41,6 +42,7 @@ namespace TeamProejct_Dungeon
             while (true)
             {
                 Console.Clear();
+                AsciiArt.Draw(imagePath, 20);
                 Console.WriteLine("--- 상점 목록 ---");
                 Text.TextingLine("1. 갑옷", ConsoleColor.White);
                 Text.TextingLine("2. 무기", ConsoleColor.White);
@@ -55,6 +57,7 @@ namespace TeamProejct_Dungeon
                 switch (category - 1)
                 {
                     case (int)ItemType.Armour:
+                        AsciiArt.Draw(imagePath, 20);
                         Console.WriteLine("----------갑옷류----------");
                         for (int i = 0; i < shopList[0].Count; i++)
                         {
@@ -66,6 +69,7 @@ namespace TeamProejct_Dungeon
                         Buy(category); // 구매 호출
                         break;
                     case (int)ItemType.Weapon:
+                        AsciiArt.Draw(imagePath, 20);
                         Console.WriteLine("----------무기류----------");
                         for (int i = 0; i < shopList[1].Count; i++)
                         {
@@ -76,6 +80,7 @@ namespace TeamProejct_Dungeon
                         Buy(category); // 구매 호출
                         break;
                     case (int)ItemType.Consumable:
+                        AsciiArt.Draw(imagePath, 20);
                         Console.WriteLine("----------소비류----------");
                         for (int i = 0; i < shopList[2].Count; i++)
                         {
@@ -86,6 +91,7 @@ namespace TeamProejct_Dungeon
                         Buy(category); // 구매 호출
                         break;
                     case 3:
+                        AsciiArt.Draw(imagePath, 20);
                         Console.WriteLine("----------휴식중----------");
                         Rest();
                         break;

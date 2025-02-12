@@ -28,7 +28,6 @@ namespace TeamProejct_Dungeon
             /*
             int input = 1;
             Stage stage = StageDB.StageList[input - 1];
-            string imagePath = AppDomain.CurrentDomain.BaseDirectory + "\\sample.jpg"; // 이미지 경로(상위 폴더/bin/Debug/net버전안에 넣어야함.)
             AsciiArt.Draw(imagePath, 20);
             */
             GameStart();
