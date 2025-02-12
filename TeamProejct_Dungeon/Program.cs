@@ -77,6 +77,33 @@ namespace TeamProejct_Dungeon
                         case 4:
                             //여기에 퀘스트 보드 보여주는 쪽으로.
                             sceneType = SceneType.QuestBoard_LYR;
+                            Console.Clear();
+                            Text.TextingLine("-------------------퀘스트 보드-------------------", ConsoleColor.Yellow, true);
+                            Console.WriteLine();
+                            
+                            // 퀘스트 목록 출력
+                            for (int i = 0; i < QuestManager_LYR.Instance.Quests.Count; i++)
+                            {
+                                var quest = QuestManager_LYR.Instance.Quests[i];
+                                Text.TextingLine($"{i + 1}. {quest.Name} - {quest.description}", ConsoleColor.Green, false);  // 퀘스트 목록
+                            }
+                            
+                            // 퀘스트 선택
+                            Text.TextingLine("\n0. 돌아가기", ConsoleColor.Red, false);
+                            
+                            int questSelection = Text.GetInput("퀘스트 번호를 선택하세요.", 0, QuestManager_LYR.Instance.Quests.Count);
+    
+                            if (questSelection == 0)
+                            {
+                                sceneType = SceneType.Home; // 마을로 돌아가기
+                            }
+                            else
+                            {
+                                var selectedQuest = QuestManager_LYR.Instance.Quests[questSelection - 1];
+                                QuestManager_LYR.Instance.AcceptQuest_LYR(selectedQuest.Name);  // 퀘스트 수락
+                                
+                                Text.TextingLine($"\n{selectedQuest.Name} 퀘스트를 수락하셨습니다!", ConsoleColor.Green);
+                            }
                             break;
                         case 5:
                             //던전 이동
