@@ -4,8 +4,10 @@ using System.IO;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Xml.Linq;
+using static ForArt;
 //using TeamProject_Dungeon;
 
 namespace TeamProejct_Dungeon
@@ -22,10 +24,13 @@ namespace TeamProejct_Dungeon
         static SceneType sceneType = SceneType.Lobby;
         static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.UTF8;
+            /*
             int input = 1;
             Stage stage = StageDB.StageList[input - 1];
             string imagePath = AppDomain.CurrentDomain.BaseDirectory + "\\sample.jpg"; // 이미지 경로(상위 폴더/bin/Debug/net버전안에 넣어야함.)
             AsciiArt.Draw(imagePath, 20);
+            */
             GameStart();
         }
         static void GameStart()
@@ -34,13 +39,16 @@ namespace TeamProejct_Dungeon
             // 플레이어와 몬스터 리스트 생성
             Shop shop = new Shop();
             QuestManager_KTK questManager_KTK = new QuestManager_KTK(GameManager.player);
+            bool canLoad;
 
             while (true)
             {
                 //로비
                 if (sceneType == SceneType.Lobby)
                 {
-                    int input = Text.GetInput("1. 새로하기\n2. 불러오기", 1, 2);
+                    canLoad = true;
+                    Console.WriteLine(introArt);
+                    int? input = Text.GetInputMulti(false, "새로하기", "불러오기");
                     if (input == 1)
                     {
                         string input_name = Text.GetInput("캐릭터의 이름을 입력해주세요.");
@@ -56,16 +64,25 @@ namespace TeamProejct_Dungeon
                     }
                     else if (input == 2)
                     {
-                        Load_PSJ();
+                        canLoad = Load_PSJ();
                     }
-                    Text.TextingLine($"이름 : {GameManager.player.Name} , 직업 : {GameManager.player.job} 캐릭터가 생성되었습니다.", ConsoleColor.Green);
-                    //디버깅 코드 시작
-                    GameManager.player.atk = 10;
-                    //디버깅 코드 끝
-                    Thread.Sleep(500);
-                    Text.TextingLine($"\n\n잠시 후 마을에 입장합니다.", ConsoleColor.Green);
-                    sceneType = SceneType.Home;
-                    Thread.Sleep(500);
+                    if (canLoad == true)
+                    {
+                        Text.TextingLine($"이름 : {GameManager.player.Name} , 직업 : {GameManager.player.job} 캐릭터가 생성되었습니다.", ConsoleColor.Green);
+                        //디버깅 코드 시작
+                        GameManager.player.atk = 10;
+                        //디버깅 코드 끝
+                        Thread.Sleep(500);
+                        Text.TextingLine($"\n\n잠시 후 마을에 입장합니다.", ConsoleColor.Green);
+                        sceneType = SceneType.Home;
+                        Thread.Sleep(500);
+                    }
+                    else if (canLoad == false)
+                    {
+                        Console.Clear();
+                        Text.TextingLine("저장된 캐릭터가 없습니다.\n다시 화면으로 돌아갑니다.");
+                        Thread.Sleep(500);
+                    }
                     Console.Clear();
                 }
                 //마을
@@ -451,13 +468,12 @@ namespace TeamProejct_Dungeon
         }
 
         //로드 기능.
-        static void Load_PSJ()
+        static bool Load_PSJ()
         {
             //해당 경로에 파일이 없을 시 인벤만 초기화하고 보냄.
             if (!File.Exists(path + "\\UserData.json"))
             {
-                GameManager.player.inven = new Inventory();
-                return;
+                return false;
             }
             else
             {
@@ -483,6 +499,7 @@ namespace TeamProejct_Dungeon
                 Text.TextingLine("로드 성공.");
                 Thread.Sleep(500);
                 Console.Clear();
+                return true;
             }
         }
     }
