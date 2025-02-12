@@ -142,8 +142,9 @@ namespace TeamProejct_Dungeon
             {
                 GameManager.player.mp = GameManager.player.maxMp;
             }
-            Console.WriteLine($"휴식후 현재 체력은{GameManager.player.hp} 입니다.");
-            Console.WriteLine($"휴식후 현재 마나는{GameManager.player.mp} 입니다.");
+
+            Text.TextingLine($"휴식후 현재 체력은{GameManager.player.hp} 입니다.",ConsoleColor.DarkYellow);
+            Text.TextingLine($"휴식후 현재 마나는{GameManager.player.mp} 입니다.", ConsoleColor.DarkYellow);
             Console.ReadLine();
         }
 
