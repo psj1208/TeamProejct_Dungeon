@@ -47,6 +47,9 @@ namespace TeamProejct_Dungeon
                         GameManager.player = new Player(input_name, Job.Assassin);
                     }
                     Text.TextingLine($"이름 : {GameManager.player.Name} , 직업 : {GameManager.player.job} 캐릭터가 생성되었습니다.", ConsoleColor.Green);
+                    //디버깅 코드 시작
+                    GameManager.player.atk = 100;
+                    //디버깅 코드 끝
                     Thread.Sleep(500);
                     Text.TextingLine($"\n\n잠시 후 마을에 입장합니다.", ConsoleColor.Green);
                     sceneType = SceneType.Home;
@@ -77,8 +80,7 @@ namespace TeamProejct_Dungeon
                             break;
                         case 4:
                             //여기에 퀘스트 보드 보여주는 쪽으로.
-                            Console.Clear();
-                            //questManager_KTK.ShowQuestBoard_KTK();
+                            QuestDb.SelectInQuestPanel();
                             break;
                         case 5:
                             //던전 이동

@@ -96,6 +96,7 @@ namespace TeamProejct_Dungeon
         {
             if (isDead)
             {
+                PlayerQuestManage_PSJ.Alarm(this.Name, QuestType_PSJ.kill);
                 player.AddGold(gold);
                 player.AddExp(monster.exp);
             }
