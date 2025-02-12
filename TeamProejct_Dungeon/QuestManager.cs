@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace TeamProejct_Dungeon
 {
-    class QuestScene
+    class QuestScene_KSJ
     {
-        private List<Quest> quests = new List<Quest>();
+        private List<Quest_KSJ> quests = new List<Quest_KSJ>();
 
-        public QuestScene()
+        public QuestScene_KSJ()
         {
             AddQuests();
             QuestDisplay();
@@ -27,7 +27,7 @@ namespace TeamProejct_Dungeon
         {
             Console.Clear();
             Text.TextingLine("퀘스트 목록\n", ConsoleColor.Yellow, false);
-            foreach (Quest quest in quests)
+            foreach (Quest_KSJ quest in quests)
             {
                 Console.WriteLine($"{quest.questName} - {quest.questDescription}\n");
             }
@@ -53,7 +53,7 @@ namespace TeamProejct_Dungeon
         Completed,   // 완료
     }
 
-    public abstract class Quest
+    public abstract class Quest_KSJ
     {
         public string questName { get; set; }
         public string questDescription { get; set; }
@@ -75,7 +75,7 @@ namespace TeamProejct_Dungeon
     }
 
     //3킬퀘스트
-    public class Quest1 : Quest
+    public class Quest1 : Quest_KSJ
     {
         private int totlalKill =  3;
         private int curKill = 0;
@@ -109,7 +109,7 @@ namespace TeamProejct_Dungeon
     }
 
     //장비착용 퀘스트
-    public class Quest2 : Quest
+    public class Quest2 : Quest_KSJ
     {
         private int totlalKill = 3;
         private int curKill = 0;

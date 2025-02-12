@@ -56,8 +56,8 @@ namespace TeamProejct_Dungeon
                 {
                     Console.Clear();
                     Text.TextingLine("------------------------마을-------------------------", ConsoleColor.Magenta, true);
-                    Text.TextingLine("\n\n1 . 상태 보기\n\n2 . 인벤토리\n\n3 . 상점\n\n4 . 던전\n\n5. 세이브\n", ConsoleColor.Green, false);
-                    int input = Text.GetInput(null, 1, 2, 3, 4, 5);
+                    Text.TextingLine("\n\n1 . 상태 보기\n\n2 . 인벤토리\n\n3 . 상점\n\n4 . 퀘스트 보드\n\n5 . 던전\n\n6. 세이브\n", ConsoleColor.Green, false);
+                    int input = Text.GetInput(null, 1, 2, 3, 4, 5, 6);
                     switch (input)
                     {
                         case 1:
@@ -74,15 +74,14 @@ namespace TeamProejct_Dungeon
                             shop.DisplayItems();
                             break;
                         case 4:
-                            //던전 이동
-                            //테스트 코드 시작
-                            //int input_ = StageDB.ShowStageList();
-                            //Console.WriteLine(input_);
-                            //Thread.Sleep(500);
-                            //테스트 코드 끝
-                            sceneType = SceneType.Dungeon;
+                            //여기에 퀘스트 보드 보여주는 쪽으로.
+
                             break;
                         case 5:
+                            //던전 이동
+                            sceneType = SceneType.Dungeon;
+                            break;
+                        case 6:
                             //세이브 기능
                             break;
                         default:
@@ -92,12 +91,12 @@ namespace TeamProejct_Dungeon
                 //던전
                 else if (sceneType == SceneType.Dungeon)
                 {
-                    Console.Clear();
-                    Text.TextingLine("-------------------던전-------------------", ConsoleColor.DarkRed, true);
-
                     // 스테이지 선택
                     int stageIndex = StageDB.ShowStageList();
                     Stage selectedStage = StageDB.StageList[stageIndex - 1];
+
+                    // 스테이지 입장 시 새로운 몬스터 3마리 선정
+                    selectedStage.RefreshMonsters();
 
                     // 선택한 스테이지 출력
                     selectedStage.StageInfo();
@@ -112,7 +111,6 @@ namespace TeamProejct_Dungeon
                     // 마을로 복귀
                     sceneType = SceneType.Home;
                 }
-
             }
         }
 
@@ -149,22 +147,23 @@ namespace TeamProejct_Dungeon
         }
 
 
-        // 몬스터 랜덤 스폰
+        // 몬스터 랜덤 스폰 (1~4마리 추가)
         static List<Monster> MonsterSpawn(Stage stage)
         {
-            Random random = new Random();
-            List<Monster> monsterList = stage.GetMonsters();
+            List<Monster> monsterList = new List<Monster>(stage.GetMonsters()); // 기존 몬스터 복사
 
-            // 1~4마리의 몬스터가 랜덤하게 등장
-            int monsterCount = random.Next(1, 5);
+            Random random = new Random();
+            int monsterCount = random.Next(1, 3); // 1~4마리 랜덤 추가
 
             for (int i = 0; i < monsterCount; i++)
             {
-                monsterList.Add(Monster.GetRandomMonster());
+                monsterList.Add(Monster.GetRandomMonster()); // 랜덤 몬스터 추가
             }
             return monsterList;
         }
 
+        // 스테이지에 들어올 때마다 새로운 몬스터로 초기화
+        
         static void ShowBattleScreen(Player player, List<Monster> monsters)
         {
             Text.TextingLine("==================================================", ConsoleColor.White, false);
