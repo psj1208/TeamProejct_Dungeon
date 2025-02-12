@@ -94,7 +94,6 @@ namespace TeamProejct_Dungeon
                 //던전
                 else if (sceneType == SceneType.Dungeon)
                 {
-                    GameManager.player.atk = 100;
                     // 스테이지 선택
                     int stageIndex = StageDB.ShowStageList();
                     Stage selectedStage = StageDB.StageList[stageIndex - 1];
