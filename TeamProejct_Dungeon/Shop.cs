@@ -117,6 +117,8 @@ namespace TeamProejct_Dungeon
             if (GameManager.player.gold < selectedItem.buyPrice)
             {
                 Console.WriteLine("골드가 부족합니다.");
+
+                Console.ReadLine();
                 return;
             }
 
