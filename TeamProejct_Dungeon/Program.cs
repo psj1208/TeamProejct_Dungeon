@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -15,6 +18,7 @@ namespace TeamProejct_Dungeon
     }
     internal class Program
     {
+        public static string path = AppDomain.CurrentDomain.BaseDirectory;
         static SceneType sceneType = SceneType.Lobby;
         static void Main(string[] args)
         {
@@ -36,15 +40,23 @@ namespace TeamProejct_Dungeon
                 //로비
                 if (sceneType == SceneType.Lobby)
                 {
-                    string input_name = Text.GetInput("캐릭터의 이름을 입력해주세요.");
-                    int input_job = Text.GetInput("플레이어의 직업을 선택해주세요\n\n1 . 전사 : 높은 방어력과 강력한 한 방이 있습니다.\n\n2 . 도적 : 높은 공격력과 다중공격을 할 수 있습니다.\n\n", 1, 2);
-                    if (input_job == 1)
+                    int input = Text.GetInput("1. 새로하기\n2. 불러오기", 1, 2);
+                    if (input == 1)
                     {
-                        GameManager.player = new Player(input_name, Job.Warrior);
+                        string input_name = Text.GetInput("캐릭터의 이름을 입력해주세요.");
+                        int input_job = Text.GetInput("플레이어의 직업을 선택해주세요\n\n1 . 전사 : 높은 방어력과 강력한 한 방이 있습니다.\n\n2 . 도적 : 높은 공격력과 다중공격을 할 수 있습니다.\n\n", 1, 2);
+                        if (input_job == 1)
+                        {
+                            GameManager.player = new Player(input_name, Job.Warrior);
+                        }
+                        else
+                        {
+                            GameManager.player = new Player(input_name, Job.Assassin);
+                        }
                     }
-                    else
+                    else if (input == 2)
                     {
-                        GameManager.player = new Player(input_name, Job.Assassin);
+                        Load();
                     }
                     Text.TextingLine($"이름 : {GameManager.player.Name} , 직업 : {GameManager.player.job} 캐릭터가 생성되었습니다.", ConsoleColor.Green);
                     //디버깅 코드 시작
@@ -88,6 +100,10 @@ namespace TeamProejct_Dungeon
                             break;
                         case 6:
                             //세이브 기능
+                            Save();
+                            Console.WriteLine("저장했습니다.");
+                            Thread.Sleep(500);
+                            Console.Clear();
                             break;
                         default:
                             break;
@@ -412,6 +428,45 @@ namespace TeamProejct_Dungeon
                     && (input >= min) && (input <= max))
                 { return input; }
                 Console.WriteLine("잘못된 입력입니다. 다시 입력해주세요");
+            }
+        }
+
+        //세이브 기능. 상속받은 정보까지 가져가기 위해 All로 지정.
+        static void Save()
+        {
+            //player 클래스 저장(TypeNameHandling을 All로 설정하면 무슨 클래스를 상속받고 있는 지도 저장이 됨. 다만 문제를 일으킬 수 있으니 주의. 별다른 설정이 없으면
+            //무엇을 상속받고 있는 지는 저장이 안 된다. 로드해서 맞는 형태로 가져올 때 문제 생김.ex)Item형태로 불렀는데 상속 정보가 날아가 해당 클래스가 Item의 하위 클래스가 아니게 됨. 못 가져옴.
+            string userdata = JsonConvert.SerializeObject(GameManager.player, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            });
+            //경로 설정 후 저장. 상위 폴더의 bin/Debug/해당 net 폴더 안에 들어가 있을 것이다.
+            File.WriteAllText(path + "\\UserData.json", userdata);
+        }
+
+        //로드 기능.
+        static void Load()
+        {
+            //해당 경로에 파일이 없을 시 인벤만 초기화하고 보냄.
+            if (!File.Exists(path + "\\UserData.json"))
+            {
+                GameManager.player.inven = new Inventory();
+                return;
+            }
+            else
+            {
+                //같은 방식으로 All형태로 가져온다.
+                //경로 설정 후 읽어오기.
+                string userLData = File.ReadAllText(path + "\\UserData.json");
+                Player? userLoadData = JsonConvert.DeserializeObject<Player>(userLData, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.All
+                });
+                GameManager.player = userLoadData;
+                GameManager.inven = GameManager.player.inven;
+                Text.TextingLine("로드 성공.");
+                Thread.Sleep(500);
+                Console.Clear();
             }
         }
     }

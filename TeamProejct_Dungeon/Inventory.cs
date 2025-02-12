@@ -9,7 +9,7 @@ namespace TeamProejct_Dungeon
 {
     public class Inventory
     {
-        List<IItem> items;//인벤이 갖고 있는 아이템.
+        public List<IItem> items;//인벤이 갖고 있는 아이템.
 
         //인벤토리 생성자. 게임매니저에 인벤토리 전달.
         public Inventory()
