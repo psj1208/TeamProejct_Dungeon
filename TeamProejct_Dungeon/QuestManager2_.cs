@@ -11,11 +11,12 @@ using System.Numerics;
 
 namespace TeamProejct_Dungeon
 {
-
+    //플레이어가 가지고 있는 퀘스트 목록을 관리.
     public static class PlayerQuestManage_PSJ
     {
         public static List<Quest_PSJ> quests = new List<Quest_PSJ>();
-
+        
+        //퀘스트 화면 출력
         public static void ShowPlayerQuest()
         {
             Console.Clear();
@@ -54,10 +55,12 @@ namespace TeamProejct_Dungeon
                 Console.Clear();
             }
         }
+        //퀘스트 추가(수락)
         public static void AddQuest(Quest_PSJ q)
         {
             quests.Add(q.DeepCopy());
         }
+        //외부에서 퀘스트의 트리거가 될만한 알람을 보내서 해당하는 타입과 타겟이면 그 퀘스트를 갱신. 이를 위해 static으로 선언
         public static void Alarm(string target, QuestType_PSJ ty)//
         {
             for (int i = 0; i < quests.Count; i++) 
@@ -71,10 +74,12 @@ namespace TeamProejct_Dungeon
             }
         }
     }
+    //퀘스트 보드
     public static class QuestShop
     {
         public static List<Quest_PSJ> ShopQuestList = QuestDb.lowQuestDb;
 
+        //퀘스트 보드 출력
         public static void OpenQuestBoard()
         {
             Console.Clear();
@@ -88,6 +93,7 @@ namespace TeamProejct_Dungeon
                 int? input = -1;
                 if (questList.Count() > 0)
                     input = Text.GetInputMulti(true, questList);
+                //-1은 퀘스트 보드가 비어있단 뜻이다.
                 if (input == -1)
                 {
                     Console.Clear();
@@ -95,6 +101,7 @@ namespace TeamProejct_Dungeon
                     Thread.Sleep(500);
                     break;
                 }
+                //퀘스트가 남아있을 경우 출력
                 else if (input != null )
                 {
                     input--;
@@ -114,8 +121,10 @@ namespace TeamProejct_Dungeon
         }
     }
 
+    //퀘스트 데이터베이스
     public static class QuestDb
     {
+        //시간 남으면 추가할려고 단계를 구분함.
         public static List<Quest_PSJ> lowQuestDb = new List<Quest_PSJ>
         {
             new Quest_PSJ("슬라임 소탕 !","슬라임을 5마리 처치.",QuestType_PSJ.kill,MonsterDB.GetMonsters()[0].Name,new Reward_PSJ(100,30,(ItemDatabase.weaponList[0].DeepCopy())),0,5),
@@ -128,6 +137,7 @@ namespace TeamProejct_Dungeon
             lowQuestDb,
         };
 
+        //보유 퀘스트를 확인할 지 퀘스트 보드를 확인할 지 선택하는 메서드
         public static void SelectInQuestPanel()
         {
             Console.Clear();
@@ -152,6 +162,7 @@ namespace TeamProejct_Dungeon
         }
     }
 
+    //퀘스트의 타입을 정하기 위함
     public enum QuestType_PSJ
     {
         kill,
@@ -159,6 +170,7 @@ namespace TeamProejct_Dungeon
         clear
     }
 
+    //퀘스트 보상용 클래스
     public class Reward_PSJ
     {
         public int gold;
@@ -199,6 +211,7 @@ namespace TeamProejct_Dungeon
             }
         }
 
+        //보상을 지급한다.
         public void RewardGet()
         {
             if (gold != 0)
@@ -216,18 +229,19 @@ namespace TeamProejct_Dungeon
             }
         }
     }
+    //퀘스트 클래스
     public class Quest_PSJ
     {
         public string title;
         public string description;
-        public string target;
-        public ICharacter targetIcharacter;
-        public QuestType_PSJ qt;
-        public int TargetClearCount;
-        public int curClearCount;
-        public Reward_PSJ reward;
+        public string target; //타겟의 이름
+        public ICharacter targetIcharacter; //필요없는거임
+        public QuestType_PSJ qt; //퀘스트 타입
+        public int TargetClearCount; // 목표 수
+        public int curClearCount; //현재 달성 수
+        public Reward_PSJ reward; //보상
 
-        bool isCleared;
+        bool isCleared; //클리어 여부
 
         public Quest_PSJ(string title, string des, QuestType_PSJ type, string target, Reward_PSJ re, int ClearCount = 0, int TargetCount = 1)
         {
@@ -241,12 +255,14 @@ namespace TeamProejct_Dungeon
             isCleared = false;
         }
 
+        //퀘스트 갱신
         public bool PlusCount()
         {
             curClearCount++;
             Text.TextingLine($"\n{this.title} 퀘스트 진행: {this.curClearCount} / {this.TargetClearCount}", ConsoleColor.Magenta, false);
             return Renew();
         }
+        //퀘스트 달성 여부 확인
         public bool Renew()
         {
             if (curClearCount == TargetClearCount)
@@ -260,6 +276,7 @@ namespace TeamProejct_Dungeon
             return false;
         }
 
+        //주소 전달을 막기 위한 깊은복사 메서드
         public Quest_PSJ DeepCopy()
         {
             return new Quest_PSJ(this.title, this.description, this.qt, this.target, this.reward, this.curClearCount, this.TargetClearCount);
