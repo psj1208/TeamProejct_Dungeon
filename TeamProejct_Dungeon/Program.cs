@@ -56,7 +56,7 @@ namespace TeamProejct_Dungeon
                     }
                     else if (input == 2)
                     {
-                        Load();
+                        Load_PSJ();
                     }
                     Text.TextingLine($"이름 : {GameManager.player.Name} , 직업 : {GameManager.player.job} 캐릭터가 생성되었습니다.", ConsoleColor.Green);
                     //디버깅 코드 시작
@@ -100,7 +100,7 @@ namespace TeamProejct_Dungeon
                             break;
                         case 6:
                             //세이브 기능
-                            Save();
+                            Save_PSJ();
                             Console.WriteLine("저장했습니다.");
                             Thread.Sleep(500);
                             Console.Clear();
@@ -432,7 +432,7 @@ namespace TeamProejct_Dungeon
         }
 
         //세이브 기능. 상속받은 정보까지 가져가기 위해 All로 지정.
-        static void Save()
+        static void Save_PSJ()
         {
             //player 클래스 저장(TypeNameHandling을 All로 설정하면 무슨 클래스를 상속받고 있는 지도 저장이 됨. 다만 문제를 일으킬 수 있으니 주의. 별다른 설정이 없으면
             //무엇을 상속받고 있는 지는 저장이 안 된다. 로드해서 맞는 형태로 가져올 때 문제 생김.ex)Item형태로 불렀는데 상속 정보가 날아가 해당 클래스가 Item의 하위 클래스가 아니게 됨. 못 가져옴.
@@ -451,7 +451,7 @@ namespace TeamProejct_Dungeon
         }
 
         //로드 기능.
-        static void Load()
+        static void Load_PSJ()
         {
             //해당 경로에 파일이 없을 시 인벤만 초기화하고 보냄.
             if (!File.Exists(path + "\\UserData.json"))
