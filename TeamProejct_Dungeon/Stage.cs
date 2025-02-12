@@ -47,6 +47,7 @@ namespace TeamProejct_Dungeon
             Randomize.RandomGain(player, ItemDatabase.armourList[0].DeepCopy(), 20);
             Randomize.RandomGain(player, ItemDatabase.consumableList[0].DeepCopy(), 20);
             Randomize.RandomGain(player, ItemDatabase.consumableList[1].DeepCopy(), 5);
+            PlayerQuestManage_PSJ.Alarm("Stage1", QuestType_PSJ.clear);
         }
         
         // 2단계 스테이지 클리어 보상
@@ -58,6 +59,7 @@ namespace TeamProejct_Dungeon
             Randomize.RandomGain(player, ItemDatabase.consumableList[0].DeepCopy(), 50);
             Randomize.RandomGain(player, ItemDatabase.consumableList[1].DeepCopy(), 10);
             Randomize.RandomGain(player, ItemDatabase.consumableList[2].DeepCopy(), 5);
+            PlayerQuestManage_PSJ.Alarm("Stage2", QuestType_PSJ.clear);
         }
         
         // 3단계 스테이지 클리어 보상
@@ -69,6 +71,7 @@ namespace TeamProejct_Dungeon
             Randomize.RandomGain(player, ItemDatabase.consumableList[0].DeepCopy(), 70);
             Randomize.RandomGain(player, ItemDatabase.consumableList[1].DeepCopy(), 20);
             Randomize.RandomGain(player, ItemDatabase.consumableList[2].DeepCopy(), 20);
+            PlayerQuestManage_PSJ.Alarm("Stage3", QuestType_PSJ.clear);
         }
     }
 

@@ -181,7 +181,7 @@ namespace TeamProejct_Dungeon
         public void AddGold(int _gold)
         {
             gold += _gold;
-            Console.WriteLine($"{_gold} Gode를 획득했습니다.");
+            Console.WriteLine($"{_gold} Gold를 획득했습니다.");
         }
 
         //레벨 업 메서드

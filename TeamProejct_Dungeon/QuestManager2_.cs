@@ -54,17 +54,18 @@ namespace TeamProejct_Dungeon
         {
             quests.Add(q.DeepCopy());
         }
-        public static void Alarm(string target, QuestType_PSJ ty)
+        public static void Alarm(string target, QuestType_PSJ ty)//
         {
-            foreach (Quest_PSJ q in quests)
-                if (q.target == target)
-                    if (q.qt == ty)
+            for (int i = 0; i < quests.Count; i++) 
+            {
+                if (quests[i].target == target)
+                    if (quests[i].qt == ty)
                     {
-                        if (q.PlusCount() == true)
-                            quests.Remove(q);
+                        if (quests[i].PlusCount() == true)
+                            quests.RemoveAt(i);
                     }
+            }
         }
-
     }
     public static class QuestShop
     {
@@ -80,14 +81,23 @@ namespace TeamProejct_Dungeon
                     questList[i] = $"{ShopQuestList[i].title} : {ShopQuestList[i].description}";
                 Text.TextingLine("------------------------퀘스트 보드-------------------------", ConsoleColor.Blue, false);
                 Text.TextingLine("ESC로 돌아가기", ConsoleColor.Green, false);
-                int? input = Text.GetInputMulti(true, questList);
-                if (input != null)
+                int? input = -1;
+                if (questList.Count() > 0)
+                    input = Text.GetInputMulti(true, questList);
+                if (input == -1)
                 {
                     Console.Clear();
+                    Text.TextingLine("\n\n현재 퀘스트 보드는 비어있습니다.", ConsoleColor.Red);
+                    Thread.Sleep(500);
+                    break;
+                }
+                else if (input != null )
+                {
                     input--;
+                    Console.Clear();
+                    Text.TextingLine($"\n{ShopQuestList[(int)input].title} 을 수주했습니다.");
                     PlayerQuestManage_PSJ.AddQuest(ShopQuestList[(int)input]);
                     ShopQuestList.RemoveAt((int)input);
-                    Text.TextingLine($"\n{ShopQuestList[(int)input].title} 을 수주했습니다.");
                     Thread.Sleep(500);
                     Console.Clear();
                 }
@@ -105,7 +115,7 @@ namespace TeamProejct_Dungeon
         public static List<Quest_PSJ> lowQuestDb = new List<Quest_PSJ>
         {
             new Quest_PSJ("슬라임 소탕 !","슬라임을 5마리 처치.",QuestType_PSJ.kill,MonsterDB.GetMonsters()[0].Name,new Reward_PSJ(100,30,(ItemDatabase.weaponList[0].DeepCopy())),0,5),
-            new Quest_PSJ("공허충 소탕 !","공허충을 5마리 소탕",QuestType_PSJ.kill,MonsterDB.GetMonsters()[0].Name, new Reward_PSJ(80,20,(ItemDatabase.armourList[0].DeepCopy())),0,5),
+            new Quest_PSJ("공허충 소탕 !","공허충을 5마리 소탕",QuestType_PSJ.kill,MonsterDB.GetMonsters()[2].Name, new Reward_PSJ(80,20,(ItemDatabase.armourList[0].DeepCopy())),0,5),
             new Quest_PSJ("스테이지 1 탐험 !","스테이지 1을 클리어.",QuestType_PSJ.clear,"Stage1",new Reward_PSJ(150,50))
         };
 
@@ -229,8 +239,8 @@ namespace TeamProejct_Dungeon
 
         public bool PlusCount()
         {
-            Text.TextingLine($"{this.title} 퀘스트 진행: {this.curClearCount} / {this.TargetClearCount}", ConsoleColor.Magenta, false);
             curClearCount++;
+            Text.TextingLine($"\n{this.title} 퀘스트 진행: {this.curClearCount} / {this.TargetClearCount}", ConsoleColor.Magenta, false);
             return Renew();
         }
         public bool Renew()
@@ -238,7 +248,9 @@ namespace TeamProejct_Dungeon
             if (curClearCount == TargetClearCount)
             {
                 isCleared = true;
+                Text.TextingLine($"\n{title} 퀘스트 완수 ! ");
                 reward.RewardGet();
+                Console.WriteLine();
                 return true;
             }
             return false;
