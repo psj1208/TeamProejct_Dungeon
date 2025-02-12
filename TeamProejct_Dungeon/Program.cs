@@ -442,6 +442,12 @@ namespace TeamProejct_Dungeon
             });
             //경로 설정 후 저장. 상위 폴더의 bin/Debug/해당 net 폴더 안에 들어가 있을 것이다.
             File.WriteAllText(path + "\\UserData.json", userdata);
+
+            string Questdata = JsonConvert.SerializeObject(PlayerQuestManage_PSJ.quests, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            });
+            File.WriteAllText(path + "\\QuestData.json", Questdata);
         }
 
         //로드 기능.
@@ -464,6 +470,16 @@ namespace TeamProejct_Dungeon
                 });
                 GameManager.player = userLoadData;
                 GameManager.inven = GameManager.player.inven;
+
+                if (File.Exists(path + "\\QuestData.json"))
+                {
+                    string questLData = File.ReadAllText(path + "\\QuestData.json");
+                    List<Quest_PSJ>? questLoadData = JsonConvert.DeserializeObject<List<Quest_PSJ>>(questLData, new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.All
+                    });
+                    PlayerQuestManage_PSJ.quests = questLoadData.ToList();
+                }
                 Text.TextingLine("로드 성공.");
                 Thread.Sleep(500);
                 Console.Clear();
