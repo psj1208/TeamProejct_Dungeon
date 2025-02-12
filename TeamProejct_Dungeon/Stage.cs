@@ -21,7 +21,11 @@ namespace TeamProejct_Dungeon
         public static void RandomGain(Player player, IItem item, int per)
         {
             if (rand.Next(0, 101) <= per)
-               GameManager.inven.AddItem(item);  // 아이템 지급 메서드
+            {
+                Console.WriteLine($"{item.name}을 획득하였습니다"); // 아이템 획득 출력문
+                GameManager.inven.AddItem(item);  // 아이템 지급 메서드
+            }
+
         }
     }
     
@@ -83,7 +87,7 @@ namespace TeamProejct_Dungeon
         public static int ShowStageList()
         {
             Console.Clear();
-            Text.TextingLine("-------------------던전-------------------", ConsoleColor.DarkRed, true);
+            Text.TextingLine("=============================던전=============================", ConsoleColor.DarkYellow, true);
 
             foreach (var stage in StageList)    // 모든 스테이지의 정보를 출력
             {
@@ -116,7 +120,6 @@ namespace TeamProejct_Dungeon
         public Stage(List<Monster> monsterList, Action<Player> clearAction)
         {
             original = monsterList;                             // 전체 몬스터 리스트
-            //monsters = GetRandomMonsters(original, 3);   // 몬스터 리스트에서 3마리를 랜덤하게 선택
             RefreshMonsters();                                // 새로 추가된 코드
             ClearStage = clearAction;                         // 보상 지급 메서드 실행
         }
@@ -129,7 +132,7 @@ namespace TeamProejct_Dungeon
         // 매번 3마리를 새롭게 선정
         public void RefreshMonsters()
         {
-            monsters = GetRandomMonsters(original, 3);  // 매번 3마리를 새롭게 선정
+            monsters = GetRandomMonsters(original, 3);  // 몬스터 리스트에서 3마리를 랜덤하게 선택
         }
 
 

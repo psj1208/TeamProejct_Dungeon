@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Xml.Linq;
+//using TeamProject_Dungeon;
 
 namespace TeamProejct_Dungeon
 {
@@ -28,6 +29,7 @@ namespace TeamProejct_Dungeon
             //여기에 게임 흐름
             // 플레이어와 몬스터 리스트 생성
             Shop shop = new Shop();
+            QuestManager_KTK questManager_KTK = new QuestManager_KTK(GameManager.player);
 
             while (true)
             {
@@ -100,7 +102,10 @@ namespace TeamProejct_Dungeon
 
                     // 선택한 스테이지 출력
                     selectedStage.StageInfo();
+                    Console.WriteLine("던전에 입장하겠습니다.");
+                    Console.WriteLine("아무 키를 눌러 진행하기");
                     Console.ReadKey();
+
 
                     // 몬스터 리스트 가져오기
                     List<Monster> monsters = selectedStage.GetMonsters();
@@ -146,24 +151,6 @@ namespace TeamProejct_Dungeon
             Text.TextingLine("\n==================================================", ConsoleColor.White, false);
         }
 
-
-        // 몬스터 랜덤 스폰 (1~4마리 추가)
-        static List<Monster> MonsterSpawn(Stage stage)
-        {
-            List<Monster> monsterList = new List<Monster>(stage.GetMonsters()); // 기존 몬스터 복사
-
-            Random random = new Random();
-            int monsterCount = random.Next(1, 3); // 1~4마리 랜덤 추가
-
-            for (int i = 0; i < monsterCount; i++)
-            {
-                monsterList.Add(Monster.GetRandomMonster()); // 랜덤 몬스터 추가
-            }
-            return monsterList;
-        }
-
-        // 스테이지에 들어올 때마다 새로운 몬스터로 초기화
-        
         static void ShowBattleScreen(Player player, List<Monster> monsters)
         {
             Text.TextingLine("==================================================", ConsoleColor.White, false);
@@ -190,13 +177,14 @@ namespace TeamProejct_Dungeon
         static void Battle_Dead(Player player, Monster monster)
         {
             if (!monster.isDead ) { return; }// 이미 죽지 않았다면 보상 X
+            Text.TextingLine($"\n{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, false);
+
             // 보상 지급 (경험치 & 골드)
             monster.GrantReward(player, monster);
-            Text.TextingLine($"\n{monster.Name}이(가) 쓰러졌습니다.\n", ConsoleColor.White, false);
-            Text.TextingLine($"{monster.exp} Exp를 얻었다!\n", ConsoleColor.White, false);
-            Text.Texting($"{monster.gold}", ConsoleColor.White, false);
-            Text.Texting($" G", ConsoleColor.Yellow, false);
-            Text.TextingLine($"를 얻었다!\n", ConsoleColor.White, false);
+            //Text.TextingLine($"{monster.exp} Exp를 얻었다!\n", ConsoleColor.White, false);
+            //Text.Texting($"{monster.gold}", ConsoleColor.White, false);
+            //Text.Texting($" G", ConsoleColor.Yellow, false);
+            //Text.TextingLine($"를 얻었다!\n", ConsoleColor.White, false);
 
             Console.WriteLine("--------------------------------------------------");
 
@@ -206,6 +194,9 @@ namespace TeamProejct_Dungeon
         static void Battle(Player player, Stage selectedStage, List<Monster> monsters)
         {
             bool isPlayerTurn = true;
+            int initGold = player.gold;
+            int initExp = player.exp;
+            (int initgold,  int initexp, int initLevel) initStatus = (player.gold, player.exp, player.level);
 
             while (true)
             {
@@ -235,13 +226,12 @@ namespace TeamProejct_Dungeon
                 // 플레이어가 사망하면 전투 종료
                 if (player.isDead || monsters.All(m => m.isDead))
                 {
-                    Battle_Result(player, selectedStage ,monsters);
+                    Battle_Result(player, selectedStage ,monsters, initStatus);
                     Thread.Sleep(500);
                     return;
                 }
             }
         }
-
         static bool ExecutePlayerTurn(Player player, List<Monster> monsters, int action)
         {
             
@@ -329,13 +319,14 @@ namespace TeamProejct_Dungeon
 
 
         // 전투 결과
-        static void Battle_Result(Player player, Stage selectedStage, List<Monster> monsters)
+        static void Battle_Result(Player player, Stage selectedStage, List<Monster> monsters, (int g, int e, int l) p )
         {
             Console.Clear();
             // 전투 결과
             Text.TextingLine("==================================================", ConsoleColor.White, false);
             Text.TextingLine("Battle!! - Result", ConsoleColor.Yellow, false);
             Text.TextingLine("==================================================\n", ConsoleColor.White, false);
+            
 
             // 이겼을 경우 - Victory, You Lose
             if (!player.isDead && monsters.All(m => m.isDead))
@@ -344,12 +335,37 @@ namespace TeamProejct_Dungeon
                 int monsterCount = monsters.Count;
                 int damageTaken = player.maxHp - player.hp;
 
+                //int initialgold = player.gold;
+                //int initialExp = player.exp;
+                //int initialLevel = player.level;
+                int totalExpGained = 0;
+
+                // 몬스터 처치 경험치 및 골드 획득
+                foreach (var monster in monsters)
+                {
+                    int expGained = monster.exp;
+                    totalExpGained += expGained;
+                }
+
                 Console.WriteLine($"던전에서 몬스터 {monsterCount}마리를 잡았습니다!\n");
                 Console.WriteLine($"Lv. {player.level} {player.Name}");
                 Console.WriteLine($"HP {player.maxHp} -> {player.hp}");
-
-                // 스테이지 보상 지급
+                
+                // 스테이지 보상 지급 및 목록 출력
+                Console.WriteLine("\n[클리어 보상]\n");
                 selectedStage.ClearReward(player);
+
+                Console.WriteLine("\n");
+                Console.WriteLine("[획득한 보상]\n");
+                // 획득한 레벨 출력
+                Console.WriteLine($"Lv  : {p.l} -> {player.level}");
+
+                // 획득한 경험치 출력
+                Console.WriteLine($"EXP: {p.e} -> {player.exp}");
+
+                // 골드 보상 출력
+                Console.WriteLine($"Gold: {p.g} -> {player.gold}");
+
             }
             else if (player.isDead)
             {

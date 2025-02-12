@@ -38,8 +38,8 @@ namespace TeamProejct_Dungeon
         public int equipAtk { get; set; }
         public int equipDfs { get; set; }
 
-        public IItem curWeapon = null;
-        public IItem curArmour = null;
+        public IItem? curWeapon = null;
+        public IItem? curArmour = null;
 
         public Player() { }
 
@@ -122,6 +122,7 @@ namespace TeamProejct_Dungeon
                 isDead = true;
             }
         }
+        public bool HasCheckedStatus { get; private set; } = false; //  상태창 확인 여부 추가
 
         //플레이어 상태보기
         public void StatusDisplay()
@@ -149,8 +150,17 @@ namespace TeamProejct_Dungeon
             Text.TextingLine($"{mp} / {maxMp}", ConsoleColor.Green, false);
             Text.Texting("G o l d : ", ConsoleColor.Yellow, false);
             Text.Texting($"{gold}", ConsoleColor.Green, false);
-            Text.TextingLine(" G", ConsoleColor.Yellow, false);
+            Text.TextingLine(" G\n", ConsoleColor.Yellow, false);
 
+            //착용장비
+            Text.TextingLine("---------------------------------\n", ConsoleColor.Green, false);
+            str = curWeapon == null ? "착용장비가 없습니다." : $"{curWeapon.name} (ATK + {equipAtk})";
+            Text.TextingLine($"Weapon : {str}", ConsoleColor.Green, false);
+            str = curArmour == null ? "착용장비가 없습니다." : $"{curArmour.name} (DFS + {equipDfs})";
+            Text.TextingLine($"Armour : {str}", ConsoleColor.Green, false);
+
+
+            HasCheckedStatus = true; // 상태창 확인 시 true로 변경
 
             Text.TextingLine("\n0. 나가기\n", ConsoleColor.Green, false);
             Text.GetInput(null, 0);
@@ -160,6 +170,8 @@ namespace TeamProejct_Dungeon
         public void AddExp(int _exp)
         {
             exp += _exp;
+            Console.WriteLine($"{_exp} Exp를 획득했습니다.");
+
             if (exp >= maxExp)
             {
                 LevelUp();
@@ -169,6 +181,7 @@ namespace TeamProejct_Dungeon
         public void AddGold(int _gold)
         {
             gold += _gold;
+            Console.WriteLine($"{_gold} Gode를 획득했습니다.");
         }
 
         //레벨 업 메서드
