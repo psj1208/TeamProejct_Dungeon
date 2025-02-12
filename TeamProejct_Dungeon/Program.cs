@@ -347,7 +347,6 @@ namespace TeamProejct_Dungeon
                     totalExpGained += expGained;
                 }
 
-                Console.WriteLine($"던전에서 몬스터 {monsterCount}마리를 잡았습니다!\n");
                 Text.Texting("던전에서 몬스터 ", ConsoleColor.White, false);
                 Text.Texting($"{monsterCount}", ConsoleColor.Cyan, false);
                 Text.TextingLine("마리를 잡았습니다!\n", ConsoleColor.White, false);
@@ -357,6 +356,9 @@ namespace TeamProejct_Dungeon
 
                 Text.Texting($"HP ", ConsoleColor.Red, false);
                 Text.TextingLine($"{player.maxHp} -> {player.hp}", ConsoleColor.White, false);
+
+                Text.Texting($"MP ", ConsoleColor.Blue, false);
+                Text.TextingLine($"{player.maxMp} -> {player.mp}", ConsoleColor.White, false);
 
                 Console.WriteLine("\n--------------------------------------------------\n");
 
