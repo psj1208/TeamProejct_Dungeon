@@ -24,7 +24,10 @@ namespace TeamProejct_Dungeon
             Text.TextingLine("------------------------인벤토리-------------------------", ConsoleColor.Red, false);
             for (int i = 0; i < items.Count; i++)
             {
-                Text.TextingLine($"{i + 1} . {items[i].name} : 판매 가격: {items[i].sellPrice} / {items[i].Description()}", ConsoleColor.Gray, false);
+                Text.Texting($"{i + 1} . {items[i].name} : 판매 가격: {items[i].sellPrice} / {items[i].Description()}", ConsoleColor.Green, false);
+                if (items[i] is Consumable)
+                    Text.Texting($" , 수량 : {items[i].amt}", ConsoleColor.Green, false);
+                Console.WriteLine();
             }
             Text.TextingLine("---------------------------------------------------------\n", ConsoleColor.Red, false);
         }
@@ -130,6 +133,8 @@ namespace TeamProejct_Dungeon
             else
             {
                 items[num].Use();
+                if (items[num].amt <= 0) 
+                    RemoveItem(num);
             }
         }
 
@@ -162,6 +167,7 @@ namespace TeamProejct_Dungeon
         //아이템 추가(IItem 클래스 형식으로 넣어야합니다.)
         public void AddItem(IItem item)
         {
+            bool isIn = false;
             if (item.type == ItemType.Consumable)
             {
                 for (int i = 0; i < items.Count; i++)
@@ -169,11 +175,14 @@ namespace TeamProejct_Dungeon
                     if(items[i].name == item.name)
                     {
                         //소비품 아이템 수량 추가.(이름 같을 경우)
+                        items[i].amt++;
+                        isIn = true;
+                        break;
                     }
-                    if (i == items.Count - 1)
-                    {
-                        items.Add(item);
-                    }
+                }
+                if (isIn == false)
+                {
+                    items.Add(item);
                 }
             }
             else
