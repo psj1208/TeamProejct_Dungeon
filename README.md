@@ -2,10 +2,10 @@
 
 ### 멤버소개 
 
-![image](/README/introduce)  
+![image](/README/introduce.png)  
 
 # 와이어프레임
-![image](/README/wireframe)  
+![image](/README/wireframe.png)  
 
 # 구현된 기능
 ## 상태창
