@@ -10,8 +10,8 @@ C# 콘솔을 이용한 턴제 Text RPG게임
 ## 와이어프레임
 ![image](/README/wireframe.png)  
 
-## 플레이어 Player.cs , SkillMAn
-강순종 담당.
+## 플레이어 Player.cs , SkillManager.cs
+강순종 담당
 ### [Player](https://github.com/psj1208/TeamProejct_Dungeon/blob/main/TeamProejct_Dungeon/Player.cs)
 - Player Status 구현
 - Player 능력치 및 공방 구현
