@@ -1,10 +1,13 @@
-# C# 프로젝트 12조 - 뉴비조_TextRPG
+# C# 프로젝트 12조 - 뉴비조_Sparta_Dungeon
 
-# 멤버소개 
+C# 콘솔을 이용한 턴제 Text RPG게임  
+아이템과 경험치를 얻고 이 세계 최강이 되어랏!  
+
+## 멤버소개 
 
 ![image](/README/introduce.png)  
 
-# 와이어프레임
+## 와이어프레임
 ![image](/README/wireframe.png)  
 
 # 구현된 기능
