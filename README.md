@@ -32,6 +32,7 @@ C# 콘솔을 이용한 턴제 Text RPG게임
 ### 스테이지
 - text
 ### [던전 시스템](https://github.com/psj1208/TeamProejct_Dungeon/blob/main/TeamProejct_Dungeon/Program.cs)
+- 김태겸 담당
 - 몬스터 정보 출력 (showMonsterInfo)
   - 몬스터의 레벨, 이름, HP 상태를 출력합니다.
   - 사망한 몬스터는 Dead 표시와 함께 회색으로 출력됩니다.
