@@ -30,7 +30,7 @@ C# 콘솔을 이용한 턴제 Text RPG게임
 - 매니저가 이를 인식하고 조건에 맞는 퀘스트가 있으면 퀘스트를 갱신합니다.
 ## 던전
 - text
-- 던전 시스템(https://github.com/psj1208/TeamProejct_Dungeon/blob/main/TeamProejct_Dungeon/Program.cs)
+- [던전 시스템](https://github.com/psj1208/TeamProejct_Dungeon/blob/main/TeamProejct_Dungeon/Program.cs)
 ## 저장 QuestManager_PSJ.cs
 - JsonConverter 즉, 외부 패키지를 이용하여 Json파일에 문자열 형태로 저장합니다.
 - 써본 바로는 딕셔너리 형태와 비슷하게 저장하고 읽을 때도 딕셔너리를 읽듯이 읽어오는 것 같습니다.
