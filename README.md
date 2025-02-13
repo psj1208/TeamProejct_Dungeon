@@ -37,6 +37,7 @@ C# 콘솔을 이용한 턴제 Text RPG게임
 ## 몬스터, 스테이지 Monster.cs, Stage.cs
 - 이유림 담당
 - 리스트를 통해 몬스터의 정보를 관리하고 특정 몬스터, 특정 등급의 몬스터를 반환할 수 있도록 구현했습니다.
+- 몬스터의 공격과 피해 처리, 사망 여부를 결정하고 몬스터 사망 시 플레어에게 보상을 지급합니다.
 - 몬스터의 레벨별로 스테이지 리스트를 만들어 스테이지의 난이도를 설정했습니다.
 - 스테이지 클리어 시 랜덤한 확률로 보상(골드, 아이템)이 지급될 수 있도록 구현했습니다.
 ## [던전 시스템](https://github.com/psj1208/TeamProejct_Dungeon/blob/main/TeamProejct_Dungeon/Program.cs) Program.cs
