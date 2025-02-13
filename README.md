@@ -1,5 +1,11 @@
+## C# 프로젝트 12조 - 뉴비조_TextRPG
+
+### 멤버소개 
+
+![image](/README/introduce)  
+
 # 와이어프레임
-![image](https://github.com/user-attachments/assets/a9a1662f-b4e2-4853-92bf-068879542efe)
+![image](/README/wireframe)  
 
 # 구현된 기능
 ## 상태창
