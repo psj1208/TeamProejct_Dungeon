@@ -1,6 +1,6 @@
-## C# 프로젝트 12조 - 뉴비조_TextRPG
+# C# 프로젝트 12조 - 뉴비조_TextRPG
 
-### 멤버소개 
+# 멤버소개 
 
 ![image](/README/introduce.png)  
 
