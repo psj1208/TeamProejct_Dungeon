@@ -10,11 +10,15 @@ C# 콘솔을 이용한 턴제 Text RPG게임
 ## 와이어프레임
 ![image](/README/wireframe.png)  
 
-# 구현된 기능
-## 플레이어
-- text
-## 스킬
-- text
+- ## 플레이어 Player.cs , SkillMAn
+강순종 담당.
+### [Player](https://github.com/psj1208/TeamProejct_Dungeon/blob/main/TeamProejct_Dungeon/Player.cs)
+- Player Status 구현
+- Player 능력치 및 공방 구현
+### [Skill](https://github.com/psj1208/TeamProejct_Dungeon/blob/main/TeamProejct_Dungeon/SkillManager.cs)
+- 직업별 Skill 구현
+  - Warrior : 몬스터 선택 시 2배 또는 1~3배 데미지
+  - Assassin : 몬스터 2 ~ 4 마리 선택 시 각각 데미지
 ## 인벤토리 Inventory.cs
 - 박성준 담당. 
 - 아이템 클래스를 담은 리스트와 이를 관리하는 메서드를 상황에 맞게 구현하여 협업에 무리가 되지 않도록 구현했습니다.
