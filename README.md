@@ -11,7 +11,9 @@ C# 콘솔을 이용한 턴제 Text RPG게임
 ![image](/README/wireframe.png)  
 
 # 구현된 기능
-## 상태창
+## 플레이어
+- text
+## 스킬
 - text
 ## 인벤토리 Inventory.cs
 - 박성준 담당. 
@@ -29,6 +31,8 @@ C# 콘솔을 이용한 턴제 Text RPG게임
 - 퀘스트의 달성 조건에 관여하는 다른 메서드들이 퀘스트 매니저 스크립트에 신호를 전달하여(몬스터의 죽음,스테이지의 클리어)
 - 매니저가 이를 인식하고 조건에 맞는 퀘스트가 있으면 퀘스트를 갱신합니다.
 ## 던전
+### 몬스터
+- text
 ### 스테이지
 - text
 ### [던전 시스템](https://github.com/psj1208/TeamProejct_Dungeon/blob/main/TeamProejct_Dungeon/Program.cs)
